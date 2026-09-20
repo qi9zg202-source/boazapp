@@ -1,6 +1,32 @@
 import Foundation
 import HealthKit
 
+enum SyncRunPresentation {
+    static func phase(
+        collection: CollectionReport, uploadFailed: Bool, uploadCancelled: Bool, taskCancelled: Bool
+    ) -> SyncPhase {
+        if collection.storageProtectionUnverified || uploadFailed { return .failed }
+        if collection.cancelled || uploadCancelled || taskCancelled { return .cancelled }
+        return collection.failedSources.isEmpty ? .finished : .failed
+    }
+
+    static func cancelledUploadState(
+        counts: LocalHealthCounts?, lastReceipt: TokyoReceipt?, snapshot: DashboardSnapshot
+    ) -> CloudDisplayState {
+        if let counts {
+            if counts.pending > 0 { return .queued }
+            if counts.cloudSaved > 0 { return .metricsPending }
+            if counts.metricsCurrent > 0 { return .metricsCurrent }
+            return counts.records > 0 ? .localSaved : .localOnly
+        }
+        if snapshot.pendingSampleCount > 0 { return .queued }
+        if let lastReceipt {
+            return lastReceipt.status == "metrics_current" ? .metricsCurrent : .metricsPending
+        }
+        return snapshot.localSampleCount > 0 ? .localSaved : .localOnly
+    }
+}
+
 @MainActor
 final class BoazCoordinator {
     static let shared = BoazCoordinator()
@@ -12,7 +38,7 @@ final class BoazCoordinator {
     private let engine: SyncEngine?
     private var running = false
     private var rerunRequested = false
-    private var waiters: [CheckedContinuation<Void, Never>] = []
+    private var waiters: [UUID: CheckedContinuation<Void, Never>] = [:]
     private let healthRequestKey = "boaz.health.readRequestProcessed"
 
     private init() {
@@ -27,7 +53,14 @@ final class BoazCoordinator {
             model.cloudState = .failure("The protected local database could not open.")
         }
         model.uploadConsentGranted = BoazConfiguration.uploadConsent
-        model.isPaired = (try? TokyoCredentialStore.token()) != nil
+        let erasurePending: Bool
+        do {
+            erasurePending = try TokyoErasureStore.current() != nil
+        } catch {
+            erasurePending = true
+            model.errorMessage = "Cloud erasure recovery is unavailable; pairing and upload remain blocked."
+        }
+        model.isPaired = (try? TokyoCredentialStore.token()) != nil && !erasurePending
         model.onSync = { [weak self] in await self?.manualSync() }
         model.onRequestHealthAccess = { [weak self] in await self?.requestHealthAccess() }
         model.onPair = { [weak self] endpoint, code in await self?.pair(endpoint: endpoint, code: code) }
@@ -85,8 +118,19 @@ final class BoazCoordinator {
     private func runSync() async {
         guard let engine else { return }
         if running {
-            rerunRequested = true
-            await withCheckedContinuation { continuation in waiters.append(continuation) }
+            let waiterID = UUID()
+            await withTaskCancellationHandler {
+                await withCheckedContinuation { continuation in
+                    if Task.isCancelled {
+                        continuation.resume()
+                    } else {
+                        waiters[waiterID] = continuation
+                        rerunRequested = true
+                    }
+                }
+            } onCancel: {
+                Task { @MainActor [weak self] in self?.cancelRerunWaiter(waiterID) }
+            }
             return
         }
         running = true
@@ -96,16 +140,30 @@ final class BoazCoordinator {
             model.syncPhase = .collecting
             let result = await engine.collect()
             var uploadFailed = false
+            var uploadCancelled = false
+            var cancelledCloudState: CloudDisplayState?
             await refresh()
             if result.savedEvents > 0 { model.cloudState = .localSaved }
-            if !result.failedSources.isEmpty {
+            if result.storageProtectionUnverified {
+                model.cloudState = .failure("Local file protection is unverified; upload is blocked.")
+                model.errorMessage = "Some records may already be saved on this iPhone, but their file protection could not be verified. Nothing will upload until it is verified."
+            } else if !result.failedSources.isEmpty {
                 model.errorMessage = "Some Health data could not be read or saved. Open Sync audit for details."
             }
-            if BoazConfiguration.uploadConsent {
+            if result.cancelled || Task.isCancelled {
+                model.syncPhase = SyncRunPresentation.phase(
+                    collection: result, uploadFailed: false, uploadCancelled: false, taskCancelled: Task.isCancelled
+                )
+                break
+            }
+            if result.storageProtectionUnverified {
+                uploadFailed = true
+            } else if result.allowsUpload && BoazConfiguration.uploadConsent {
                 if (try? TokyoCredentialStore.token()) != nil {
                     model.syncPhase = .committing
                     model.cloudState = .uploading
                     let upload = await engine.uploadPending()
+                    uploadCancelled = upload.cancelled
                     if let receipt = upload.lastReceipt {
                         model.snapshot.lastBatchSampleCount = receipt.acceptedEvents
                         model.snapshot.lastCloudReceiptAt = ISO8601DateFormatter().date(from: receipt.receivedAt)
@@ -118,8 +176,21 @@ final class BoazCoordinator {
                     }
                     if let failure = upload.failure {
                         uploadFailed = true
-                        model.cloudState = .offline
-                        model.errorMessage = "Upload is queued on this iPhone: \(failure)"
+                        if let database, !(await database.isStorageProtectionVerified()) {
+                            model.cloudState = .failure("Local file protection is unverified; upload is blocked.")
+                            model.errorMessage = "Upload is blocked until local file protection is verified: \(failure)"
+                        } else {
+                            model.cloudState = .offline
+                            model.errorMessage = "Upload is queued on this iPhone: \(failure)"
+                        }
+                    }
+                    if upload.cancelled {
+                        let counts: LocalHealthCounts?
+                        if let database { counts = try? await database.counts() }
+                        else { counts = nil }
+                        cancelledCloudState = SyncRunPresentation.cancelledUploadState(
+                            counts: counts, lastReceipt: upload.lastReceipt, snapshot: model.snapshot
+                        )
                     }
                 } else {
                     model.cloudState = .pairingRequired
@@ -128,13 +199,23 @@ final class BoazCoordinator {
                 model.cloudState = .localOnly
             }
             await refresh()
-            model.syncPhase = result.failedSources.isEmpty && !uploadFailed ? .finished : .failed
+            if let cancelledCloudState { model.cloudState = cancelledCloudState }
+            model.syncPhase = SyncRunPresentation.phase(
+                collection: result, uploadFailed: uploadFailed,
+                uploadCancelled: uploadCancelled, taskCancelled: Task.isCancelled
+            )
         } while rerunRequested && !Task.isCancelled
         model.isWorking = false
         running = false
-        let completed = waiters
+        rerunRequested = false
+        let completed = Array(waiters.values)
         waiters.removeAll()
         completed.forEach { $0.resume() }
+    }
+
+    private func cancelRerunWaiter(_ id: UUID) {
+        waiters.removeValue(forKey: id)?.resume()
+        if waiters.isEmpty { rerunRequested = false }
     }
 
     private func pair(endpoint: URL, code: String) async {
@@ -154,9 +235,13 @@ final class BoazCoordinator {
     }
 
     private func setUploadConsent(_ enabled: Bool) async {
-        if enabled, (try? TokyoErasureStore.current()) != nil {
-            model.errorMessage = "Wait for cloud erasure confirmation before enabling upload again."
-            return
+        if enabled {
+            do {
+                try TokyoErasureStore.requireNoPendingForUpload()
+            } catch {
+                model.errorMessage = "Cloud erasure recovery is pending or unavailable; upload remains blocked."
+                return
+            }
         }
         BoazConfiguration.uploadConsent = enabled
         model.uploadConsentGranted = enabled
@@ -170,12 +255,12 @@ final class BoazCoordinator {
         model.uploadConsentGranted = false
         model.cloudState = .erasurePending
         do {
+            guard let database else {
+                throw LocalDatabaseError.open("The protected local database is unavailable.")
+            }
             let response = try await gateway.eraseCloudCopy()
-            try await database?.requeueAfterErasure(id: response.erasureID)
-            try await database?.recordErasureStatus(id: response.erasureID, status: response.status)
-            if response.status == "complete" && database != nil { try TokyoErasureStore.delete() }
-            model.isPaired = false
-            model.cloudState = response.status == "complete" ? .activeErasureConfirmed : .erasurePending
+            let state = try await applyErasureResponse(response, database: database)
+            model.cloudState = state == .complete ? .activeErasureConfirmed : .erasurePending
             await refresh()
         } catch {
             model.errorMessage = "Cloud erasure has not been confirmed. Retry using the same recovery request: \(error.localizedDescription)"
@@ -187,11 +272,8 @@ final class BoazCoordinator {
         guard let database else { return }
         do {
             if let erasure = try await gateway.erasureStatus() {
-                try await database.requeueAfterErasure(id: erasure.erasureID)
-                try await database.recordErasureStatus(id: erasure.erasureID, status: erasure.status)
-                if erasure.status == "complete" { try TokyoErasureStore.delete() }
-                model.isPaired = false
-                model.cloudState = erasure.status == "complete" ? .activeErasureConfirmed : .erasurePending
+                let state = try await applyErasureResponse(erasure, database: database)
+                model.cloudState = state == .complete ? .activeErasureConfirmed : .erasurePending
             } else if !model.isPaired && !BoazConfiguration.uploadConsent {
                 if try await database.lastErasureCompleted() {
                     model.cloudState = .activeErasureConfirmed
@@ -222,7 +304,9 @@ final class BoazCoordinator {
             model.snapshot = snapshot
             let preserveErasure = model.cloudState == .activeErasureConfirmed && !model.isPaired && !BoazConfiguration.uploadConsent
             if !model.isWorking && model.cloudState != .erasurePending && !preserveErasure {
-                if !BoazConfiguration.uploadConsent { model.cloudState = .localOnly }
+                if !(await database.isStorageProtectionVerified()) {
+                    model.cloudState = .failure("Local file protection is unverified; upload is blocked.")
+                } else if !BoazConfiguration.uploadConsent { model.cloudState = .localOnly }
                 else if !model.isPaired { model.cloudState = .pairingRequired }
                 else if counts.pending > 0 { model.cloudState = .queued }
                 else if counts.cloudSaved > 0 { model.cloudState = .metricsPending }
@@ -235,18 +319,30 @@ final class BoazCoordinator {
         }
     }
 
+    private func applyErasureResponse(
+        _ response: TokyoEraseResponse, database: BoazLocalDatabase
+    ) async throws -> TokyoErasureStatus {
+        guard let recovery = try TokyoErasureStore.current() else {
+            throw TokyoGatewayError.unexpectedResponse
+        }
+        let state = try response.validate(expectedErasureID: recovery.id)
+        try await database.requeueAfterErasure(id: response.erasureID)
+        try await database.recordErasureStatus(id: response.erasureID, status: response.status)
+        model.isPaired = false
+
+        // Pending receipts keep both recovery material and the old token so a
+        // later retry can authenticate through either server-supported path.
+        guard state == .complete else { return state }
+        _ = try BoazConfiguration.rotateDeviceID(afterCompletedErasure: response.erasureID)
+        try TokyoCredentialStore.delete()
+        try TokyoErasureStore.delete()
+        return state
+    }
+
     private func sleepDisplay(database: BoazLocalDatabase) async throws -> SleepDisplay? {
-        let since = Date().addingTimeInterval(-7 * 24 * 3600)
-        let events = try await database.events(typeIdentifier: HKCategoryTypeIdentifier.sleepAnalysis.rawValue, since: since)
-        let sessions = SleepAnalyzer.sessions(from: SleepAnalyzer.segments(from: events))
-        guard let session = SleepAnalyzer.latestCompletedSession(from: sessions) else { return nil }
+        guard let session = try await SleepDerivation.latestCompletedSession(database: database) else { return nil }
         func average(_ type: String) async throws -> Double? {
-            let values = try await database.events(typeIdentifier: type, since: session.start).filter {
-                guard let start = $0.startUTC else { return false }
-                return start <= session.end && $0.value?.isFinite == true
-            }.compactMap(\.value)
-            guard !values.isEmpty else { return nil }
-            return values.reduce(0, +) / Double(values.count)
+            try await database.averageValue(typeIdentifier: type, from: session.start, through: session.end)
         }
         return SleepDisplay(
             startedAt: session.start, endedAt: session.end, totalMinutes: session.asleepSeconds / 60,
@@ -269,8 +365,7 @@ final class BoazCoordinator {
         let exercise = try await database.events(typeIdentifier: "activity.exercise", since: today, limit: 1).first
         let stand = try await database.events(typeIdentifier: "activity.stand", since: today, limit: 1).first
         let workouts = try await database.events(typeIdentifier: HKObjectType.workoutType().identifier, since: Date().addingTimeInterval(-30 * 24 * 3600), limit: 20)
-        let workoutRates = try await database.events(typeIdentifier: "boaz.workout.heart_rate", since: Date().addingTimeInterval(-30 * 24 * 3600), limit: 100_000)
-        let ratesByWorkout = Dictionary(grouping: workoutRates) { $0.metadata["workout_id"] ?? "" }
+        let ratesByWorkout = try await database.workoutHeartRateSummaries(workoutIDs: workouts.map(\.eventID))
         let cumulative = try? await health.fetchTodayCumulative(now: Date())
         let recent = workouts.compactMap { event -> WorkoutDisplay? in
             guard let started = event.startUTC, let duration = event.value else { return nil }
@@ -283,11 +378,10 @@ final class BoazCoordinator {
             case String(HKWorkoutActivityType.functionalStrengthTraining.rawValue): title = "Strength training"
             default: title = "Workout"
             }
-            let readings = (ratesByWorkout[event.eventID] ?? []).compactMap(\.value).filter(\.isFinite)
-            let heartRate = readings.isEmpty ? nil : MetricDisplay(
-                value: readings.reduce(0, +) / Double(readings.count), unit: "bpm",
-                sampleCount: readings.count, detail: "\(Int(readings.min() ?? 0))–\(Int(readings.max() ?? 0)) bpm"
-            )
+            let heartRate = ratesByWorkout[event.eventID].map { summary in
+                MetricDisplay(value: summary.average, unit: "bpm", sampleCount: summary.sampleCount,
+                              detail: "\(Int(summary.minimum))–\(Int(summary.maximum)) bpm")
+            }
             return WorkoutDisplay(id: event.eventID, title: title, startedAt: started,
                                   durationMinutes: duration / 60,
                                   energyKcal: event.metadata["total_energy_kcal"].flatMap(Double.init),

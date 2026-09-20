@@ -1,0 +1,4 @@
+PASS GATEWAY-01: actual upload path keeps private URL, token, batch ID and exact bytes across HTTP retry
+PASS GATEWAY-02: public endpoint rejected before transport
+PASS GATEWAY-03: mismatched Rust receipt rejected
+RESULT 3/3 synthetic gateway scenarios passed; no remote calls

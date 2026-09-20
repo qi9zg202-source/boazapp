@@ -1,0 +1,54 @@
+   Compiling boaz-health-receiver v0.1.0 (/Users/beckliu/Documents/0agentproject2026/boazapp/Server)
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.45s
+     Running unittests src/lib.rs (target/debug/deps/boaz_health_receiver-4a130b90395554c2)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running unittests src/main.rs (target/debug/deps/boaz_health_receiver-ca44273b93e05c01)
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+
+     Running tests/api.rs (target/debug/deps/api-b60d012e75a45f3e)
+
+running 26 tests
+test limits_and_closed_upload_gate ... ok
+test app_wrist_and_activity_units_create_projection_jobs ... ok
+test concurrent_identical_batches_create_one_receipt_event_and_projection_job ... ok
+test batch_id_and_revision_conflicts_fail_closed ... ok
+test concurrent_pairing_uses_one_code_for_exactly_one_new_device ... ok
+test backup_lock_defers_erasure_and_erasure_removes_identity_audit ... ok
+test batch_id_reuse_with_only_json_whitespace_changed_is_a_conflict ... ok
+test cross_device_batch_id_collision_is_a_conflict_and_does_not_write ... ok
+test exact_body_limit_is_accepted_and_one_extra_byte_is_rejected ... ok
+test expired_pairing_is_rejected_and_failed_pairing_does_not_consume_code ... ok
+test late_revision_conflict_rolls_back_every_record_receipt_job_and_audit ... ok
+test runtime_identity_loss_closes_ingest_without_losing_queue ... ok
+test auth_pairing_one_time_and_erasure_revoke ... ok
+test lost_response_retry_returns_same_receipt_and_one_event ... ok
+test metrics_outage_retains_durable_outbox_and_cloud_saved_receipt ... ok
+test production_swift_batch_bytes_match_receipt_and_sqlite_readback ... ok
+test token_can_be_revoked_without_deleting_health_history ... ok
+test versioned_sleep_derivation_is_the_only_deep_sleep_projection ... ok
+test devices_cannot_read_write_or_erase_each_others_records ... ok
+test tombstone_prevents_old_addition_and_preserves_new_revision ... ok
+test invalid_schema_and_event_fields_never_mutate_the_ledger ... ok
+test bounded_pages_cover_large_history_without_record_loss ... ok
+Error: "Encrypted backup volume must be verified first"
+Backup written to /var/folders/66/rrb9wgyj06j7mf_xk0kvh5880000gn/T/.tmpEC7Dwh/backups/boaz-health-test.db
+test backup_cli_rejects_unsafe_destinations_and_the_mac_sync_database_path ... ok
+test wal_backup_is_consistent_and_encrypted_volume_gate_is_required ... ok
+test backup_restores_receipts_credentials_and_pending_work_in_separate_database ... ok
+test backup_expiry_retains_recent_copies_until_pre_erasure_snapshots_are_gone ... ok
+
+test result: ok. 26 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 1.21s
+
+   Doc-tests boaz_health_receiver
+
+running 0 tests
+
+test result: ok. 0 passed; 0 failed; 0 ignored; 0 measured; 0 filtered out; finished in 0.00s
+

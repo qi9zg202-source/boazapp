@@ -1,0 +1,523 @@
+{
+  "devices" : [
+    {
+      "architecture" : "arm64",
+      "deviceId" : "84EB8BA7-1EDD-43D4-9FEE-C0FB736E5D2A",
+      "deviceName" : "Boaz Acceptance Snapshot",
+      "modelName" : "iPhone 16 Pro",
+      "osBuildNumber" : "23F77",
+      "osVersion" : "26.5",
+      "platform" : "iOS Simulator"
+    }
+  ],
+  "testNodes" : [
+    {
+      "children" : [
+        {
+          "children" : [
+            {
+              "children" : [
+                {
+                  "duration" : "0.0019s",
+                  "durationInSeconds" : 0.001909017562866211,
+                  "name" : "testBothBoundsAttachGregorianCalendarAndConstructRealHealthKitPredicate()",
+                  "nodeIdentifier" : "ActivityDayTests/testBothBoundsAttachGregorianCalendarAndConstructRealHealthKitPredicate()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/ActivityDayTests/testBothBoundsAttachGregorianCalendarAndConstructRealHealthKitPredicate",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0012s",
+                  "durationInSeconds" : 0.0011620521545410156,
+                  "name" : "testLocalDateLabelsAcrossDSTAndLeapDayUseTheExplicitZone()",
+                  "nodeIdentifier" : "ActivityDayTests/testLocalDateLabelsAcrossDSTAndLeapDayUseTheExplicitZone()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/ActivityDayTests/testLocalDateLabelsAcrossDSTAndLeapDayUseTheExplicitZone",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0011s",
+                  "durationInSeconds" : 0.0010859966278076172,
+                  "name" : "testThirtyDaySpanIsAllowedButReversedAndLongerRangesAreRejected()",
+                  "nodeIdentifier" : "ActivityDayTests/testThirtyDaySpanIsAllowedButReversedAndLongerRangesAreRejected()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/ActivityDayTests/testThirtyDaySpanIsAllowedButReversedAndLongerRangesAreRejected",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "ActivityDayTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/ActivityDayTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "0.00045s",
+                  "durationInSeconds" : 0.0004500150680541992,
+                  "name" : "testActivitySummaryPredicateHasCalendarAcrossYearBoundary()",
+                  "nodeIdentifier" : "HealthUnitTests/testActivitySummaryPredicateHasCalendarAcrossYearBoundary()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/HealthUnitTests/testActivitySummaryPredicateHasCalendarAcrossYearBoundary",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.00093s",
+                  "durationInSeconds" : 0.0009329319000244141,
+                  "name" : "testCountsPressureAndTimeHaveExplicitUnits()",
+                  "nodeIdentifier" : "HealthUnitTests/testCountsPressureAndTimeHaveExplicitUnits()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/HealthUnitTests/testCountsPressureAndTimeHaveExplicitUnits",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.00061s",
+                  "durationInSeconds" : 0.0006070137023925781,
+                  "name" : "testMassDistanceAndEnergyConversions()",
+                  "nodeIdentifier" : "HealthUnitTests/testMassDistanceAndEnergyConversions()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/HealthUnitTests/testMassDistanceAndEnergyConversions",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0003s",
+                  "durationInSeconds" : 0.0003019571304321289,
+                  "name" : "testPercentagesAndHRVConvertOnce()",
+                  "nodeIdentifier" : "HealthUnitTests/testPercentagesAndHRVConvertOnce()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/HealthUnitTests/testPercentagesAndHRVConvertOnce",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0003s",
+                  "durationInSeconds" : 0.00030410289764404297,
+                  "name" : "testWristTemperatureIsAbsoluteCelsius()",
+                  "nodeIdentifier" : "HealthUnitTests/testWristTemperatureIsAbsoluteCelsius()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/HealthUnitTests/testWristTemperatureIsAbsoluteCelsius",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "HealthUnitTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/HealthUnitTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "0.0099s",
+                  "durationInSeconds" : 0.009885072708129883,
+                  "name" : "testActivityRevisionAndRetrySurviveDatabaseReopen()",
+                  "nodeIdentifier" : "LocalLedgerTests/testActivityRevisionAndRetrySurviveDatabaseReopen()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/LocalLedgerTests/testActivityRevisionAndRetrySurviveDatabaseReopen",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.33s",
+                  "durationInSeconds" : 0.3268939256668091,
+                  "name" : "testBoundedBatchAndStableRetryBody()",
+                  "nodeIdentifier" : "LocalLedgerTests/testBoundedBatchAndStableRetryBody()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/LocalLedgerTests/testBoundedBatchAndStableRetryBody",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.015s",
+                  "durationInSeconds" : 0.015434980392456055,
+                  "name" : "testByteBoundAndOversizedEventRetainTheQueue()",
+                  "nodeIdentifier" : "LocalLedgerTests/testByteBoundAndOversizedEventRetainTheQueue()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/LocalLedgerTests/testByteBoundAndOversizedEventRetainTheQueue",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0052s",
+                  "durationInSeconds" : 0.005169034004211426,
+                  "name" : "testFailedPageDoesNotAdvanceAnchor()",
+                  "nodeIdentifier" : "LocalLedgerTests/testFailedPageDoesNotAdvanceAnchor()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/LocalLedgerTests/testFailedPageDoesNotAdvanceAnchor",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0044s",
+                  "durationInSeconds" : 0.004351019859313965,
+                  "name" : "testHealthDirectoryIsExcludedFromSystemBackups()",
+                  "nodeIdentifier" : "LocalLedgerTests/testHealthDirectoryIsExcludedFromSystemBackups()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/LocalLedgerTests/testHealthDirectoryIsExcludedFromSystemBackups",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.006s",
+                  "durationInSeconds" : 0.006034970283508301,
+                  "name" : "testMetricsConfirmationIsBoundToStoredBatch()",
+                  "nodeIdentifier" : "LocalLedgerTests/testMetricsConfirmationIsBoundToStoredBatch()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/LocalLedgerTests/testMetricsConfirmationIsBoundToStoredBatch",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0056s",
+                  "durationInSeconds" : 0.005627989768981934,
+                  "name" : "testNewDeletionSurvivesOldBatchReceipt()",
+                  "nodeIdentifier" : "LocalLedgerTests/testNewDeletionSurvivesOldBatchReceipt()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/LocalLedgerTests/testNewDeletionSurvivesOldBatchReceipt",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0055s",
+                  "durationInSeconds" : 0.005458950996398926,
+                  "name" : "testRetryBackoffSurvivesReopen()",
+                  "nodeIdentifier" : "LocalLedgerTests/testRetryBackoffSurvivesReopen()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/LocalLedgerTests/testRetryBackoffSurvivesReopen",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0051s",
+                  "durationInSeconds" : 0.005126953125,
+                  "name" : "testUnboundReceiptsCannotAdvanceLocalState()",
+                  "nodeIdentifier" : "LocalLedgerTests/testUnboundReceiptsCannotAdvanceLocalState()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/LocalLedgerTests/testUnboundReceiptsCannotAdvanceLocalState",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0056s",
+                  "durationInSeconds" : 0.005571961402893066,
+                  "name" : "testUploadDoesNotStartWithoutSeparateConsent()",
+                  "nodeIdentifier" : "LocalLedgerTests/testUploadDoesNotStartWithoutSeparateConsent()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/LocalLedgerTests/testUploadDoesNotStartWithoutSeparateConsent",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "LocalLedgerTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/LocalLedgerTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "0.00065s",
+                  "durationInSeconds" : 0.0006549358367919922,
+                  "name" : "testAwakePriorityAndPartialInBedIntersection()",
+                  "nodeIdentifier" : "SleepAnalyzerTests/testAwakePriorityAndPartialInBedIntersection()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepAnalyzerTests/testAwakePriorityAndPartialInBedIntersection",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.00046s",
+                  "durationInSeconds" : 0.0004609823226928711,
+                  "name" : "testDeleteAndBadStageAreIgnored()",
+                  "nodeIdentifier" : "SleepAnalyzerTests/testDeleteAndBadStageAreIgnored()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepAnalyzerTests/testDeleteAndBadStageAreIgnored",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.00032s",
+                  "durationInSeconds" : 0.00032401084899902344,
+                  "name" : "testDetailedSourceWinsUnspecifiedOverlap()",
+                  "nodeIdentifier" : "SleepAnalyzerTests/testDetailedSourceWinsUnspecifiedOverlap()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepAnalyzerTests/testDetailedSourceWinsUnspecifiedOverlap",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.00028s",
+                  "durationInSeconds" : 0.0002759695053100586,
+                  "name" : "testEqualCoverageUsesStableSourceTieBreak()",
+                  "nodeIdentifier" : "SleepAnalyzerTests/testEqualCoverageUsesStableSourceTieBreak()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepAnalyzerTests/testEqualCoverageUsesStableSourceTieBreak",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0025s",
+                  "durationInSeconds" : 0.002525925636291504,
+                  "name" : "testInvalidDurationsAndExactSessionGap()",
+                  "nodeIdentifier" : "SleepAnalyzerTests/testInvalidDurationsAndExactSessionGap()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepAnalyzerTests/testInvalidDurationsAndExactSessionGap",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.00029s",
+                  "durationInSeconds" : 0.00028705596923828125,
+                  "name" : "testLatestCompletedDoesNotUseOpenSession()",
+                  "nodeIdentifier" : "SleepAnalyzerTests/testLatestCompletedDoesNotUseOpenSession()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepAnalyzerTests/testLatestCompletedDoesNotUseOpenSession",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0004s",
+                  "durationInSeconds" : 0.00039899349212646484,
+                  "name" : "testOverlapsCountEachMinuteOnlyOnce()",
+                  "nodeIdentifier" : "SleepAnalyzerTests/testOverlapsCountEachMinuteOnlyOnce()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepAnalyzerTests/testOverlapsCountEachMinuteOnlyOnce",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.00031s",
+                  "durationInSeconds" : 0.00030601024627685547,
+                  "name" : "testTwoNightsAndNapAreSeparate()",
+                  "nodeIdentifier" : "SleepAnalyzerTests/testTwoNightsAndNapAreSeparate()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepAnalyzerTests/testTwoNightsAndNapAreSeparate",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "SleepAnalyzerTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepAnalyzerTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "0.0044s",
+                  "durationInSeconds" : 0.004428982734680176,
+                  "name" : "testCancellationKeepsPriorDerivedRows()",
+                  "nodeIdentifier" : "SleepHistoryTests/testCancellationKeepsPriorDerivedRows()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepHistoryTests/testCancellationKeepsPriorDerivedRows",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0047s",
+                  "durationInSeconds" : 0.004739046096801758,
+                  "name" : "testConcurrentHistoryChangeCannotPrunePriorDerivedRows()",
+                  "nodeIdentifier" : "SleepHistoryTests/testConcurrentHistoryChangeCannotPrunePriorDerivedRows()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepHistoryTests/testConcurrentHistoryChangeCannotPrunePriorDerivedRows",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.022s",
+                  "durationInSeconds" : 0.021647095680236816,
+                  "name" : "testHistoryKeysetDoesNotSkipEqualTimestampsOrExactBoundary()",
+                  "nodeIdentifier" : "SleepHistoryTests/testHistoryKeysetDoesNotSkipEqualTimestampsOrExactBoundary()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepHistoryTests/testHistoryKeysetDoesNotSkipEqualTimestampsOrExactBoundary",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.015s",
+                  "durationInSeconds" : 0.014587998390197754,
+                  "name" : "testLatePageDecodeFailureKeepsPriorDerivedRows()",
+                  "nodeIdentifier" : "SleepHistoryTests/testLatePageDecodeFailureKeepsPriorDerivedRows()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepHistoryTests/testLatePageDecodeFailureKeepsPriorDerivedRows",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.014s",
+                  "durationInSeconds" : 0.013702988624572754,
+                  "name" : "testLatestCompletedDoesNotReturnPartialHistoryOnCancellationOrDecodeFailure()",
+                  "nodeIdentifier" : "SleepHistoryTests/testLatestCompletedDoesNotReturnPartialHistoryOnCancellationOrDecodeFailure()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepHistoryTests/testLatestCompletedDoesNotReturnPartialHistoryOnCancellationOrDecodeFailure",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0046s",
+                  "durationInSeconds" : 0.004578948020935059,
+                  "name" : "testLatestCompletedPrefersLastMainSleepOverNapAndRecentUnsettledSession()",
+                  "nodeIdentifier" : "SleepHistoryTests/testLatestCompletedPrefersLastMainSleepOverNapAndRecentUnsettledSession()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepHistoryTests/testLatestCompletedPrefersLastMainSleepOverNapAndRecentUnsettledSession",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.28s",
+                  "durationInSeconds" : 0.28227198123931885,
+                  "name" : "testLatestCompletedReadsOlderThanSevenDaysAndMoreThan10000SamplesInOneSession()",
+                  "nodeIdentifier" : "SleepHistoryTests/testLatestCompletedReadsOlderThanSevenDaysAndMoreThan10000SamplesInOneSession()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepHistoryTests/testLatestCompletedReadsOlderThanSevenDaysAndMoreThan10000SamplesInOneSession",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0049s",
+                  "durationInSeconds" : 0.004930973052978516,
+                  "name" : "testLatestCompletedUsesMostRecentNapWhenNoMainSleepExists()",
+                  "nodeIdentifier" : "SleepHistoryTests/testLatestCompletedUsesMostRecentNapWhenNoMainSleepExists()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepHistoryTests/testLatestCompletedUsesMostRecentNapWhenNoMainSleepExists",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "4秒",
+                  "durationInSeconds" : 4.016491055488586,
+                  "name" : "testMoreThan100000PersistedSamplesDeriveEveryNightAndRemoveOnlyStaleDay()",
+                  "nodeIdentifier" : "SleepHistoryTests/testMoreThan100000PersistedSamplesDeriveEveryNightAndRemoveOnlyStaleDay()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepHistoryTests/testMoreThan100000PersistedSamplesDeriveEveryNightAndRemoveOnlyStaleDay",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.00049s",
+                  "durationInSeconds" : 0.00048804283142089844,
+                  "name" : "testSessionSpanningPagesKeepsOverlapRulesAndExcludesNap()",
+                  "nodeIdentifier" : "SleepHistoryTests/testSessionSpanningPagesKeepsOverlapRulesAndExcludesNap()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepHistoryTests/testSessionSpanningPagesKeepsOverlapRulesAndExcludesNap",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "SleepHistoryTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepHistoryTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "0.0062s",
+                  "durationInSeconds" : 0.006161093711853027,
+                  "name" : "testMeasuredZeroIsNotMissingAndWindowIsInclusive()",
+                  "nodeIdentifier" : "SleepVitalWindowTests/testMeasuredZeroIsNotMissingAndWindowIsInclusive()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepVitalWindowTests/testMeasuredZeroIsNotMissingAndWindowIsInclusive",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "3秒",
+                  "durationInSeconds" : 3.5920389890670776,
+                  "name" : "testOvernightAverageUsesCompleteIntervalDespiteLaterHistory()",
+                  "nodeIdentifier" : "SleepVitalWindowTests/testOvernightAverageUsesCompleteIntervalDespiteLaterHistory()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepVitalWindowTests/testOvernightAverageUsesCompleteIntervalDespiteLaterHistory",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "SleepVitalWindowTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/SleepVitalWindowTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "0.00073s",
+                  "durationInSeconds" : 0.0007309913635253906,
+                  "name" : "testCredentialsPathQueryFragmentAndOtherPortsAreRejected()",
+                  "nodeIdentifier" : "TokyoEndpointTests/testCredentialsPathQueryFragmentAndOtherPortsAreRejected()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/TokyoEndpointTests/testCredentialsPathQueryFragmentAndOtherPortsAreRejected",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0036s",
+                  "durationInSeconds" : 0.0036149024963378906,
+                  "name" : "testEveryRedirectIsRejectedWithoutStartingAnyNetworkTask()",
+                  "nodeIdentifier" : "TokyoEndpointTests/testEveryRedirectIsRejectedWithoutStartingAnyNetworkTask()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/TokyoEndpointTests/testEveryRedirectIsRejectedWithoutStartingAnyNetworkTask",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.00032s",
+                  "durationInSeconds" : 0.0003209114074707031,
+                  "name" : "testPrivateHTTPSRootOriginsAreAccepted()",
+                  "nodeIdentifier" : "TokyoEndpointTests/testPrivateHTTPSRootOriginsAreAccepted()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/TokyoEndpointTests/testPrivateHTTPSRootOriginsAreAccepted",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.00034s",
+                  "durationInSeconds" : 0.0003439188003540039,
+                  "name" : "testPublicLookalikeAndNonHTTPSOriginsAreRejected()",
+                  "nodeIdentifier" : "TokyoEndpointTests/testPublicLookalikeAndNonHTTPSOriginsAreRejected()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/TokyoEndpointTests/testPublicLookalikeAndNonHTTPSOriginsAreRejected",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0087s",
+                  "durationInSeconds" : 0.008712053298950195,
+                  "name" : "testSyntheticUploadUsesPrivateEndpointExactBytesAndStableRetryIdentity()",
+                  "nodeIdentifier" : "TokyoEndpointTests/testSyntheticUploadUsesPrivateEndpointExactBytesAndStableRetryIdentity()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/TokyoEndpointTests/testSyntheticUploadUsesPrivateEndpointExactBytesAndStableRetryIdentity",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "TokyoEndpointTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/TokyoEndpointTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            },
+            {
+              "children" : [
+                {
+                  "duration" : "0.0074s",
+                  "durationInSeconds" : 0.007422924041748047,
+                  "name" : "testPartialChildPageRemainsSavedAndReportedWhenLaterQueryFails()",
+                  "nodeIdentifier" : "WorkoutDetailDispatcherTests/testPartialChildPageRemainsSavedAndReportedWhenLaterQueryFails()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/WorkoutDetailDispatcherTests/testPartialChildPageRemainsSavedAndReportedWhenLaterQueryFails",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.79s",
+                  "durationInSeconds" : 0.7937589883804321,
+                  "name" : "testTwoThousandLimitIsPerPassAndRemainingHistoryFinishesNextPass()",
+                  "nodeIdentifier" : "WorkoutDetailDispatcherTests/testTwoThousandLimitIsPerPassAndRemainingHistoryFinishesNextPass()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/WorkoutDetailDispatcherTests/testTwoThousandLimitIsPerPassAndRemainingHistoryFinishesNextPass",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0075s",
+                  "durationInSeconds" : 0.007522940635681152,
+                  "name" : "testUnavailableOldestWorkoutDoesNotStarveOthersAndRetriesAfterRestart()",
+                  "nodeIdentifier" : "WorkoutDetailDispatcherTests/testUnavailableOldestWorkoutDoesNotStarveOthersAndRetriesAfterRestart()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/WorkoutDetailDispatcherTests/testUnavailableOldestWorkoutDoesNotStarveOthersAndRetriesAfterRestart",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                },
+                {
+                  "duration" : "0.0056s",
+                  "durationInSeconds" : 0.005576968193054199,
+                  "name" : "testWorkoutRevisionResetsRetryAndStartsFreshDetailScan()",
+                  "nodeIdentifier" : "WorkoutDetailDispatcherTests/testWorkoutRevisionResetsRetryAndStartsFreshDetailScan()",
+                  "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/WorkoutDetailDispatcherTests/testWorkoutRevisionResetsRetryAndStartsFreshDetailScan",
+                  "nodeType" : "Test Case",
+                  "result" : "Passed"
+                }
+              ],
+              "name" : "WorkoutDetailDispatcherTests",
+              "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests/WorkoutDetailDispatcherTests",
+              "nodeType" : "Test Suite",
+              "result" : "Passed"
+            }
+          ],
+          "name" : "boazappTests",
+          "nodeIdentifierURL" : "test://com.apple.xcode/boazapp/boazappTests",
+          "nodeType" : "Unit test bundle",
+          "result" : "Passed"
+        }
+      ],
+      "name" : "boazapp",
+      "nodeType" : "Test Plan",
+      "result" : "Passed"
+    }
+  ],
+  "testPlanConfigurations" : [
+    {
+      "configurationId" : "1",
+      "configurationName" : "Test Scheme Action"
+    }
+  ]
+}

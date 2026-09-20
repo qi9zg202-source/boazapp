@@ -17,10 +17,19 @@ use std::{
     fs::{File, OpenOptions},
     path::{Path as FsPath, PathBuf},
     sync::Arc,
-    time::Duration as StdDuration,
 };
+use tokio::sync::Notify;
 
+pub mod ack_journal;
+pub mod activation;
+pub mod adoption;
+pub mod control;
+pub mod custody;
+pub mod database;
 pub mod projection;
+pub mod recovery;
+
+use control::ControlStore;
 
 const MAX_BATCH_BYTES: usize = 128 * 1024;
 const MAX_EVENTS: usize = 200;
@@ -28,6 +37,15 @@ const MAX_EVENTS: usize = 200;
 #[derive(Clone)]
 pub struct ServerState {
     pub db_path: PathBuf,
+    pub control_store: Option<ControlStore>,
+    /// Required for every newly acknowledged upload. Must reside outside the
+    /// health snapshot's failure domain and be opened by the operator first.
+    pub ack_journal: Option<Arc<ack_journal::AckJournal>>,
+    /// Independently administered off-host custody. No local-file fallback is
+    /// accepted for a production acknowledgement.
+    pub custody: Option<Arc<dyn custody::CustodyClient>>,
+    pub custody_lock_path: Option<PathBuf>,
+    pub projection_notify: Arc<Notify>,
     pub upload_enabled: bool,
     pub runtime_guard: Option<RuntimeGuard>,
 }
@@ -36,6 +54,7 @@ pub struct ServerState {
 pub struct RuntimeGuard {
     pub vm: projection::VmConfig,
     pub data_volume: PathBuf,
+    pub control_volume: PathBuf,
     pub backup_volume: PathBuf,
 }
 
@@ -43,14 +62,39 @@ impl RuntimeGuard {
     pub fn verified(&self) -> bool {
         projection::native_vm_verified(&self.vm)
             && projection::encrypted_mount_verified(&self.data_volume)
+            && projection::encrypted_mount_verified(&self.control_volume)
             && projection::encrypted_mount_verified(&self.backup_volume)
             && projection::encrypted_mount_verified(&self.vm.storage)
+            && separate_recovery_domains(&self.data_volume, &self.control_volume)
     }
+}
+
+#[cfg(unix)]
+fn separate_recovery_domains(first: &FsPath, second: &FsPath) -> bool {
+    use std::os::unix::fs::MetadataExt;
+    let Ok(first) = std::fs::metadata(first) else {
+        return false;
+    };
+    let Ok(second) = std::fs::metadata(second) else {
+        return false;
+    };
+    first.dev() != second.dev()
+}
+
+#[cfg(not(unix))]
+fn separate_recovery_domains(_first: &FsPath, _second: &FsPath) -> bool {
+    false
 }
 
 impl ServerState {
     fn accepts_upload(&self) -> bool {
         self.upload_enabled
+            && self
+                .ack_journal
+                .as_ref()
+                .is_some_and(|journal| journal.baseline().ok().flatten().is_some())
+            && self.custody.is_some()
+            && self.custody_lock_path.is_some()
             && self
                 .runtime_guard
                 .as_ref()
@@ -172,6 +216,196 @@ fn internal() -> ApiError {
     )
 }
 
+fn journal_unavailable() -> ApiError {
+    ApiError::new(
+        StatusCode::SERVICE_UNAVAILABLE,
+        "recovery_journal_unavailable",
+        "Durable recovery journal is unavailable",
+    )
+}
+
+fn custody_unavailable() -> ApiError {
+    ApiError::new(
+        StatusCode::SERVICE_UNAVAILABLE,
+        "custody_unavailable",
+        "Independent acknowledgement custody is unavailable",
+    )
+}
+
+fn read_checked_custody(
+    state: &ServerState,
+    journal: &ack_journal::AckJournal,
+) -> Result<custody::CustodyState, ApiError> {
+    let store = state
+        .control_store
+        .as_ref()
+        .ok_or_else(custody_unavailable)?;
+    store
+        .verify_custody_while_locked()
+        .map_err(|_| custody_unavailable())?;
+    let local_control = store.checkpoint().map_err(|_| custody_unavailable())?;
+    let remote = state
+        .custody
+        .as_ref()
+        .ok_or_else(custody_unavailable)?
+        .read_v2(&local_control.store_id)
+        .map_err(|_| custody_unavailable())?;
+    if remote.control != local_control
+        || remote.baseline_sha256
+            != journal
+                .baseline_sha256()
+                .map_err(|_| custody_unavailable())?
+        || !remote
+            .ack
+            .as_ref()
+            .is_some_and(|head| journal.contains_checkpoint(head).unwrap_or(false))
+    {
+        return Err(custody_unavailable());
+    }
+    Ok(remote)
+}
+
+fn settled_custody(
+    state: &ServerState,
+    journal: &ack_journal::AckJournal,
+) -> Result<custody::CustodyState, ApiError> {
+    if journal
+        .pending_custody_intent()
+        .map_err(|_| custody_unavailable())?
+        .is_some()
+    {
+        return Err(custody_unavailable());
+    }
+    let remote = read_checked_custody(state, journal)?;
+    let local = journal.checkpoint().map_err(|_| custody_unavailable())?;
+    let anchored = remote.ack.as_ref().ok_or_else(custody_unavailable)?;
+    if anchored.confirmation_sequence != local.confirmation_sequence
+        || anchored.pairing_confirmation_sequence != local.pairing_confirmation_sequence
+    {
+        return Err(custody_unavailable());
+    }
+    Ok(remote)
+}
+
+/// Re-enter exactly one durable pending confirmation. This is called only
+/// while holding the common health-operation and custody-operation locks.
+/// No receipt or plaintext token is returned until the off-host state is the
+/// exact intended successor.
+fn reconcile_ack_custody(
+    state: &ServerState,
+    journal: &ack_journal::AckJournal,
+    connection: &Connection,
+) -> Result<custody::CustodyState, ApiError> {
+    let Some(pending) = journal
+        .pending_custody_intent()
+        .map_err(|_| custody_unavailable())?
+    else {
+        return settled_custody(state, journal);
+    };
+    let client = state.custody.as_ref().ok_or_else(custody_unavailable)?;
+    // The off-host owner refuses a plain read while a reservation is still
+    // pending. In that case retry the *same* immutable intent rather than
+    // interpreting the transport error as a new empty reservation.
+    let remote = client.read_v2(&pending.predecessor.control.store_id).ok();
+    if remote
+        .as_ref()
+        .is_some_and(|head| head != &pending.predecessor && head != &pending.successor)
+    {
+        return Err(custody_unavailable());
+    }
+    match &pending.confirmation {
+        ack_journal::AckCustodyKind::Batch { prepared, receipt } => {
+            let stored = read_receipt(connection, &prepared.device_id, &prepared.batch_id)
+                .map_err(|_| custody_unavailable())?
+                .ok_or_else(custody_unavailable)?;
+            if stored.content_hash != prepared.content_hash
+                || durable_receipt(connection, &prepared.device_id, &stored)
+                    .map_err(|_| custody_unavailable())?
+                    != *receipt
+                || journal
+                    .raw_batch(&prepared.batch_id)
+                    .map_err(|_| custody_unavailable())?
+                    .is_none_or(|raw| digest(&raw) != prepared.content_hash)
+            {
+                return Err(custody_unavailable());
+            }
+        }
+        ack_journal::AckCustodyKind::Pairing { pairing } => {
+            let match_count: i64 = connection
+                .query_row(
+                    "SELECT count(*) FROM devices WHERE device_id=?1 AND token_hash=?2 AND created_at=?3 AND revoked_at IS NULL",
+                    params![pairing.device_id, pairing.token_hash, pairing.paired_at],
+                    |row| row.get(0),
+                )
+                .map_err(|_| custody_unavailable())?;
+            if match_count != 1 {
+                return Err(custody_unavailable());
+            }
+        }
+    }
+    if remote.as_ref() != Some(&pending.successor) {
+        let reservation = client
+            .reserve_v2(
+                &pending.predecessor,
+                &pending.operation_id,
+                &pending.intent_sha256().map_err(|_| custody_unavailable())?,
+            )
+            .map_err(|_| custody_unavailable())?;
+        match &pending.confirmation {
+            ack_journal::AckCustodyKind::Batch { prepared, receipt } => journal
+                .confirm_batch(prepared, receipt)
+                .map_err(|_| custody_unavailable())?,
+            ack_journal::AckCustodyKind::Pairing { pairing } => journal
+                .confirm_pairing(pairing)
+                .map_err(|_| custody_unavailable())?,
+        }
+        if journal
+            .checkpoint()
+            .map_err(|_| custody_unavailable())?
+            .head_sha256
+            != pending
+                .successor
+                .ack
+                .as_ref()
+                .ok_or_else(custody_unavailable)?
+                .head_sha256
+        {
+            return Err(custody_unavailable());
+        }
+        match client.compare_and_swap_v2(&reservation, &pending.successor) {
+            Ok(confirmed) if confirmed == pending.successor => {}
+            _ if client
+                .read_v2(&pending.predecessor.control.store_id)
+                .map_err(|_| custody_unavailable())?
+                == pending.successor => {}
+            _ => return Err(custody_unavailable()),
+        }
+    } else if journal.checkpoint().map_err(|_| custody_unavailable())?
+        != *pending
+            .successor
+            .ack
+            .as_ref()
+            .ok_or_else(custody_unavailable)?
+    {
+        return Err(custody_unavailable());
+    }
+    // A CAS reply is not a durability receipt. Keep the original intent until
+    // an independent read proves that the custodian stored the exact successor;
+    // otherwise a false success would make an interrupted confirmation
+    // impossible to re-enter with its original operation ID.
+    if client
+        .read_v2(&pending.predecessor.control.store_id)
+        .map_err(|_| custody_unavailable())?
+        != pending.successor
+    {
+        return Err(custody_unavailable());
+    }
+    journal
+        .finish_custody_intent(&pending, &pending.successor)
+        .map_err(|_| custody_unavailable())?;
+    settled_custody(state, journal)
+}
+
 pub fn router(state: ServerState) -> Router {
     Router::new()
         .route("/v1/health/pairings", post(pair))
@@ -184,22 +418,8 @@ pub fn router(state: ServerState) -> Router {
         .with_state(Arc::new(state))
 }
 
-pub fn open_db(path: &PathBuf) -> rusqlite::Result<Connection> {
-    if let Some(parent) = path.parent() {
-        std::fs::create_dir_all(parent)
-            .map_err(|_| rusqlite::Error::InvalidPath(parent.to_path_buf()))?;
-    }
-    let connection = Connection::open(path)?;
-    connection.busy_timeout(StdDuration::from_secs(5))?;
-    connection.execute_batch("PRAGMA journal_mode=WAL; PRAGMA foreign_keys=ON; PRAGMA synchronous=FULL; PRAGMA secure_delete=ON;")?;
-    connection.execute_batch(include_str!("schema.sql"))?;
-    #[cfg(unix)]
-    {
-        use std::os::unix::fs::PermissionsExt;
-        std::fs::set_permissions(path, std::fs::Permissions::from_mode(0o600))
-            .map_err(|_| rusqlite::Error::InvalidPath(path.clone()))?;
-    }
-    Ok(connection)
+pub fn open_db(path: &FsPath) -> database::StorageResult<Connection> {
+    database::open_health_database(path)
 }
 
 pub fn operation_lock(path: &FsPath, try_only: bool) -> std::io::Result<File> {
@@ -210,21 +430,117 @@ pub fn operation_lock(path: &FsPath, try_only: bool) -> std::io::Result<File> {
         )
     })?;
     let lock_path = parent.join("health-operations.lock");
-    let file = OpenOptions::new()
-        .read(true)
-        .write(true)
-        .create(true)
-        .truncate(false)
-        .open(lock_path)?;
+    let mut options = OpenOptions::new();
+    options.read(true).write(true).create(true).truncate(false);
     #[cfg(unix)]
     {
-        use std::os::unix::fs::PermissionsExt;
+        use std::os::unix::fs::OpenOptionsExt;
+        options.mode(0o600).custom_flags(libc::O_NOFOLLOW);
+    }
+    let file = options.open(&lock_path)?;
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::{MetadataExt, PermissionsExt};
+        let opened = file.metadata()?;
+        let named = std::fs::symlink_metadata(&lock_path)?;
+        if !opened.file_type().is_file()
+            || opened.nlink() != 1
+            || named.file_type().is_symlink()
+            || opened.dev() != named.dev()
+            || opened.ino() != named.ino()
+        {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Health operation lock path is not a unique regular file",
+            ));
+        }
         file.set_permissions(std::fs::Permissions::from_mode(0o600))?;
     }
     if try_only {
         file.try_lock_exclusive()?;
     } else {
         file.lock_exclusive()?;
+    }
+    Ok(file)
+}
+
+/// This lock is stable across health/control generations. It must be created
+/// by the offline coordinator bootstrap; a missing path never gets repaired
+/// by an HTTP request.
+pub fn custody_operation_lock(path: &FsPath) -> std::io::Result<File> {
+    let mut options = OpenOptions::new();
+    options.read(true).write(true);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.custom_flags(libc::O_NOFOLLOW);
+    }
+    let file = options.open(path)?;
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::{MetadataExt, PermissionsExt};
+        let opened = file.metadata()?;
+        let named = std::fs::symlink_metadata(path)?;
+        if !opened.file_type().is_file()
+            || opened.nlink() != 1
+            || named.file_type().is_symlink()
+            || opened.dev() != named.dev()
+            || opened.ino() != named.ino()
+            || opened.permissions().mode() & 0o077 != 0
+        {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Custody-operation lock identity or permissions are invalid",
+            ));
+        }
+    }
+    file.lock_exclusive()?;
+    Ok(file)
+}
+
+/// Coordinates the lifetime of the running receiver with offline storage
+/// operations. `serve` holds a shared lock for its whole lifetime; restore or
+/// migration tooling must take the exclusive form before touching staged or
+/// live storage. The caller owns the returned file and therefore the lock.
+pub fn lifecycle_lock(path: &FsPath, exclusive: bool, try_only: bool) -> std::io::Result<File> {
+    let parent = path.parent().ok_or_else(|| {
+        std::io::Error::new(
+            std::io::ErrorKind::InvalidInput,
+            "Database path has no parent",
+        )
+    })?;
+    let lock_path = parent.join("storage-lifecycle.lock");
+    let mut options = OpenOptions::new();
+    options.read(true).write(true).create(true).truncate(false);
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::OpenOptionsExt;
+        options.mode(0o600).custom_flags(libc::O_NOFOLLOW);
+    }
+    let file = options.open(&lock_path)?;
+    #[cfg(unix)]
+    {
+        use std::os::unix::fs::{MetadataExt, PermissionsExt};
+        let opened = file.metadata()?;
+        let named = std::fs::symlink_metadata(&lock_path)?;
+        if !opened.file_type().is_file()
+            || opened.nlink() != 1
+            || named.file_type().is_symlink()
+            || opened.dev() != named.dev()
+            || opened.ino() != named.ino()
+        {
+            return Err(std::io::Error::new(
+                std::io::ErrorKind::InvalidData,
+                "Storage lifecycle lock path is not a unique regular file",
+            ));
+        }
+        file.set_permissions(std::fs::Permissions::from_mode(0o600))?;
+    }
+    match (exclusive, try_only) {
+        (true, true) => file.try_lock_exclusive()?,
+        (true, false) => file.lock_exclusive()?,
+        (false, true) => file.try_lock_shared()?,
+        (false, false) => file.lock_shared()?,
     }
     Ok(file)
 }
@@ -281,7 +597,7 @@ fn parse_time(value: &str) -> Result<DateTime<Utc>, ApiError> {
         .map_err(|_| bad("Times must be RFC3339 UTC timestamps"))
 }
 
-fn validate_batch(batch: &Batch) -> Result<(), ApiError> {
+pub(crate) fn validate_batch(batch: &Batch) -> Result<(), ApiError> {
     if batch.schema_version != 1 || !valid_id(&batch.batch_id) || !valid_id(&batch.device_id) {
         return Err(bad("Unsupported schema or invalid batch/device ID"));
     }
@@ -349,7 +665,7 @@ fn validate_batch(batch: &Batch) -> Result<(), ApiError> {
     Ok(())
 }
 
-fn metric_for(event: &HealthEvent) -> Option<&'static str> {
+pub(crate) fn metric_for(event: &HealthEvent) -> Option<&'static str> {
     if event.operation == Operation::Delete {
         return metric_for_type(&event.health_type, None);
     }
@@ -504,7 +820,17 @@ fn metric_for_type(health_type: &str, unit: Option<&str>) -> Option<&'static str
     }
 }
 
-fn auth_device(connection: &Connection, headers: &HeaderMap) -> Result<String, ApiError> {
+#[derive(Debug)]
+struct AuthenticatedDevice {
+    device_id: String,
+    token_hash: String,
+}
+
+fn auth_device(
+    state: &ServerState,
+    connection: &Connection,
+    headers: &HeaderMap,
+) -> Result<AuthenticatedDevice, ApiError> {
     let token = headers
         .get("authorization")
         .and_then(|value| value.to_str().ok())
@@ -512,15 +838,26 @@ fn auth_device(connection: &Connection, headers: &HeaderMap) -> Result<String, A
         .filter(|token| token.len() == 64 && token.bytes().all(|byte| byte.is_ascii_hexdigit()))
         .ok_or_else(unauthorized)?;
     let token_hash = digest(token.as_bytes());
-    connection
+    if state
+        .control_store
+        .as_ref()
+        .is_some_and(|store| store.token_tombstoned(&token_hash).unwrap_or(true))
+    {
+        return Err(unauthorized());
+    }
+    let device_id = connection
         .query_row(
             "SELECT device_id FROM devices WHERE token_hash=?1 AND revoked_at IS NULL",
-            params![token_hash],
+            params![&token_hash],
             |row| row.get(0),
         )
         .optional()
         .map_err(|_| internal())?
-        .ok_or_else(unauthorized)
+        .ok_or_else(unauthorized)?;
+    Ok(AuthenticatedDevice {
+        device_id,
+        token_hash,
+    })
 }
 
 pub fn create_pairing_code(connection: &Connection) -> rusqlite::Result<String> {
@@ -558,8 +895,42 @@ async fn pair(
     {
         return Err(bad("Invalid pairing credentials"));
     }
+    // Pairing and erasure must serialize on the same health-ledger lifecycle
+    // lock. Otherwise an erasure intent could retire the device in the control
+    // store after this handler checks it but before the new credential commits.
+    let _operation_guard = operation_lock(&state.db_path, false).map_err(|_| {
+        ApiError::new(
+            StatusCode::SERVICE_UNAVAILABLE,
+            "operation_busy",
+            "Backup, pairing, or erasure operation is active",
+        )
+    })?;
+    let journal = state.ack_journal.as_ref().ok_or_else(journal_unavailable)?;
+    let _custody_guard = custody_operation_lock(
+        state
+            .custody_lock_path
+            .as_deref()
+            .ok_or_else(custody_unavailable)?,
+    )
+    .map_err(|_| custody_unavailable())?;
+    if state.control_store.as_ref().is_some_and(|store| {
+        store
+            .device_erasure_tombstoned(&request.device_id)
+            .unwrap_or(true)
+    }) {
+        return Err(ApiError::new(
+            StatusCode::CONFLICT,
+            "erasure_identity_retired",
+            "Erased device identity cannot be reused",
+        ));
+    }
     let mut connection = open_db(&state.db_path).map_err(|_| internal())?;
-    let tx = connection.transaction().map_err(|_| internal())?;
+    let custody_predecessor = reconcile_ack_custody(&state, journal, &connection)?;
+    // Acquire the write reservation before reading so simultaneous uses of one
+    // pairing code serialize instead of failing a deferred read-to-write upgrade.
+    let tx = connection
+        .transaction_with_behavior(TransactionBehavior::Immediate)
+        .map_err(|_| internal())?;
     let pending_erasure: bool = tx.query_row("SELECT EXISTS(SELECT 1 FROM erasures WHERE device_id=?1 AND metrics_deleted_at IS NULL)", params![request.device_id], |row| row.get(0)).map_err(|_| internal())?;
     if pending_erasure {
         return Err(ApiError::new(
@@ -576,9 +947,11 @@ async fn pair(
         return Err(unauthorized());
     }
     let token = random_secret();
+    let token_hash = digest(token.as_bytes());
+    let paired_at = Utc::now().to_rfc3339();
     let changed = tx.execute(
         "INSERT INTO devices(device_id, token_hash, created_at) VALUES (?1, ?2, ?3) ON CONFLICT(device_id) DO UPDATE SET token_hash=excluded.token_hash, created_at=excluded.created_at, revoked_at=NULL WHERE devices.revoked_at IS NOT NULL AND NOT EXISTS (SELECT 1 FROM erasures WHERE erasures.device_id=devices.device_id AND metrics_deleted_at IS NULL)",
-        params![request.device_id, digest(token.as_bytes()), Utc::now().to_rfc3339()],
+        params![request.device_id, token_hash, paired_at],
     );
     if !matches!(changed, Ok(1)) {
         return Err(ApiError::new(
@@ -592,7 +965,21 @@ async fn pair(
         params![request.device_id, Utc::now().to_rfc3339()],
     )
     .map_err(|_| internal())?;
+    let pairing = journal
+        .prepare_pairing(
+            &request.device_id,
+            &digest(request.code.as_bytes()),
+            &token_hash,
+            &paired_at,
+        )
+        .map_err(|_| journal_unavailable())?;
     tx.commit().map_err(|_| internal())?;
+    // Never disclose the token if its recovery identity was not durably
+    // confirmed. The client must obtain a new pairing code if interrupted.
+    journal
+        .start_pairing_custody_intent(&pairing, &custody_predecessor)
+        .map_err(|_| custody_unavailable())?;
+    reconcile_ack_custody(&state, journal, &connection)?;
     Ok((
         StatusCode::CREATED,
         axum::Json(json!({"device_id": request.device_id, "token": token})),
@@ -605,13 +992,27 @@ fn read_receipt(
     batch_id: &str,
 ) -> rusqlite::Result<Option<Receipt>> {
     connection.query_row(
-        "SELECT batch_id, content_hash, accepted_events, changed_events, commit_sequence, received_at, projected_at FROM receipts WHERE device_id=?1 AND batch_id=?2",
+        "SELECT r.batch_id,r.content_hash,r.accepted_events,r.changed_events,r.commit_sequence,r.received_at,r.projected_at,r.requires_projection,r.projected_generation,r.projection_mapping_version,p.generation_id,p.mapping_version
+         FROM receipts r CROSS JOIN projection_state p
+         WHERE p.singleton=1 AND r.device_id=?1 AND r.batch_id=?2",
         params![device_id, batch_id],
         |row| {
-            let projected_at: Option<String> = row.get(6)?;
+            let stored_projected_at: Option<String> = row.get(6)?;
+            let requires_projection: bool = row.get(7)?;
+            let projected_generation: Option<String> = row.get(8)?;
+            let projected_mapping_version: Option<i64> = row.get(9)?;
+            let current_generation: String = row.get(10)?;
+            let current_mapping_version: i64 = row.get(11)?;
+            let projection_is_current = stored_projected_at.is_some()
+                && (!requires_projection
+                    || (projected_generation.as_deref() == Some(current_generation.as_str())
+                        && projected_mapping_version == Some(current_mapping_version)));
+            let projected_at = projection_is_current
+                .then_some(stored_projected_at)
+                .flatten();
             Ok(Receipt {
                 batch_id: row.get(0)?,
-                status: if projected_at.is_some() { "metrics_current" } else { "cloud_saved" }.to_owned(),
+                status: if projection_is_current { "metrics_current" } else { "cloud_saved" }.to_owned(),
                 content_hash: row.get(1)?,
                 accepted_events: row.get::<_, i64>(2)? as usize,
                 changed_events: row.get::<_, i64>(3)? as usize,
@@ -623,7 +1024,26 @@ fn read_receipt(
     ).optional()
 }
 
-fn save_event(
+fn durable_receipt(
+    connection: &Connection,
+    device_id: &str,
+    receipt: &Receipt,
+) -> rusqlite::Result<ack_journal::AckReceipt> {
+    let requires_projection: bool = connection.query_row(
+        "SELECT requires_projection FROM receipts WHERE device_id=?1 AND batch_id=?2",
+        params![device_id, receipt.batch_id],
+        |row| row.get(0),
+    )?;
+    Ok(ack_journal::AckReceipt {
+        commit_sequence: receipt.commit_sequence,
+        received_at: receipt.received_at.clone(),
+        accepted_events: receipt.accepted_events as i64,
+        changed_events: receipt.changed_events as i64,
+        requires_projection,
+    })
+}
+
+pub(crate) fn save_event(
     tx: &Transaction<'_>,
     device_id: &str,
     event: &HealthEvent,
@@ -688,21 +1108,69 @@ async fn ingest(
     let batch: Batch = serde_json::from_slice(&body).map_err(|_| bad("Invalid batch JSON"))?;
     validate_batch(&batch)?;
     let content_hash = digest(&body);
+    // An erasure publishes its control tombstone while holding this same lock.
+    // Keep the authorization check and SQLite commit on one side of that
+    // boundary so an in-flight old token cannot commit after retirement.
+    let _operation_guard = operation_lock(&state.db_path, false).map_err(|_| internal())?;
+    let journal = state.ack_journal.as_ref().ok_or_else(journal_unavailable)?;
+    let _custody_guard = custody_operation_lock(
+        state
+            .custody_lock_path
+            .as_deref()
+            .ok_or_else(custody_unavailable)?,
+    )
+    .map_err(|_| custody_unavailable())?;
     let mut connection = open_db(&state.db_path).map_err(|_| internal())?;
-    let device_id = auth_device(&connection, &headers)?;
+    let custody_predecessor = reconcile_ack_custody(&state, journal, &connection)?;
+    let authenticated = auth_device(&state, &connection, &headers)?;
+    let device_id = authenticated.device_id;
     if device_id != batch.device_id {
         return Err(unauthorized());
     }
     let tx = connection
         .transaction_with_behavior(TransactionBehavior::Immediate)
         .map_err(|_| internal())?;
-    if auth_device(&tx, &headers)? != device_id {
+    if auth_device(&state, &tx, &headers)?.device_id != device_id {
         return Err(unauthorized());
     }
     if let Some(receipt) = read_receipt(&tx, &device_id, &batch.batch_id).map_err(|_| internal())? {
         if receipt.content_hash == content_hash {
+            // A legacy or only-half-committed receipt is not an acknowledged
+            // recovery fact. A retry may finish a prepared commit only when
+            // the exact request bytes are present in the independent journal.
+            let prepared = journal
+                .prepared_batch(&batch.batch_id, &device_id, &body)
+                .map_err(|_| journal_unavailable())?
+                .ok_or_else(journal_unavailable)?;
+            let ack_receipt = durable_receipt(&tx, &device_id, &receipt).map_err(|_| internal())?;
+            drop(tx);
+            if !journal
+                .receipt_matches(&batch.batch_id, &device_id, &content_hash, &ack_receipt)
+                .map_err(|_| custody_unavailable())?
+            {
+                journal
+                    .start_batch_custody_intent(&prepared, &ack_receipt, &custody_predecessor)
+                    .map_err(|_| custody_unavailable())?;
+                reconcile_ack_custody(&state, journal, &connection)?;
+            }
             return Ok((StatusCode::OK, axum::Json(receipt)));
         }
+        return Err(ApiError::new(
+            StatusCode::CONFLICT,
+            "batch_conflict",
+            "Batch ID already used with different content",
+        ));
+    }
+    // Batch IDs are globally unique. Detect another device's collision before
+    // writing events, without disclosing its receipt or device identity.
+    let batch_id_exists: bool = tx
+        .query_row(
+            "SELECT EXISTS(SELECT 1 FROM receipts WHERE batch_id=?1)",
+            params![batch.batch_id],
+            |row| row.get(0),
+        )
+        .map_err(|_| internal())?;
+    if batch_id_exists {
         return Err(ApiError::new(
             StatusCode::CONFLICT,
             "batch_conflict",
@@ -721,6 +1189,12 @@ async fn ingest(
             metrics.insert(metric);
         }
     }
+    // The deterministic revision validation above may reject a batch. Only
+    // after it succeeds do we reserve immutable recovery bytes, but always
+    // before the SQLite receipt transaction can commit.
+    let prepared = journal
+        .prepare_batch(&batch.batch_id, &device_id, &body)
+        .map_err(|_| journal_unavailable())?;
     let requires_projection = !metrics.is_empty();
     let projected_at = if requires_projection {
         None
@@ -743,6 +1217,15 @@ async fn ingest(
     let receipt = read_receipt(&connection, &device_id, &batch.batch_id)
         .map_err(|_| internal())?
         .ok_or_else(internal)?;
+    journal
+        .start_batch_custody_intent(
+            &prepared,
+            &durable_receipt(&connection, &device_id, &receipt).map_err(|_| internal())?,
+            &custody_predecessor,
+        )
+        .map_err(|_| custody_unavailable())?;
+    reconcile_ack_custody(&state, journal, &connection)?;
+    state.projection_notify.notify_one();
     Ok((StatusCode::CREATED, axum::Json(receipt)))
 }
 
@@ -751,11 +1234,33 @@ async fn receipt(
     Path(batch_id): Path<String>,
     headers: HeaderMap,
 ) -> Result<impl IntoResponse, ApiError> {
+    let journal = state.ack_journal.as_ref().ok_or_else(journal_unavailable)?;
+    let _operation_guard =
+        operation_lock(&state.db_path, false).map_err(|_| custody_unavailable())?;
+    let _custody_guard = custody_operation_lock(
+        state
+            .custody_lock_path
+            .as_deref()
+            .ok_or_else(custody_unavailable)?,
+    )
+    .map_err(|_| custody_unavailable())?;
+    settled_custody(&state, journal)?;
     let connection = open_db(&state.db_path).map_err(|_| internal())?;
-    let device_id = auth_device(&connection, &headers)?;
+    let device_id = auth_device(&state, &connection, &headers)?.device_id;
     let receipt = read_receipt(&connection, &device_id, &batch_id)
         .map_err(|_| internal())?
         .ok_or_else(|| ApiError::new(StatusCode::NOT_FOUND, "not_found", "Receipt not found"))?;
+    if !journal
+        .receipt_matches(
+            &batch_id,
+            &device_id,
+            &receipt.content_hash,
+            &durable_receipt(&connection, &device_id, &receipt).map_err(|_| internal())?,
+        )
+        .map_err(|_| journal_unavailable())?
+    {
+        return Err(journal_unavailable());
+    }
     Ok(axum::Json(receipt))
 }
 
@@ -763,8 +1268,21 @@ async fn status(
     State(state): State<Arc<ServerState>>,
     headers: HeaderMap,
 ) -> Result<impl IntoResponse, ApiError> {
+    let _operation_guard =
+        operation_lock(&state.db_path, false).map_err(|_| custody_unavailable())?;
+    let _custody_guard = custody_operation_lock(
+        state
+            .custody_lock_path
+            .as_deref()
+            .ok_or_else(custody_unavailable)?,
+    )
+    .map_err(|_| custody_unavailable())?;
+    settled_custody(
+        &state,
+        state.ack_journal.as_ref().ok_or_else(journal_unavailable)?,
+    )?;
     let connection = open_db(&state.db_path).map_err(|_| internal())?;
-    let device_id = auth_device(&connection, &headers)?;
+    let device_id = auth_device(&state, &connection, &headers)?.device_id;
     let sample_count: i64 = connection
         .query_row(
             "SELECT count(*) FROM events WHERE device_id=?1 AND operation='upsert'",
@@ -795,8 +1313,22 @@ async fn revoke(
     State(state): State<Arc<ServerState>>,
     headers: HeaderMap,
 ) -> Result<impl IntoResponse, ApiError> {
+    if state.control_store.is_none() {
+        return Err(custody_unavailable());
+    }
+    let _operation_guard = operation_lock(&state.db_path, false).map_err(|_| internal())?;
     let mut connection = open_db(&state.db_path).map_err(|_| internal())?;
-    let device_id = auth_device(&connection, &headers)?;
+    let authenticated = auth_device(&state, &connection, &headers)?;
+    let device_id = authenticated.device_id;
+    if let Some(store) = &state.control_store {
+        store
+            .append_credential_revoked(
+                &device_id,
+                &authenticated.token_hash,
+                &Utc::now().to_rfc3339(),
+            )
+            .map_err(|_| internal())?;
+    }
     revoke_device(&mut connection, &device_id).map_err(|_| internal())?;
     Ok(axum::Json(json!({"device_id":device_id,"revoked":true})))
 }
@@ -827,11 +1359,40 @@ fn erasure_read(
     ).optional().map_err(|_| internal())
 }
 
+fn certified_erasure_read(
+    state: &ServerState,
+    connection: &Connection,
+    erasure_id: &str,
+    secret: &str,
+) -> Result<Option<Value>, ApiError> {
+    let Some(receipt) = erasure_read(connection, erasure_id, secret)? else {
+        return Ok(None);
+    };
+    let facts = state
+        .control_store
+        .as_ref()
+        .ok_or_else(custody_unavailable)?
+        .certified_erasure_facts(erasure_id, &digest(secret.as_bytes()))
+        .map_err(|_| custody_unavailable())?
+        .ok_or_else(custody_unavailable)?;
+    if receipt["requested_at"].as_str() != Some(facts.requested_at.as_str())
+        || receipt["backup_delete_by"].as_str() != Some(facts.backup_delete_by.as_str())
+        || receipt["metrics_deleted_at"].as_str() != facts.metrics_deleted_at.as_deref()
+        || receipt["backups_expired_at"].as_str() != facts.backups_expired_at.as_deref()
+    {
+        return Err(custody_unavailable());
+    }
+    Ok(Some(receipt))
+}
+
 async fn erase(
     State(state): State<Arc<ServerState>>,
     headers: HeaderMap,
     body: Bytes,
 ) -> Result<impl IntoResponse, ApiError> {
+    if state.control_store.is_none() {
+        return Err(custody_unavailable());
+    }
     if body.len() > 768 {
         return Err(bad("Erasure request too large"));
     }
@@ -849,16 +1410,51 @@ async fn erase(
     {
         return Err(bad("Invalid erasure credentials"));
     }
+    let secret_hash = digest(request.erasure_secret.as_bytes());
+    let bearer = headers
+        .get("authorization")
+        .and_then(|value| value.to_str().ok())
+        .and_then(|value| value.strip_prefix("Bearer "))
+        .ok_or_else(unauthorized)?;
     let mut connection = open_db(&state.db_path).map_err(|_| internal())?;
-    if let Some(existing) = erasure_read(&connection, &request.erasure_id, &request.erasure_secret)?
+    if let Some(store) = &state.control_store
+        && let Some(intent) = store
+            .certified_erasure_facts(&request.erasure_id, &secret_hash)
+            .map_err(|_| custody_unavailable())?
     {
-        let bearer = headers
-            .get("authorization")
-            .and_then(|value| value.to_str().ok())
-            .and_then(|value| value.strip_prefix("Bearer "))
-            .ok_or_else(unauthorized)?;
+        if bearer != request.erasure_secret && digest(bearer.as_bytes()) != intent.auth.token_hash {
+            return Err(unauthorized());
+        }
+        let _operation_guard = operation_lock(&state.db_path, true).map_err(|_| {
+            ApiError::new(
+                StatusCode::SERVICE_UNAVAILABLE,
+                "operation_busy",
+                "Backup or erasure operation is active",
+            )
+        })?;
+        store
+            .reconcile_health(&mut connection)
+            .map_err(|_| internal())?;
+        state.projection_notify.notify_one();
+        let existing = certified_erasure_read(
+            &state,
+            &connection,
+            &request.erasure_id,
+            &request.erasure_secret,
+        )?
+        .ok_or_else(internal)?;
+        return Ok(axum::Json(existing));
+    }
+    if erasure_read(&connection, &request.erasure_id, &request.erasure_secret)?.is_some() {
         if bearer == request.erasure_secret {
-            return Ok(axum::Json(existing));
+            let certified = certified_erasure_read(
+                &state,
+                &connection,
+                &request.erasure_id,
+                &request.erasure_secret,
+            )?
+            .ok_or_else(custody_unavailable)?;
+            return Ok(axum::Json(certified));
         }
         return Err(unauthorized());
     }
@@ -872,7 +1468,8 @@ async fn erase(
     if collision {
         return Err(unauthorized());
     }
-    let device_id = auth_device(&connection, &headers)?;
+    let authenticated = auth_device(&state, &connection, &headers)?;
+    let device_id = authenticated.device_id;
     let _operation_guard = operation_lock(&state.db_path, true).map_err(|_| {
         ApiError::new(
             StatusCode::SERVICE_UNAVAILABLE,
@@ -881,6 +1478,32 @@ async fn erase(
         )
     })?;
     let now = Utc::now();
+    let requested_at = now.to_rfc3339();
+    let backup_delete_by = (now + Duration::days(30)).to_rfc3339();
+    if let Some(store) = &state.control_store {
+        store
+            .append_erasure_intent(
+                &device_id,
+                &authenticated.token_hash,
+                &request.erasure_id,
+                &secret_hash,
+                &requested_at,
+                &backup_delete_by,
+            )
+            .map_err(|_| internal())?;
+        store
+            .reconcile_health(&mut connection)
+            .map_err(|_| internal())?;
+        state.projection_notify.notify_one();
+        let result = certified_erasure_read(
+            &state,
+            &connection,
+            &request.erasure_id,
+            &request.erasure_secret,
+        )?
+        .ok_or_else(internal)?;
+        return Ok(axum::Json(result));
+    }
     let tx = connection.transaction().map_err(|_| internal())?;
     tx.execute("DELETE FROM outbox WHERE device_id=?1", params![device_id])
         .map_err(|_| internal())?;
@@ -896,10 +1519,11 @@ async fn erase(
     tx.execute("DELETE FROM devices WHERE device_id=?1", params![device_id])
         .map_err(|_| internal())?;
     tx.execute("INSERT INTO erasures(device_id,erasure_id,erasure_secret_hash,requested_at,backup_delete_by) VALUES (?1,?2,?3,?4,?5) ON CONFLICT(device_id) DO UPDATE SET erasure_id=excluded.erasure_id,erasure_secret_hash=excluded.erasure_secret_hash,requested_at=excluded.requested_at,metrics_deleted_at=NULL,backups_expired_at=NULL,backup_delete_by=excluded.backup_delete_by,last_error=NULL",
-        params![device_id,request.erasure_id,digest(request.erasure_secret.as_bytes()),now.to_rfc3339(),(now + Duration::days(30)).to_rfc3339()]).map_err(|_| internal())?;
+        params![device_id,request.erasure_id,secret_hash,requested_at,backup_delete_by]).map_err(|_| internal())?;
     tx.commit().map_err(|_| internal())?;
+    state.projection_notify.notify_one();
     Ok(axum::Json(
-        json!({"erasure_id":request.erasure_id,"status":"pending_metrics","requested_at":now.to_rfc3339(),"metrics_deleted_at":null,"backups_expired_at":null,"backup_delete_by":(now + Duration::days(30)).to_rfc3339()}),
+        json!({"erasure_id":request.erasure_id,"status":"pending_metrics","requested_at":requested_at,"metrics_deleted_at":null,"backups_expired_at":null,"backup_delete_by":backup_delete_by}),
     ))
 }
 
@@ -914,6 +1538,7 @@ async fn erasure_status(
         .and_then(|value| value.strip_prefix("Bearer "))
         .ok_or_else(unauthorized)?;
     let connection = open_db(&state.db_path).map_err(|_| internal())?;
-    let result = erasure_read(&connection, &erasure_id, token)?.ok_or_else(unauthorized)?;
+    let result = certified_erasure_read(&state, &connection, &erasure_id, token)?
+        .ok_or_else(unauthorized)?;
     Ok(axum::Json(result))
 }

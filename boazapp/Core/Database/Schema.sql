@@ -14,6 +14,10 @@ CREATE TABLE IF NOT EXISTS health_events (
   updated_at TEXT NOT NULL
 );
 CREATE INDEX IF NOT EXISTS health_events_type_time ON health_events(type_identifier, start_utc DESC);
+-- Cover only workout heart-rate readings. A global extra index would tax every
+-- HealthKit event write while the dashboard reads at most 20 workout IDs.
+CREATE INDEX IF NOT EXISTS health_events_workout_hr_id ON health_events(event_id, value)
+  WHERE operation='upsert' AND type_identifier='boaz.workout.heart_rate';
 CREATE TABLE IF NOT EXISTS query_anchors (
   type_identifier TEXT PRIMARY KEY,
   anchor BLOB NOT NULL,
@@ -63,3 +67,22 @@ CREATE TABLE IF NOT EXISTS local_control_state (
   key TEXT PRIMARY KEY,
   value TEXT NOT NULL
 );
+-- v2: every writer, including a separate SQLite connection, advances the
+-- history generation. Readers compare it between paged sleep-history reads.
+CREATE TABLE IF NOT EXISTS local_change_clock (
+  id INTEGER PRIMARY KEY CHECK (id = 1),
+  generation INTEGER NOT NULL CHECK (generation >= 0)
+);
+INSERT OR IGNORE INTO local_change_clock(id, generation) VALUES (1, 0);
+CREATE TRIGGER IF NOT EXISTS health_events_clock_insert AFTER INSERT ON health_events
+BEGIN
+  UPDATE local_change_clock SET generation = generation + 1 WHERE id = 1;
+END;
+CREATE TRIGGER IF NOT EXISTS health_events_clock_update AFTER UPDATE ON health_events
+BEGIN
+  UPDATE local_change_clock SET generation = generation + 1 WHERE id = 1;
+END;
+CREATE TRIGGER IF NOT EXISTS health_events_clock_delete AFTER DELETE ON health_events
+BEGIN
+  UPDATE local_change_clock SET generation = generation + 1 WHERE id = 1;
+END;

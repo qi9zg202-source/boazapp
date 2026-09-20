@@ -10,16 +10,11 @@ struct HealthSettingsSheet: View {
     @State private var confirmsErasure = false
 
     private var pairingURL: URL? {
-        guard let url = URL(string: serverURL.trimmingCharacters(in: .whitespacesAndNewlines)),
-              url.scheme?.lowercased() == "https",
-              let host = url.host?.lowercased(),
-              host.hasSuffix(".ts.net"),
-              url.user == nil,
-              url.password == nil,
-              url.query == nil,
-              url.fragment == nil
-        else { return nil }
-        return url
+        TokyoPrivateEndpoint.validatedURL(from: serverURL)
+    }
+
+    private var pairingCode: String? {
+        TokyoCredentialFormat.normalizedHex64(oneTimeCode)
     }
 
     var body: some View {
@@ -51,7 +46,7 @@ struct HealthSettingsSheet: View {
                 }
             }
         } message: {
-            Text("The Tokyo service removes active SQLite and metrics data asynchronously and revokes this device's credential. Encrypted backups expire within 30 days. Local Health records remain; pairing and enabling upload again can resend them. Wait for the service to confirm active removal.")
+            Text("The configured Tokyo receiver processes active SQLite, metrics, and managed-backup deletion asynchronously. Local Health records remain and can be sent again only after a new pairing and consent. Wait for a receipt from that receiver; this app cannot attest to unmanaged copies.")
         }
         .onDisappear { oneTimeCode = "" }
     }
@@ -123,10 +118,10 @@ struct HealthSettingsSheet: View {
                             .accessibilityLabel("One-time pairing code")
                             .modifier(InputSurface())
                         Button {
-                            guard let endpoint = pairingURL else { return }
+                            guard let endpoint = pairingURL, let code = pairingCode else { return }
                             Task {
                                 actionRunning = true
-                                await model.onPair?(endpoint, oneTimeCode.trimmingCharacters(in: .whitespacesAndNewlines))
+                                await model.onPair?(endpoint, code)
                                 oneTimeCode = ""
                                 actionRunning = false
                             }
@@ -134,7 +129,7 @@ struct HealthSettingsSheet: View {
                             actionLabel("Pair this iPhone", symbol: "lock.shield")
                         }
                         .buttonStyle(.plain)
-                        .disabled(pairingURL == nil || oneTimeCode.trimmingCharacters(in: .whitespacesAndNewlines).isEmpty || model.onPair == nil || actionRunning)
+                        .disabled(pairingURL == nil || pairingCode == nil || model.onPair == nil || actionRunning)
                     }
                     .padding(.top, 4)
                 } else {
@@ -156,7 +151,7 @@ struct HealthSettingsSheet: View {
                     .font(.subheadline)
                     .foregroundStyle(BoazPalette.secondary)
                     .fixedSize(horizontal: false, vertical: true)
-                Text("Destination: your private Tokyo SQLite receiver through Tailscale HTTPS. Its separate VictoriaMetrics projection is derived from those records. Records remain while consent is active. On deletion request, active removal is asynchronous and encrypted backup copies expire within 30 days.")
+                Text("Configured destination: your private Tokyo SQLite receiver through Tailscale HTTPS. Its VictoriaMetrics data is a derived projection. This app has not independently verified the receiver's disk encryption or backup-retention enforcement; keep upload off until that deployment has been accepted.")
                     .font(.subheadline)
                     .foregroundStyle(BoazPalette.secondary)
                     .fixedSize(horizontal: false, vertical: true)
@@ -237,7 +232,7 @@ struct HealthSettingsSheet: View {
                     .buttonStyle(.plain)
                     .disabled(model.onEraseCloud == nil || actionRunning)
                 }
-                Text("Active cloud removal is asynchronous. Encrypted backup copies expire within 30 days. Local Health records remain; pairing and enabling upload again can resend them. The audit view shows confirmed progress.")
+                Text("The configured receiver reports active and managed-backup deletion asynchronously. Local Health records remain. A completed receipt rotates this iPhone to a new cloud identity, which requires new pairing and consent before anything can be sent again.")
                     .font(.caption)
                     .foregroundStyle(BoazPalette.secondary)
                     .fixedSize(horizontal: false, vertical: true)

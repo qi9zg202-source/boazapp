@@ -87,7 +87,7 @@ enum SleepAnalyzer {
             guard event.operation == "upsert",
                   event.type == HKCategoryTypeIdentifier.sleepAnalysis.rawValue,
                   let start = event.startUTC, let end = event.endUTC,
-                  let value = event.value, value.isFinite,
+                  let value = event.value, value.isFinite, (0...5).contains(value),
                   let stage = SleepStage(rawValue: Int(value)),
                   Double(stage.rawValue) == value else { return nil }
             return SleepSegment(start: start, end: end, stage: stage, sourceID: event.sourceBundleID)

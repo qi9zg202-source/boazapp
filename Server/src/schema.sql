@@ -38,6 +38,8 @@ CREATE TABLE IF NOT EXISTS receipts (
     requires_projection INTEGER NOT NULL DEFAULT 0,
     received_at TEXT NOT NULL,
     projected_at TEXT,
+    projected_generation TEXT,
+    projection_mapping_version INTEGER,
     FOREIGN KEY(device_id) REFERENCES devices(device_id)
 );
 CREATE INDEX IF NOT EXISTS receipts_device ON receipts(device_id, commit_sequence);
@@ -72,4 +74,18 @@ CREATE TABLE IF NOT EXISTS erasures (
     backups_expired_at TEXT,
     backup_delete_by TEXT NOT NULL,
     last_error TEXT
+);
+
+CREATE TABLE IF NOT EXISTS storage_meta (
+    singleton INTEGER PRIMARY KEY CHECK(singleton = 1),
+    control_store_id TEXT NOT NULL,
+    created_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS projection_state (
+    singleton INTEGER PRIMARY KEY CHECK(singleton = 1),
+    generation_id TEXT NOT NULL,
+    mapping_version INTEGER NOT NULL,
+    storage_identity TEXT NOT NULL,
+    updated_at TEXT NOT NULL
 );

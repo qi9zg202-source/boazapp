@@ -1,0 +1,3569 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Boaz Health · 工程级 PRD</title>
+  <link rel="icon" href="data:,">
+  <style>
+    :root {
+      --bg: #f5f6f8;
+      --paper: #ffffff;
+      --ink: #171717;
+      --muted: #5f6672;
+      --soft: #f0f3f7;
+      --line: #d8dde5;
+      --line-strong: #aeb8c6;
+      --blue: #0b5cad;
+      --blue-soft: #eaf3ff;
+      --cyan: #057783;
+      --cyan-soft: #e8f7f8;
+      --green: #16703a;
+      --green-soft: #eaf6ee;
+      --amber: #8a6200;
+      --amber-soft: #fff5d8;
+      --red: #b42318;
+      --red-soft: #fff0ee;
+      --purple: #5f4b8b;
+      --purple-soft: #f2effa;
+      --content: 1440px;
+      --nav-rail: 288px;
+      --comment-rail: 360px;
+      --comment-line: #d6dbe4;
+      --comment-mark: #d0e2ff;
+      --comment-blue: #0f62fe;
+      --comment-blue-dark: #0043ce;
+      --comment-blue-soft: #edf5ff;
+      --comment-blue-softer: #f4f8ff;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      background: var(--bg);
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "PingFang SC",
+        "Microsoft YaHei", Arial, sans-serif;
+      font-size: 15px;
+      line-height: 1.68;
+    }
+
+    .topbar {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      justify-content: space-between;
+      padding: 7px 20px;
+      background: #ffffff;
+      border-bottom: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .topbar strong { color: var(--red); }
+
+    a {
+      color: var(--blue);
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+
+    .shell {
+      position: relative;
+      display: grid;
+      grid-template-columns: var(--nav-rail) minmax(0, 1fr) var(--comment-rail);
+      min-height: 100vh;
+      transition: grid-template-columns 180ms ease;
+    }
+
+    .shell.comments-collapsed {
+      grid-template-columns: var(--nav-rail) minmax(0, 1fr) 0;
+    }
+
+    .shell.nav-collapsed {
+      grid-template-columns: 0 minmax(0, 1fr) var(--comment-rail);
+    }
+
+    .shell.nav-collapsed.comments-collapsed {
+      grid-template-columns: 0 minmax(0, 1fr) 0;
+    }
+
+    .nav-rail {
+      position: sticky;
+      top: 0;
+      height: 100vh;
+      min-width: 0;
+      overflow: auto;
+      padding: 24px 20px;
+      background: #111827;
+      color: #e7edf5;
+      border-right: 1px solid #0b1220;
+      transition: opacity 180ms ease, transform 180ms ease, padding 180ms ease, border-color 180ms ease;
+    }
+
+    .shell.nav-collapsed .nav-rail {
+      overflow: hidden;
+      padding-right: 0;
+      padding-left: 0;
+      border-right-color: transparent;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateX(-14px);
+      visibility: hidden;
+    }
+
+    .portal-sidebar-toggle-btn {
+      position: fixed;
+      top: 50%;
+      left: calc(var(--nav-rail) - 9px);
+      z-index: 820;
+      display: inline-flex;
+      width: 18px;
+      height: 58px;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 1px solid rgba(148, 163, 184, .48);
+      border-radius: 9px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(241, 245, 249, .96));
+      color: #264a67;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, .12);
+      cursor: pointer;
+      transform: translateY(-50%);
+      transition: left 180ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease, transform 180ms ease;
+    }
+
+    .portal-sidebar-toggle-btn:hover,
+    .portal-sidebar-toggle-btn:focus-visible {
+      border-color: rgba(15, 98, 254, .42);
+      background: #ffffff;
+      color: var(--comment-blue);
+      outline: none;
+      transform: translateY(-50%) translateX(1px);
+    }
+
+    .portal-sidebar-toggle-icon {
+      width: 14px;
+      height: 50px;
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 1.8;
+      stroke-linecap: square;
+      stroke-linejoin: miter;
+      transition: transform 180ms ease;
+    }
+
+    .portal-sidebar-toggle-spine {
+      opacity: .46;
+    }
+
+    .shell.nav-collapsed .portal-sidebar-toggle-btn {
+      left: 7px;
+    }
+
+    .shell.nav-collapsed .portal-sidebar-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .side-kicker {
+      margin: 0 0 8px;
+      color: #93c5fd;
+      font-size: 11px;
+      font-weight: 700;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .side-title {
+      margin: 0;
+      font-size: 18px;
+      line-height: 1.32;
+      font-weight: 750;
+    }
+
+    .side-meta {
+      margin: 10px 0 22px;
+      color: #aab6c6;
+      font-size: 12px;
+    }
+
+    .toc {
+      display: grid;
+      gap: 4px;
+      margin-top: 18px;
+      font-size: 13px;
+    }
+
+    .toc a {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 7px 8px;
+      border-left: 2px solid transparent;
+      color: #d9e3f0;
+      transition: background-color .16s ease, border-color .16s ease, box-shadow .16s ease, color .16s ease;
+    }
+
+    .toc-todo-count {
+      flex: 0 0 auto;
+      min-width: 42px;
+      padding: 2px 6px;
+      border: 1px solid rgba(214, 163, 0, .42);
+      background: #fff4cc;
+      color: #6f5200;
+      font-size: 11px;
+      font-weight: 780;
+      line-height: 1.25;
+      text-align: center;
+    }
+
+    .toc a:hover {
+      border-left-color: #93c5fd;
+      background: #1b2432;
+      text-decoration: none;
+      color: #ffffff;
+    }
+
+    .toc a.is-active,
+    .toc a[aria-current="location"] {
+      border-left-color: #60a5fa;
+      background: #223044;
+      box-shadow: inset 0 0 0 1px rgba(96, 165, 250, .24);
+      color: #ffffff;
+      text-decoration: none;
+    }
+
+    .toc a.is-active .toc-todo-count,
+    .toc a[aria-current="location"] .toc-todo-count {
+      border-color: rgba(96, 165, 250, .48);
+      background: #dbeafe;
+      color: #1e3a8a;
+    }
+
+    .content-shell {
+      min-width: 0;
+      padding: 28px;
+    }
+
+    main {
+      width: min(var(--content), 100%);
+      margin: 0 auto;
+      background: var(--paper);
+      border: 1px solid var(--line);
+    }
+
+    section {
+      position: relative;
+      padding: 34px 40px;
+      border-top: 1px solid var(--line);
+    }
+
+    section:first-child {
+      border-top: 0;
+    }
+
+    .hero {
+      display: grid;
+      grid-template-columns: minmax(0, 1.1fr) minmax(360px, .9fr);
+      gap: 28px;
+      align-items: stretch;
+      padding: 38px 40px 34px;
+      background: #ffffff;
+    }
+
+    .label {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      color: #394150;
+      font-size: 11px;
+      font-weight: 750;
+      letter-spacing: .12em;
+      text-transform: uppercase;
+    }
+
+    .label::before {
+      content: "";
+      width: 7px;
+      height: 7px;
+      background: var(--blue);
+    }
+
+    h1,
+    h2,
+    h3 {
+      margin: 0;
+      line-height: 1.24;
+      letter-spacing: 0;
+    }
+
+    h1 {
+      margin-top: 14px;
+      font-size: clamp(28px, 4vw, 46px);
+      font-weight: 800;
+    }
+
+    h2 {
+      margin-bottom: 18px;
+      font-size: 26px;
+      font-weight: 780;
+    }
+
+    h3 {
+      margin: 24px 0 10px;
+      font-size: 18px;
+      font-weight: 760;
+    }
+
+    p {
+      margin: 10px 0;
+    }
+
+    .lead {
+      max-width: 860px;
+      color: #343b46;
+      font-size: 18px;
+    }
+
+    .plain-note {
+      margin-top: 18px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      background: var(--soft);
+      color: #354052;
+    }
+
+    .status-panel {
+      display: grid;
+      align-content: start;
+      gap: 12px;
+      padding: 18px;
+      border: 1px solid var(--line-strong);
+      background: #f9fafc;
+    }
+
+    .status-row {
+      display: grid;
+      grid-template-columns: 118px minmax(0, 1fr);
+      gap: 12px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .status-row:last-child {
+      padding-bottom: 0;
+      border-bottom: 0;
+    }
+
+    .status-row span {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+      letter-spacing: .08em;
+      text-transform: uppercase;
+    }
+
+    .status-row strong {
+      font-weight: 760;
+    }
+
+    .tagline {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .pill {
+      display: inline-flex;
+      align-items: center;
+      padding: 5px 9px;
+      border: 1px solid var(--line);
+      background: #fff;
+      color: #354052;
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .pill.red {
+      border-color: #f2b5ae;
+      background: var(--red-soft);
+      color: var(--red);
+    }
+
+    .pill.green {
+      border-color: #b8dfc4;
+      background: var(--green-soft);
+      color: var(--green);
+    }
+
+    .pill.amber {
+      border-color: #efd48a;
+      background: var(--amber-soft);
+      color: var(--amber);
+    }
+
+    .grid-2,
+    .grid-3,
+    .grid-4 {
+      display: grid;
+      gap: 14px;
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .grid-4 {
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    .card {
+      padding: 16px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .card h3 {
+      margin-top: 0;
+    }
+
+    .card p:last-child,
+    .card ul:last-child,
+    .card ol:last-child {
+      margin-bottom: 0;
+    }
+
+    .metric {
+      border-top: 4px solid var(--blue);
+      background: #fbfcff;
+    }
+
+    .metric .num {
+      display: block;
+      color: var(--blue);
+      font-size: 30px;
+      line-height: 1;
+      font-weight: 820;
+    }
+
+    .metric .text {
+      display: block;
+      margin-top: 8px;
+      color: var(--muted);
+      font-size: 13px;
+    }
+
+    .callout {
+      padding: 16px 18px;
+      border: 1px solid var(--line-strong);
+      background: #fbfcfe;
+    }
+
+    .callout.red {
+      border-color: #eba9a1;
+      background: var(--red-soft);
+    }
+
+    .callout.amber {
+      border-color: #e8cf83;
+      background: var(--amber-soft);
+    }
+
+    .callout.green {
+      border-color: #afd9bd;
+      background: var(--green-soft);
+    }
+
+    .callout h3 {
+      margin-top: 0;
+    }
+
+    .table-wrap {
+      width: 100%;
+      overflow-x: auto;
+      border: 1px solid var(--line);
+      background: #ffffff;
+      margin: 16px 0 22px;
+    }
+
+    table {
+      width: 100%;
+      min-width: 980px;
+      border-collapse: collapse;
+    }
+
+    th,
+    td {
+      padding: 11px 12px;
+      border-bottom: 1px solid var(--line);
+      border-right: 1px solid var(--line);
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th:last-child,
+    td:last-child {
+      border-right: 0;
+    }
+
+    tr:last-child td {
+      border-bottom: 0;
+    }
+
+    th {
+      background: #eef3f8;
+      color: #253044;
+      font-size: 12px;
+      font-weight: 780;
+      letter-spacing: .06em;
+      text-transform: uppercase;
+    }
+
+    td {
+      color: #2f3744;
+      font-size: 14px;
+    }
+
+    ul,
+    ol {
+      padding-left: 20px;
+      margin: 10px 0 16px;
+    }
+
+    li {
+      margin: 5px 0;
+    }
+
+    code {
+      padding: 1px 5px;
+      background: #eef2f7;
+      color: #1d2733;
+      font-family: "SFMono-Regular", Consolas, "Liberation Mono", monospace;
+      font-size: .92em;
+    }
+
+    .flow {
+      overflow-x: auto;
+      padding: 18px;
+      border: 1px solid var(--line);
+      background: #fbfcfe;
+    }
+
+    .flow svg {
+      display: block;
+      width: 100%;
+      min-width: 1080px;
+      height: auto;
+      background: #ffffff;
+      border: 1px solid #e5e9ef;
+    }
+
+    .reference-figure {
+      margin: 18px 0 24px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .reference-figure-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 14px;
+      border-bottom: 1px solid var(--line);
+      background: #f8fafc;
+    }
+
+    .reference-figure-head strong {
+      color: #253044;
+      font-size: 14px;
+    }
+
+    .reference-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .control-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 34px;
+      padding: 7px 12px;
+      border: 1px solid #c6ccd6;
+      border-radius: 6px;
+      background: linear-gradient(#ffffff, #f5f6f8);
+      color: #253044;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 760;
+      letter-spacing: 0;
+      cursor: pointer;
+    }
+
+    .control-btn:hover,
+    .control-btn:focus-visible {
+      border-color: var(--blue);
+      color: var(--blue);
+      background: #ffffff;
+      outline: none;
+    }
+
+    .control-btn.primary {
+      border-color: var(--blue);
+      background: linear-gradient(#0f6bdc, var(--blue));
+      color: #ffffff;
+    }
+
+    .control-btn.primary:hover,
+    .control-btn.primary:focus-visible {
+      background: #084f94;
+      color: #ffffff;
+    }
+
+    .control-btn.icon {
+      width: 34px;
+      min-width: 34px;
+      min-height: 34px;
+      padding: 0;
+    }
+
+    .control-btn.icon svg {
+      width: 15px;
+      height: 15px;
+      fill: currentColor;
+    }
+
+    .reference-figure-inner {
+      overflow-x: auto;
+      padding: 16px;
+      background: #fbfcfe;
+    }
+
+    .comment-image-zone {
+      position: relative;
+      display: block;
+      width: 100%;
+      min-width: 1060px;
+      cursor: crosshair;
+    }
+
+    .comment-image-zone.is-dragging-pin {
+      cursor: grabbing;
+      user-select: none;
+    }
+
+    .reference-figure img {
+      display: block;
+      width: 100%;
+      min-width: 1060px;
+      height: auto;
+      border: 1px solid #e5e9ef;
+      background: #ffffff;
+      pointer-events: none;
+      user-select: none;
+    }
+
+    .image-comment-layer {
+      position: absolute;
+      inset: 0;
+      z-index: 4;
+      pointer-events: none;
+    }
+
+    .image-comment-pin {
+      position: absolute;
+      width: 15px;
+      height: 15px;
+      padding: 0;
+      border: 2px solid #ffffff;
+      border-radius: 999px;
+      background: #da1e28;
+      box-shadow: 0 0 0 1px rgba(88, 28, 28, .58), 0 2px 7px rgba(15, 23, 42, .24);
+      cursor: grab;
+      pointer-events: auto;
+      touch-action: none;
+      transform: translate(-50%, -50%);
+    }
+
+    .image-comment-pin:hover,
+    .image-comment-pin:focus-visible,
+    .image-comment-pin.is-active {
+      outline: none;
+      box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px rgba(15, 98, 254, .72);
+    }
+
+    .image-comment-pin.is-breathing {
+      animation: imagePinBreathe 900ms ease-in-out 3;
+    }
+
+    @keyframes imagePinBreathe {
+      0%,
+      100% {
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px rgba(15, 98, 254, .72);
+        transform: translate(-50%, -50%) scale(1);
+      }
+
+      50% {
+        box-shadow: 0 0 0 3px #ffffff, 0 0 0 9px rgba(15, 98, 254, .88);
+        transform: translate(-50%, -50%) scale(1.18);
+      }
+    }
+
+    .image-comment-pin.is-draft {
+      opacity: .78;
+    }
+
+    .image-comment-pin.is-dragging {
+      cursor: grabbing;
+      opacity: .92;
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .image-comment-pin.is-breathing {
+        animation: none;
+        box-shadow: 0 0 0 2px #ffffff, 0 0 0 5px rgba(15, 98, 254, .72);
+      }
+    }
+
+    .caption {
+      margin: 0;
+      padding: 10px 14px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      background: #f8fafc;
+    }
+
+    .node-flow {
+      display: grid;
+      gap: 10px;
+      margin: 16px 0 22px;
+    }
+
+    .node-flow-item {
+      display: grid;
+      grid-template-columns: 220px minmax(0, 1fr);
+      gap: 14px;
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      background: #ffffff;
+    }
+
+    .node-flow-item strong {
+      color: var(--blue);
+    }
+
+    .node-flow-item p {
+      margin: 0;
+      color: #344054;
+    }
+
+    .image-lightbox {
+      position: fixed;
+      inset: 0;
+      z-index: 1000;
+      display: none;
+      grid-template-rows: auto minmax(0, 1fr);
+      background: rgba(10, 14, 23, .96);
+      color: #ffffff;
+    }
+
+    .image-lightbox.is-open {
+      display: grid;
+    }
+
+    .image-lightbox-bar {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 14px;
+      padding: 12px 16px;
+      border-bottom: 1px solid rgba(255, 255, 255, .16);
+      background: rgba(17, 24, 39, .98);
+    }
+
+    .image-lightbox-title {
+      min-width: 0;
+    }
+
+    .image-lightbox-title strong {
+      display: block;
+      font-size: 14px;
+      line-height: 1.3;
+    }
+
+    .image-lightbox-title span {
+      display: block;
+      margin-top: 2px;
+      color: #b8c4d6;
+      font-size: 12px;
+    }
+
+    .image-lightbox-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .image-lightbox .control-btn {
+      border-color: rgba(255, 255, 255, .28);
+      background: rgba(255, 255, 255, .08);
+      color: #ffffff;
+    }
+
+    .image-lightbox .control-btn:hover,
+    .image-lightbox .control-btn:focus-visible {
+      border-color: #93c5fd;
+      color: #bfdbfe;
+    }
+
+    .image-lightbox-view {
+      min-height: 0;
+      overflow: auto;
+      padding: 18px;
+      background:
+        linear-gradient(90deg, rgba(255,255,255,.05) 1px, transparent 1px),
+        linear-gradient(180deg, rgba(255,255,255,.05) 1px, transparent 1px),
+        #0b1020;
+      background-size: 32px 32px;
+    }
+
+    .image-lightbox-frame {
+      min-width: min-content;
+      min-height: 100%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .image-lightbox-img {
+      display: block;
+      width: min(100%, 2880px);
+      max-height: calc(100vh - 118px);
+      height: auto;
+      background: #ffffff;
+      border: 1px solid rgba(255, 255, 255, .28);
+    }
+
+    .image-lightbox-img.is-original {
+      box-sizing: content-box;
+      width: 2880px;
+      max-width: none;
+      max-height: none;
+    }
+
+    .svg-title {
+      font: 700 14px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: #1f2937;
+    }
+
+    .svg-text {
+      font: 600 12px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: #1f2937;
+    }
+
+    .svg-sub {
+      font: 500 10px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: #667085;
+    }
+
+    .svg-small {
+      font: 500 9px -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+      fill: #667085;
+    }
+
+    .legend {
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+      margin-top: 10px;
+      color: var(--muted);
+      font-size: 12px;
+    }
+
+    .legend span {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .legend i {
+      display: inline-block;
+      width: 14px;
+      height: 3px;
+      background: var(--blue);
+    }
+
+    .legend .danger i {
+      background: var(--red);
+    }
+
+    .legend .gate i {
+      background: var(--amber);
+    }
+
+    .legend .audit i {
+      background: var(--green);
+    }
+
+    .phase {
+      display: grid;
+      grid-template-columns: 120px minmax(0, 1fr);
+      gap: 14px;
+      padding: 14px 0;
+      border-bottom: 1px solid var(--line);
+    }
+
+    .phase:last-child {
+      border-bottom: 0;
+    }
+
+    .phase strong {
+      color: var(--blue);
+      font-size: 16px;
+    }
+
+    .phase p {
+      margin: 0;
+    }
+
+    .source-list {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .source-list a,
+    .source-list span {
+      display: block;
+      padding: 10px 12px;
+      border: 1px solid var(--line);
+      background: #fbfcfe;
+      color: #2f3744;
+      font-size: 13px;
+    }
+
+    .comment-rail {
+      position: sticky;
+      top: 9px;
+      align-self: start;
+      width: calc(100% - 8px);
+      height: calc(100vh - 18px);
+      min-width: 0;
+      overflow: auto;
+      margin: 0 8px 9px 0;
+      padding: 18px 16px;
+      border: 1px solid var(--comment-line);
+      border-radius: 28px;
+      background: #f7f9fc;
+      color: #253044;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .96);
+      transition: width 180ms ease, margin 180ms ease, padding 180ms ease, border-color 180ms ease, opacity 180ms ease;
+    }
+
+    .comment-rail-toggle-btn {
+      position: fixed;
+      top: 50%;
+      right: calc(var(--comment-rail) - 9px);
+      z-index: 875;
+      display: inline-flex;
+      width: 18px;
+      height: 58px;
+      align-items: center;
+      justify-content: center;
+      padding: 0;
+      border: 1px solid rgba(148, 163, 184, .48);
+      border-radius: 9px;
+      background: linear-gradient(180deg, rgba(255, 255, 255, .98), rgba(241, 245, 249, .96));
+      color: #264a67;
+      box-shadow: 0 10px 28px rgba(15, 23, 42, .12);
+      cursor: pointer;
+      transform: translateY(-50%);
+      transition: right 180ms ease, background 160ms ease, border-color 160ms ease, color 160ms ease, transform 180ms ease;
+    }
+
+    .comment-rail-toggle-btn:hover,
+    .comment-rail-toggle-btn:focus-visible {
+      border-color: rgba(15, 98, 254, .42);
+      background: #ffffff;
+      color: var(--comment-blue);
+      outline: none;
+      transform: translateY(-50%) translateX(-1px);
+    }
+
+    .comment-rail-toggle-icon {
+      transform: rotate(180deg);
+    }
+
+    .shell.comments-collapsed .comment-rail-toggle-btn {
+      right: 7px;
+    }
+
+    .shell.comments-collapsed .comment-rail-toggle-icon {
+      transform: rotate(0deg);
+    }
+
+    .comment-connectors {
+      position: fixed;
+      inset: 0;
+      z-index: 820;
+      width: 100vw;
+      height: 100vh;
+      pointer-events: none;
+    }
+
+    .comment-connectors path {
+      fill: none;
+      stroke: #8d8d8d;
+      stroke-width: 1.25;
+      stroke-dasharray: 4 4;
+      vector-effect: non-scaling-stroke;
+    }
+
+    .comment-connectors path.is-active {
+      stroke: var(--comment-blue);
+      stroke-width: 1.6;
+      stroke-dasharray: 5 4;
+    }
+
+    .comment-rail-head {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+      padding-bottom: 12px;
+      border-bottom: 1px solid var(--comment-line);
+    }
+
+    .comment-rail-main {
+      display: flex;
+      min-width: 0;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .comment-rail-title {
+      margin: 0;
+      font-size: 15px;
+      font-weight: 790;
+      line-height: 1.28;
+    }
+
+    .comment-count {
+      display: inline-flex;
+      min-width: 28px;
+      height: 26px;
+      align-items: center;
+      justify-content: center;
+      border: 1px solid #b8c4d6;
+      background: #ffffff;
+      color: var(--blue);
+      font-size: 12px;
+      font-weight: 800;
+    }
+
+    .comment-toolbar {
+      display: grid;
+      gap: 8px;
+      margin: 12px 0;
+    }
+
+    .comment-toolbar-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .comment-filter {
+      display: inline-flex;
+      align-items: center;
+      flex: 0 0 auto;
+      overflow: hidden;
+      min-height: 30px;
+      padding: 2px;
+      border: 1px solid #ccd5e1;
+      border-radius: 7px;
+      background: #f7f9fc;
+      color: #3b4452;
+      font-size: 12px;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .comment-filter-btn {
+      appearance: none;
+      min-width: 52px;
+      min-height: 24px;
+      margin: 0;
+      padding: 0 9px;
+      border: 0;
+      border-left: 1px solid #dfe5ed;
+      border-radius: 5px;
+      background: transparent;
+      color: #526171;
+      font: inherit;
+      font-size: 12px;
+      font-weight: 740;
+      cursor: pointer;
+      transition: background-color .16s ease, color .16s ease, box-shadow .16s ease;
+    }
+
+    .comment-filter-btn:first-child {
+      border-left: 0;
+    }
+
+    .comment-filter-btn:hover,
+    .comment-filter-btn:focus-visible {
+      background: #edf4ff;
+      color: var(--comment-blue-dark);
+      outline: none;
+    }
+
+    .comment-filter-btn.is-active {
+      background: #ffffff;
+      color: var(--comment-blue-dark);
+      box-shadow: inset 0 0 0 1px rgba(15, 98, 254, .28), 0 1px 2px rgba(28, 42, 58, .08);
+    }
+
+    .comment-composer {
+      display: none;
+      margin: 12px 0;
+      padding: 12px;
+      border: 1px solid var(--comment-blue);
+      background: #ffffff;
+      box-shadow: inset 3px 0 0 var(--comment-blue);
+    }
+
+    .comment-composer.is-open {
+      display: block;
+    }
+
+    .comment-composer-quote,
+    .comment-quote {
+      padding: 9px 10px;
+      border-left: 3px solid var(--comment-blue);
+      background: var(--comment-blue-soft);
+      color: #243247;
+      font-size: 12px;
+      line-height: 1.5;
+    }
+
+    .comment-quote[data-comment-action="jump"] {
+      cursor: pointer;
+      transition: border-color .16s ease, background .16s ease, outline-color .16s ease;
+    }
+
+    .comment-quote[data-comment-action="jump"]:hover,
+    .comment-quote[data-comment-action="jump"]:focus-visible {
+      border-left-color: var(--comment-blue-dark);
+      background: #e8f1ff;
+      outline: 2px solid rgba(15, 98, 254, .18);
+      outline-offset: 2px;
+    }
+
+    .comment-composer-meta,
+    .comment-card-meta {
+      margin: 7px 0;
+      color: var(--muted);
+      font-size: 11px;
+      line-height: 1.42;
+    }
+
+    .comment-card-meta {
+      display: flex;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .comment-type-pill {
+      display: inline-flex;
+      align-items: center;
+      min-height: 18px;
+      padding: 2px 6px;
+      border: 1px solid rgba(15, 98, 254, .22);
+      background: #edf4ff;
+      color: var(--comment-blue-dark);
+      font-size: 10px;
+      font-weight: 780;
+      line-height: 1.2;
+    }
+
+    .comment-type-pill.todo {
+      border-color: rgba(214, 163, 0, .42);
+      background: #fff4cc;
+      color: #6f5200;
+    }
+
+    .comment-composer > .comment-composer-meta {
+      margin: 0 0 8px;
+      color: var(--comment-blue);
+      font-size: 12px;
+      font-weight: 780;
+    }
+
+    .comment-input,
+    .comment-reply-input {
+      display: block;
+      width: 100%;
+      min-height: 82px;
+      resize: vertical;
+      margin: 10px 0;
+      padding: 9px 10px;
+      border: 1px solid var(--line-strong);
+      background: #ffffff;
+      color: #202938;
+      font: inherit;
+      font-size: 13px;
+      line-height: 1.5;
+    }
+
+    .comment-input:focus,
+    .comment-reply-input:focus {
+      border-color: var(--blue);
+      outline: 2px solid rgba(11, 92, 173, .14);
+      outline-offset: 0;
+    }
+
+    .comment-composer-actions,
+    .comment-card-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: flex-end;
+    }
+
+    .comment-card-actions {
+      align-items: center;
+      flex-wrap: nowrap;
+    }
+
+    .comment-list {
+      display: grid;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .comment-empty {
+      padding: 14px;
+      border: 1px dashed #b8c4d6;
+      background: #ffffff;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.52;
+    }
+
+    .comment-card {
+      position: relative;
+      border: 1px solid #c7cfdb;
+      background: #ffffff;
+    }
+
+    .comment-card.is-active {
+      border-color: var(--comment-blue);
+      background: var(--comment-blue-softer);
+      box-shadow: inset 4px 0 0 var(--comment-blue), 0 0 0 1px rgba(15, 98, 254, .08);
+    }
+
+    .comment-card.is-resolved {
+      border-color: #b9d9c4;
+      background: #f8fbf9;
+      color: #566170;
+    }
+
+    .comment-card.is-resolved .comment-card-main {
+      padding-right: 42px;
+    }
+
+    .comment-card.is-resolved .comment-quote {
+      border-left-color: #107e3e;
+      background: #f1f8f3;
+    }
+
+    .comment-card.is-todo {
+      border-color: rgba(214, 163, 0, .46);
+      box-shadow: inset 4px 0 0 #d6a300;
+    }
+
+    .comment-card.is-todo.is-active {
+      border-color: #b88900;
+      background: #fff9e8;
+      box-shadow: inset 4px 0 0 #d6a300, 0 0 0 1px rgba(214, 163, 0, .18);
+    }
+
+    .comment-card.is-todo .comment-quote {
+      border-left-color: #d6a300;
+      background: #fff7d6;
+    }
+
+    .comment-resolved-mark {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      width: 22px;
+      height: 22px;
+      border: 1px solid rgba(16, 126, 62, .34);
+      border-radius: 50%;
+      background: #f0f8f2;
+      box-shadow: inset 0 1px 0 rgba(255, 255, 255, .86);
+    }
+
+    .comment-resolved-mark::after {
+      content: "";
+      position: absolute;
+      left: 7px;
+      top: 4px;
+      width: 5px;
+      height: 10px;
+      border: solid #107e3e;
+      border-width: 0 2px 2px 0;
+      transform: rotate(45deg);
+    }
+
+    .comment-card-main {
+      padding: 12px;
+    }
+
+    .comment-card-body {
+      margin: 10px 0;
+      color: #202938;
+      font-size: 13px;
+      line-height: 1.55;
+      white-space: pre-wrap;
+    }
+
+    .comment-replies {
+      display: grid;
+      gap: 7px;
+      margin: 10px 0;
+      padding-left: 10px;
+      border-left: 2px solid #e1e6ee;
+    }
+
+    .comment-reply {
+      color: #3b4452;
+      font-size: 12px;
+      line-height: 1.48;
+    }
+
+    .comment-reply strong {
+      display: block;
+      color: #253044;
+      font-size: 11px;
+    }
+
+    .comment-selection-toolbar {
+      position: fixed;
+      z-index: 900;
+      display: none;
+      align-items: center;
+      gap: 6px;
+      padding: 4px;
+      border: 1px solid #b8c4d6;
+      background: #ffffff;
+      box-shadow: 0 8px 22px rgba(15, 23, 42, .16);
+    }
+
+    .comment-selection-toolbar.is-visible {
+      display: flex;
+    }
+
+    .comment-selection-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      min-height: 32px;
+      padding: 6px 10px;
+      border: 1px solid var(--comment-blue);
+      background: var(--comment-blue);
+      color: #ffffff;
+      font-family: inherit;
+      font-size: 12px;
+      font-weight: 780;
+      cursor: pointer;
+    }
+
+    .comment-selection-btn.todo {
+      border-color: #d6a300;
+      background: #fff4cc;
+      color: #6f5200;
+    }
+
+    .comment-selection-btn:hover,
+    .comment-selection-btn:focus-visible {
+      outline: 2px solid rgba(15, 98, 254, .18);
+      outline-offset: 2px;
+    }
+
+    .comment-selection-btn.todo:hover,
+    .comment-selection-btn.todo:focus-visible {
+      outline-color: rgba(214, 163, 0, .26);
+    }
+
+    .comment-highlight {
+      background: var(--comment-mark);
+      box-shadow: inset 0 -2px 0 #78a9ff;
+      cursor: pointer;
+    }
+
+    .comment-highlight.is-active {
+      background: #a6c8ff;
+      box-shadow: inset 0 -2px 0 var(--comment-blue);
+    }
+
+    .comment-highlight.is-active.is-breathing {
+      background: rgba(166, 200, 255, .52);
+      text-decoration-line: underline;
+      text-decoration-color: rgba(22, 112, 58, .72);
+      text-decoration-thickness: 2px;
+      text-underline-offset: 3px;
+      box-shadow: inset 0 -2px 0 rgba(22, 112, 58, .62);
+      animation: comment-green-underline-breathe 3.4s cubic-bezier(.37, 0, .2, 1) 3;
+    }
+
+    @keyframes comment-green-underline-breathe {
+      0%,
+      100% {
+        text-decoration-color: rgba(22, 112, 58, .58);
+        box-shadow: inset 0 -2px 0 rgba(22, 112, 58, .48);
+      }
+      50% {
+        text-decoration-color: rgba(22, 112, 58, .96);
+        box-shadow: inset 0 -3px 0 rgba(22, 112, 58, .9);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .comment-highlight.is-active.is-breathing {
+        animation: none;
+        text-decoration-color: rgba(22, 112, 58, .9);
+        box-shadow: inset 0 -2px 0 rgba(22, 112, 58, .82);
+      }
+    }
+
+    .comment-anchor-badge {
+      position: absolute;
+      top: 12px;
+      right: 12px;
+      z-index: 3;
+      min-height: 26px;
+      padding: 4px 8px;
+      border: 1px solid #b8c4d6;
+      background: #ffffff;
+      color: var(--blue);
+      font-family: inherit;
+      font-size: 11px;
+      font-weight: 760;
+      cursor: pointer;
+    }
+
+    .comment-anchor-badge:hover,
+    .comment-anchor-badge:focus-visible {
+      border-color: var(--blue);
+      outline: none;
+    }
+
+    .comment-toast {
+      position: fixed;
+      right: calc(var(--comment-rail) + 18px);
+      bottom: 18px;
+      z-index: 950;
+      display: none;
+      max-width: 360px;
+      padding: 10px 12px;
+      border: 1px solid #b8c4d6;
+      background: #ffffff;
+      color: #253044;
+      font-size: 12px;
+      line-height: 1.45;
+    }
+
+    .comment-toast.is-visible {
+      display: block;
+    }
+
+    .shell.comments-collapsed .comment-rail {
+      overflow: hidden;
+      width: 0;
+      margin-right: 0;
+      padding: 0;
+      border-color: transparent;
+      opacity: 0;
+      pointer-events: none;
+      visibility: hidden;
+    }
+
+    .shell.comments-collapsed .comment-count,
+    .shell.comments-collapsed .comment-toolbar,
+    .shell.comments-collapsed .comment-composer,
+    .shell.comments-collapsed .comment-list,
+    .shell.comments-collapsed .comment-empty {
+      display: none;
+    }
+
+    .footer {
+      padding: 24px 40px 34px;
+      border-top: 1px solid var(--line);
+      color: var(--muted);
+      font-size: 12px;
+      background: #fafbfc;
+    }
+
+    @media (max-width: 1400px) {
+      :root {
+        --nav-rail: 248px;
+        --comment-rail: 320px;
+      }
+
+      .shell {
+        grid-template-columns: var(--nav-rail) minmax(0, 1fr) var(--comment-rail);
+      }
+
+      .shell.comments-collapsed {
+        grid-template-columns: var(--nav-rail) minmax(0, 1fr) 0;
+      }
+
+      .shell.nav-collapsed {
+        grid-template-columns: 0 minmax(0, 1fr) var(--comment-rail);
+      }
+
+      .shell.nav-collapsed.comments-collapsed {
+        grid-template-columns: 0 minmax(0, 1fr) 0;
+      }
+
+      .content-shell {
+        padding: 20px;
+      }
+    }
+
+    @media (max-width: 1180px) {
+      .shell {
+        grid-template-columns: 1fr;
+      }
+
+      .shell.comments-collapsed {
+        grid-template-columns: 1fr;
+      }
+
+      .nav-rail {
+        position: relative;
+        height: auto;
+      }
+
+      .shell.nav-collapsed .nav-rail {
+        overflow: auto;
+        padding: 24px 20px;
+        border-right-color: #0b1220;
+        opacity: 1;
+        pointer-events: auto;
+        transform: none;
+        visibility: visible;
+      }
+
+      .portal-sidebar-toggle-btn {
+        display: none;
+      }
+
+      .comment-rail {
+        position: fixed;
+        right: 0;
+        width: min(var(--comment-rail), calc(100vw - 44px));
+        height: 100vh;
+        margin: 0;
+        border-radius: 28px 0 0 28px;
+        z-index: 840;
+        border-top: 0;
+        border-left: 1px solid var(--comment-line);
+      }
+
+      .comment-rail-toggle-btn {
+        right: calc(min(var(--comment-rail), calc(100vw - 44px)) - 9px);
+      }
+
+      .shell.comments-collapsed .comment-rail {
+        width: 0;
+        height: 100vh;
+        border-left-color: transparent;
+      }
+
+      .comment-toast {
+        right: 16px;
+        left: 16px;
+        max-width: none;
+      }
+
+      .toc {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+      }
+
+      .reference-figure-head,
+      .image-lightbox-bar {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .reference-actions,
+      .image-lightbox-actions {
+        justify-content: flex-start;
+      }
+
+      .hero,
+      .grid-2,
+      .grid-3,
+      .grid-4,
+      .legend,
+      .node-flow-item {
+        grid-template-columns: 1fr;
+      }
+
+      .content-shell {
+        padding: 16px;
+        padding-right: min(calc(var(--comment-rail) + 16px), 52vw);
+      }
+
+      section,
+      .hero,
+      .footer {
+        padding-left: 20px;
+        padding-right: 20px;
+      }
+    }
+
+    @media (max-width: 640px) {
+      body {
+        font-size: 14px;
+      }
+
+      .toc {
+        grid-template-columns: 1fr;
+      }
+
+      .status-row,
+      .phase {
+        grid-template-columns: 1fr;
+      }
+
+      section,
+      .hero,
+      .footer {
+        padding-left: 14px;
+        padding-right: 14px;
+      }
+
+      .content-shell {
+        padding: 10px;
+      }
+
+      .comment-rail {
+        position: relative;
+        right: auto;
+        width: auto;
+        height: auto;
+        max-height: none;
+        padding: 14px;
+        border-top: 1px solid var(--comment-line);
+        border-left: 0;
+      }
+
+      .comment-rail-toggle-btn {
+        display: none;
+      }
+
+      .shell.comments-collapsed .comment-rail {
+        width: auto;
+        height: auto;
+        padding: 14px;
+        border-top-color: var(--comment-line);
+        opacity: 1;
+        pointer-events: auto;
+        visibility: visible;
+      }
+
+      .comment-rail-head {
+        align-items: stretch;
+        flex-direction: column;
+      }
+
+      .comment-connectors {
+        display: none;
+      }
+
+      .comment-anchor-badge {
+        position: static;
+        display: inline-flex;
+        margin-bottom: 10px;
+      }
+    }
+
+    @media print {
+      body {
+        background: #ffffff;
+      }
+
+      .shell {
+        display: block;
+      }
+
+      .nav-rail,
+      .portal-sidebar-toggle-btn,
+      .comment-rail,
+      .comment-selection-toolbar,
+      .comment-selection-btn,
+      .comment-toast {
+        display: none;
+      }
+
+      .content-shell {
+        padding: 0;
+      }
+
+      main {
+        border: 0;
+      }
+
+      section,
+      .hero {
+        break-inside: avoid;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header class="topbar" aria-label="文档状态">
+    <span>Boaz Health · 工程级 PRD · 2026-09-19 · 产品成熟度 L1</span>
+    <strong>AI-NATIVE GATE: INTERCEPT · 真实上传关闭</strong>
+  </header>
+  <div class="shell comments-collapsed">
+    <aside class="nav-rail">
+      <p class="side-kicker">BOAZ HEALTH / PROJECT PRD</p>
+      <h1 class="side-title">Boaz Health · 工程级 PRD</h1>
+      <p class="side-meta">Version 0.2 · 2026-09-19 · Product L1 / release INTERCEPT</p>
+      <nav class="toc" aria-label="目录">
+        <a href="#summary">01 决策摘要</a>
+        <a href="#goals">02 用户任务与结果</a>
+        <a href="#hedge">03 动态对冲</a>
+        <a href="#expert">04 领域审查</a>
+        <a href="#evidence">05 证据清单</a>
+        <a href="#ontology">06 对象与血缘</a>
+        <a href="#functions">07 核心功能</a>
+        <a href="#action">08 动作与权限</a>
+        <a href="#data">09 数据与集成</a>
+        <a href="#acceptance">10 验收门禁</a>
+        <a href="#risks">11 风险与演进</a>
+        <a href="#verification">12 文档验证</a>
+      </nav>
+    </aside>
+
+    <button class="portal-sidebar-toggle-btn" id="portal-sidebar-toggle-btn" type="button" aria-label="收起左侧功能侧栏" aria-pressed="false" title="收起左侧功能侧栏">
+      <svg class="portal-sidebar-toggle-icon" viewBox="0 0 18 58" aria-hidden="true">
+        <path d="M 11.4 18.5 L 6.8 24 L 11.4 29.5"></path>
+        <path d="M 11.4 30.5 L 6.8 36 L 11.4 41.5"></path>
+        <path class="portal-sidebar-toggle-spine" d="M 14.1 17 L 14.1 43"></path>
+      </svg>
+    </button>
+
+    <div class="content-shell">
+      <main>
+        <section id="summary" class="hero">
+          <div>
+            <span class="label">Project PRD · Decision Header</span>
+            <h1>Boaz Health：本机可信记录，受控的私人云同步</h1>
+            <p class="lead">为使用 iPhone 与 Apple Watch 的本人提供可核对的睡眠、活动和体征记录；先在手机安全保存可读取的 Apple Health 数据，再由本人单独决定是否连接私人 Tokyo 接收服务。本文用于判断首个受控版本能否进入真机和 Tokyo 验收，不是上线证明，也不提供诊断。</p>
+            <div class="tagline">
+              <span class="pill green">HealthKit 只读</span>
+              <span class="pill green">本机 SQLite 权威</span>
+              <span class="pill amber">上传需单独同意</span>
+              <span class="pill red">AI-NATIVE GATE: INTERCEPT</span>
+            </div>
+            <div class="plain-note"><strong>当前决策：继续封闭真实上传。</strong>源码正在收口手机 SQLite、Tokyo 健康账本、独立控制账本和可重建指标投影，但缺少签名真机、Apple Watch、私人 HTTPS、独立加密恢复域、原生 VictoriaMetrics 身份、隔离恢复及回滚的现时验收证据。<a href="TEST_CASES.md">77 个测试用例</a>是验收要求，不是通过回执；<a href="ACCEPTANCE_REPORT_2026-09-18.md">2026-09-18 验收报告</a>与 <a href="evidence/2026-09-18/">历史证据</a>存在且保持不可变，但不会自动证明 2026-09-19 的组合工作树。</div>
+          </div>
+          <div class="status-panel" aria-label="文档状态">
+            <div class="status-row"><span>对象</span><strong>Boaz Health iPhone App + 私人 Rust 接收服务</strong></div>
+            <div class="status-row"><span>产品成熟度</span><strong>L1 证据化设计；非部署、非真机验收</strong></div>
+            <div class="status-row"><span>使用者</span><strong>本人；Tokyo 运维者为同一私人系统的受控角色</strong></div>
+            <div class="status-row"><span>首要任务</span><strong>读懂可用数据、可靠保存、手动同步、核对回执、停止与删除云副本</strong></div>
+            <div class="status-row"><span>阻断</span><strong>真实设备与 Tokyo 端到端证据缺失</strong></div>
+            <div class="status-row"><span>版本</span><strong>0.2 · 2026-09-19 · 工程级 PRD</strong></div>
+          </div>
+        </section>
+
+        <section id="goals">
+          <h2>02 用户任务与可测结果</h2>
+          <div class="table-wrap"><table><thead><tr><th>任务</th><th>现状 / 基线</th><th>目标与量法</th><th>失败成本</th></tr></thead><tbody>
+            <tr><td>看见可读健康记录</td><td>源码提供睡眠、健身、体征和来源/时间展示；真机准确性待验</td><td>用真实设备逐项对照 Apple Health 样本、单位、时间与空状态；零伪造值</td><td>错误健康理解或遗漏</td></tr>
+            <tr><td>一次手动同步</td><td>源码有单一同步动作；代表性历史耗时未知</td><td>测量首扫、增量、断点恢复的时长、记录集合与手机空间；预算阈值需实测后签定</td><td>漏数、耗电、卡顿、重复上传</td></tr>
+            <tr><td>可信云回执与撤回</td><td>手机/服务端状态和回执契约可见；Tokyo 未部署</td><td>按批次 ID 对比手机与 Tokyo SQLite，验证丢响应重试、停止上传和删除状态</td><td>误把排队当作云保存；无法撤回私密数据</td></tr>
+          </tbody></table></div>
+          <p><strong>范围外：</strong>医疗诊断、健康建议、Apple Health 写入、公开互联网暴露、多用户共享、自动替本人授权上传、把指标库当原始记录权威。商业 ROI 与付费模型费用不适用；仍需记录开发、签名、主机、加密卷、备份和维护成本，当前数值未知。</p>
+        </section>
+
+        <section id="hedge">
+          <h2>03 Dynamic Hedge Record</h2>
+          <div class="table-wrap"><table><thead><tr><th>审查视角</th><th>裁决记录</th></tr></thead><tbody>
+            <tr><td>0 Boundary Lock</td><td>HealthKit 可读样本是输入；手机 SQLite 与 Tokyo SQLite 分别是本地/云记录权威；VictoriaMetrics 仅为派生数值投影。上传、删除和部署是高影响动作，必须显式同意、可审计、可恢复。</td></tr>
+            <tr><td>A-System Blueprint</td><td>保留稳定样本 ID、revision、anchor、不可变批次字节、回执、权限/同意状态；Tokyo 将健康 payload 与撤销/擦除/恢复事实分置于健康库和独立控制库，以“控制意图先提交、健康账本后收敛”避免伪造跨 SQLite 原子事务。风险是恢复链和部署门禁的验收成本较高。</td></tr>
+            <tr><td>B-Minimal Patch</td><td>首版只聚焦本机阅读、单一手动同步、私网收件箱和状态审计；不加 LLM、Meilisearch、Qdrant、Neo4j、GraphRAG 或 LangGraph。风险是历史规模、跨设备与运营测量尚未覆盖。</td></tr>
+            <tr><td>A-vs-B Hedge</td><td>极简路径不能删掉隐私、幂等、删除、恢复和真机门禁；完整架构也不应为了“AI 原生”引入无指标收益的额外服务。</td></tr>
+            <tr><td>0 Final Arbitration by Palantir Chief Ontology Arbiter</td><td>此处仅借用对象/证据/动作的审查方法，不代表使用 Palantir 产品。优先级为隐私与安全 → 当前证据 → 数据身份 → 恢复 → 体验/速度。</td></tr>
+            <tr><td>Optimal Solution / Verification Hook</td><td>保留现有确定性双账本架构；先完成真机与封闭 Tokyo 验收，再申请真实上传。用 <a href="TEST_CASES.md">用例矩阵</a>和逐条可核对的执行回执判定 PASS/FAIL/BLOCKED，不以编译、演示图或 HTTP 2xx 代替。</td></tr>
+          </tbody></table></div>
+        </section>
+
+        <section id="expert">
+          <h2>04 领域适用性审查</h2>
+          <p>以下是六个工业 PRD 审查镜头对本工程的<strong>适用性判断</strong>，不是这些外部机构/专家的实际签核，也不声称本产品属于 FAB 或 SAP 范畴。</p>
+          <div class="table-wrap"><table><thead><tr><th>审查镜头</th><th>结论与证据句柄</th><th>对本 PRD 的约束 / 最少问题</th></tr></thead><tbody>
+            <tr><td>TSMC 厂务</td><td>不适用：没有厂务对象、现场控制或 PLC/BMS 接口</td><td>不把本应用写成工业控制产品；无厂务签核问题。</td></tr>
+            <tr><td>TSMC 工艺</td><td>不适用：没有晶圆、工艺窗口或良率动作</td><td>不声称影响工艺生产；无工艺签核问题。</td></tr>
+            <tr><td>Ansys Fluent / CFD</td><td>不适用：无流体/热场模拟，数据为 Apple Health 样本</td><td>不引入无收益的仿真层；无 CFD 模型卡问题。</td></tr>
+            <tr><td>SAP EAM / Fiori</td><td>不适用：SwiftUI 原生应用，不含 SAP 对象或服务</td><td>不把本页称为 SAP Fiori；无 DDIC/Launchpad 问题。</td></tr>
+            <tr><td>Ontology / AIP</td><td>有条件：<a href="../boazapp/Core/Database/Schema.sql">双端对象结构</a>可追溯；无 Palantir 接入</td><td>明确身份、状态、权限、回执、删除与血缘；不声称 AIP 已部署。</td></tr>
+            <tr><td>极简工程</td><td>有条件：现有确定性实现无需模型和检索服务</td><td>补齐首扫耗时、存储、恢复时间与维护成本实测，才可比较收益。</td></tr>
+          </tbody></table></div>
+        </section>
+
+        <section id="evidence">
+          <h2>05 Evidence Ledger</h2>
+          <div class="table-wrap"><table><thead><tr><th>来源</th><th>可支持的结论</th><th>不能支持的结论</th></tr></thead><tbody>
+            <tr><td><a href="../boazapp/Health/HealthTypeCatalog.swift">HealthTypeCatalog.swift</a>、<a href="../boazapp/Health/HealthKitManager.swift">HealthKitManager.swift</a></td><td>只读类型清单、单位转换、分页/anchor 与后台观察代码</td><td>真机实际授权范围、Watch 样本覆盖和后台时效</td></tr>
+            <tr><td><a href="../boazapp/Core/Database/Schema.sql">手机 Schema</a>、<a href="../boazapp/Core/Database/BoazLocalDatabase.swift">数据库实现</a>、<a href="../boazapp/Core/Network/SyncEngine.swift">SyncEngine.swift</a>、<a href="../boazapp/Health/SleepDerivation.swift">SleepDerivation.swift</a></td><td>本地事件、anchor、队列、批次、审计、备份排除设置与分页睡眠派生的源码边界</td><td>签名手机上 DB/WAL/SHM 文件保护及备份排除的实际效果、大历史完整性实测</td></tr>
+            <tr><td><a href="../boazapp/UI/Views/MainDashboardView.swift">Dashboard</a>、<a href="../boazapp/UI/Views/HealthSettingsSheet.swift">Settings</a>、<a href="../boazapp/UI/Views/SyncAuditSheet.swift">Audit</a></td><td>可见任务、同意/删除披露和状态文案</td><td>真机可访问性、触感、Dynamic Type 与布局结果</td></tr>
+            <tr><td><a href="../Server/src/lib.rs">Receiver</a>、<a href="../Server/src/database.rs">Storage</a>、<a href="../Server/src/control.rs">Control ledger</a>、<a href="../Server/src/schema.sql">Tokyo Schema</a>、<a href="../Server/src/projection.rs">Projection</a></td><td>认证、回执、幂等、受控路径、撤销/擦除意图及投影代码边界</td><td>Tokyo 已部署、离机 expected head、独立加密控制域、完整 staging restore 或原生指标持久性</td></tr>
+            <tr><td><a href="TOKYO_PREFLIGHT.md">Tokyo preflight</a>、<a href="TEST_CASES.md">测试用例</a></td><td>2026-09-18 观察与待执行验收程序</td><td>当前主机状态或任何未附执行回执的 PASS</td></tr>
+            <tr><td><a href="ACCEPTANCE_REPORT_2026-09-18.md">历史验收报告</a>、<a href="GRDB_CLIENT_VERIFICATION_2026-09-18.md">GRDB 验证</a>、<a href="evidence/2026-09-18/">docs/evidence/2026-09-18</a></td><td>绑定其记录源码与环境的历史合成检查</td><td>当前组合工作树、签名设备、Tokyo 生产部署或本轮 77-case PASS</td></tr>
+          </tbody></table></div>
+        </section>
+
+        <section id="ontology">
+          <h2>06 对象、状态与血缘合同</h2>
+          <div class="table-wrap"><table><thead><tr><th>对象 / 稳定身份</th><th>关系与状态</th><th>权威与 owner</th></tr></thead><tbody>
+            <tr><td>HealthEvent：HealthKit UUID + 类型；derived event 另有版本</td><td>upsert/delete、revision；属于来源和可选 workout</td><td>Apple Health 可读数据为输入，手机 <code>health_events</code> 为保存权威；本人控制授权</td></tr>
+            <tr><td>QueryAnchor：按类型/关联 workout 键</td><td>与同页事件在一笔本地事务提交</td><td>手机 <code>query_anchors</code>；采集器维护</td></tr>
+            <tr><td>UploadBatch：batch_id + 不可变请求体/哈希</td><td>pending → cloud_saved → metrics_current；失败重试</td><td>手机 <code>upload_batches</code>；上传者维护</td></tr>
+            <tr><td>Tokyo Event / Receipt：device_id + event_id / batch_id</td><td>健康库 BZHR v2：修订、墓碑、commit_sequence、projection generation/version</td><td>Tokyo 健康 SQLite；服务运维者维护</td></tr>
+            <tr><td>ControlEvent / control store ID</td><td>控制库 BZHC v1：token tombstone、擦除意图、指标擦除与恢复事实；hash 链 + head + mirror</td><td>Tokyo 独立控制 SQLite；不保存健康 payload、明文 token 或明文 erasure secret</td></tr>
+            <tr><td>Metric job / series</td><td>由已提交事件派生，可重建；receipt 绑定 generation/mapping version；同毫秒点位可能合并</td><td>原生 VictoriaMetrics 仅为投影；generation 漂移使旧指标回执降级，健康库仍是记录权威</td></tr>
+            <tr><td>Erasure：device_id + erasure_id</td><td>控制意图先封禁旧 token，再收敛健康/指标/受管备份；合法 complete 后手机幂等轮换 device_id</td><td>控制账本保存不可回滚事实；新身份必须重新配对和重新同意上传</td></tr>
+          </tbody></table></div>
+          <p>所有关键状态必须带时间、来源和可回读证据；“无可读数据”“查询失败”“未授权”“未投影”不能合并为零值或成功。已解决的批注只是本文的本机审阅记录，不是产品验收回执。</p>
+        </section>
+
+        <section id="functions">
+          <h2>07 核心功能与状态合同</h2>
+          <div class="table-wrap"><table><thead><tr><th>优先级</th><th>功能</th><th>失败 / 降级要求</th><th>证据入口</th></tr></thead><tbody>
+            <tr><td>P0</td><td>按清单申请 Apple Health 读取，分页保存样本及删除</td><td>请求成功不代表有数据或已授权；页失败不推进 anchor</td><td><a href="../boazapp/Health/HealthTypeCatalog.swift">类型清单</a>、HK-01～08</td></tr>
+            <tr><td>P0</td><td>手机受保护本地账本、队列与审计</td><td>崩溃/重启后可续传；源码已有备份排除设置，实际 DB/WAL/SHM 保护需真机核验</td><td><a href="../boazapp/Core/Database/BoazLocalDatabase.swift">数据库实现</a>、BLD-04～05</td></tr>
+            <tr><td>P0</td><td>配对、单独上传同意、停止上传、云端擦除</td><td>配对不默认上传；离线擦除保持 pending；不得提前宣称 complete</td><td><a href="../boazapp/UI/Views/HealthSettingsSheet.swift">设置</a>、SYNC/ERA 用例</td></tr>
+            <tr><td>P0</td><td>认证、幂等批次、回执、派生投影</td><td>真实上传门禁默认关；指标故障不撤销 SQLite 回执</td><td><a href="../Server/README.md">服务合同</a>、API/OPS 用例</td></tr>
+            <tr><td>P1</td><td>睡眠去重分段、健身与体征展示、同步审计</td><td>缺失显示空值和来源/时间；无临床解释</td><td><a href="../boazapp/UI/DashboardModel.swift">显示模型</a>、SLP/DATA/UX 用例</td></tr>
+            <tr><td>P1</td><td>大历史及后台增量</td><td>无实时承诺；分页睡眠派生的完整性、并发变化和峰值内存仍待规模验收</td><td><a href="../boazapp/Health/SleepDerivation.swift">睡眠派生</a>、PERF 用例</td></tr>
+          </tbody></table></div>
+        </section>
+
+        <section id="action">
+          <h2>08 Action Contract：权限、确认与回滚</h2>
+          <div class="table-wrap"><table><thead><tr><th>动作</th><th>主体 / 确认</th><th>审计与失败恢复</th></tr></thead><tbody>
+            <tr><td>请求健康读取</td><td>本人，经 iOS Health 权限界面；不请求写权限</td><td>记录每类采集结果；空查询保持不确定性，可重试</td></tr>
+            <tr><td>手动同步</td><td>本人点击首页动作；本地采集可先于配对</td><td>本机事务与 anchor 同步；失败保存诊断并保留队列</td></tr>
+            <tr><td>配对 / 启用上传</td><td>本人输入私人 <code>.ts.net</code> HTTPS 地址和 10 分钟一次性 64-hex secret，再单独勾选上传披露</td><td>设备 token 存 Keychain；关闭同意即停止后续上传，配对本身不授权上传</td></tr>
+            <tr><td>停止上传 / 云端擦除</td><td>本人显式动作，擦除二次确认</td><td>合法 pending 响应保留恢复 secret；只有字段/时间一致的 complete 才清除旧凭据并幂等轮换 device_id。旧身份永久受控制账本约束，新身份需重新配对/同意</td></tr>
+            <tr><td>部署 / 开启接收</td><td>具备主机权限的运维者，另需变更批准</td><td>独立加密卷、原生 VM 身份、备份/恢复、Tailscale 私网、回滚演练全部记录；任一失败保持上传关</td></tr>
+          </tbody></table></div>
+        </section>
+
+        <section id="data">
+          <h2>09 数据、逻辑与集成边界</h2>
+          <p><strong>确定性基线：</strong>HealthKit 查询、SQLite 事务、批次哈希、规则校验、状态机与数值单位转换可以直接解决首版任务。Meilisearch、Qdrant、Neo4j、GraphRAG、LangGraph 和大模型目前均<strong>不采用</strong>：没有可证明的召回、决策、速度或成本收益；若未来加入，必须先给出新任务、权威数据源、错误模式、预算和验收指标。无付费模型调用。</p>
+          <div class="table-wrap"><table><thead><tr><th>边界</th><th>契约</th><th>失败模式 / 验收</th></tr></thead><tbody>
+            <tr><td>Apple Health → iPhone</td><td>只读取 allowlist；样本按最多 500 条分页，anchor 与页同事务；活动全量/近七天扫描策略见源码</td><td>撤权、空数据、异常 anchor、删除、跨时区和超大历史均要测；不能以空结果证明完整</td></tr>
+            <tr><td>iPhone → Tokyo</td><td>仅在配对和独立同意后经私人 Tailscale HTTPS；Serve 目标为 loopback <code>127.0.0.1:8787</code>；每批至多 200 revision / 128 KiB</td><td>端点校验器拒绝 HTTP、公开地址、凭据/query/fragment 和重定向；同 batch ID 不同字节失败关闭</td></tr>
+            <tr><td>Tokyo control → health SQLite</td><td>鉴权先查控制 tombstone；撤销/擦除意图先落控制库，健康库通过启动/运行 reconciliation 幂等收敛</td><td>不宣称跨库原子事务；控制 DB/head/mirror 或 store ID 分叉时拒绝启动/继续</td></tr>
+            <tr><td>Tokyo SQLite → VictoriaMetrics</td><td>仅投影已提交、单位可校验的数值；指标名 <code>boaz_health_v1_*</code>；回执绑定当前 generation/mapping version</td><td>HTTP 2xx 不等于原生身份或持久化；label hashing 尚未实现，当前不得扩展任意 metadata 标签</td></tr>
+            <tr><td>加密 / 备份 / 删除</td><td>当前运行时挂载验证器只识别 Linux dm-crypt；控制库必须在不同恢复域；健康快照 manifest 需绑定 control head</td><td>provider-managed encryption 尚未由代码验证；staging restore、离机 expected head 和东京灾难恢复仍是门禁</td></tr>
+          </tbody></table></div>
+          <p><strong>仿真 / M&amp;V / ROI：</strong>无 CFD 或医学模型；工程合成样本只用于事务、数值和恢复验收，不能代表真实健康准确率。成功指标为记录集合一致、错误状态诚实、恢复完成、手机资源和运维成本实测；基线/目标数字待真机和 Tokyo 测量后冻结。</p>
+        </section>
+
+        <section id="acceptance">
+          <h2>10 验收与发布门禁</h2>
+          <div class="table-wrap"><table><thead><tr><th>门禁</th><th>可接受证据</th><th>本次状态</th></tr></thead><tbody>
+            <tr><td>构建与自动测试</td><td>锁定源码版本、完整命令日志、Swift/Rust 测试结果、运行数量/skip/warning 与差异哈希</td><td><a href="TEST_CASES.md#current-worktree-77-case-status-register">77-case 本轮登记当前为 NOT_RUN</a>；单项命令成功不自动把用例改为 PASS</td></tr>
+            <tr><td>真机 / Watch</td><td>签名安装、权限、样本逐项核对、锁屏/重启、后台、无障碍、断网重试、性能</td><td>待执行；模拟器或无签名编译不替代</td></tr>
+            <tr><td>Tokyo 身份与私网</td><td>Linux 服务、加密卷、原生 VM 进程/监听/存储身份、Tailscale Serve HTTPS 及拒绝外部</td><td><a href="TOKYO_PREFLIGHT.md">2026-09-18 预检失败/未部署</a>；需现时复核</td></tr>
+            <tr><td>恢复、擦除与回滚</td><td>隔离完整恢复、账本和回执比对、删除状态/备份期限、切换回滚演练</td><td>待执行</td></tr>
+            <tr><td>发布授权</td><td>P0/P1 用例逐项 PASS，残余风险/资源成本记录，获准后才打开上传</td><td><strong>INTERCEPT</strong></td></tr>
+          </tbody></table></div>
+          <p>验收规范：<a href="TEST_CASES.md">docs/TEST_CASES.md</a>，共 77 个 case。PASS/FAIL/BLOCKED/NOT_RUN 必须由逐项执行回执支撑。测试记录至少有时间、操作者、源码修订与脏差异、环境、输入、预期/实际、测试数量、warning/skip、证据位置；不得提交 token、一次性码、擦除密钥或真实健康值。</p>
+        </section>
+
+        <section id="risks">
+          <h2>11 风险、演进与未决问题</h2>
+          <div class="table-wrap"><table><thead><tr><th>风险 / 触发器</th><th>应对及替换点</th></tr></thead><tbody>
+            <tr><td>源码保护/备份排除标志尚缺真机效果证明</td><td>在签名设备检查 SQLite/WAL/SHM、保护类和系统备份行为；未通过不得发布</td></tr>
+            <tr><td>分页睡眠派生改动尚缺大历史运行证据</td><td>用超过 100,000 条的合成及代表性历史验证记录集合、并发版本保护、峰值内存与可恢复性；不得沿用旧版固定上限叙述</td></tr>
+            <tr><td>指标点数不能代表事件数</td><td>以 Tokyo SQLite 事件和回执为核对权威；指标仅作为派生状态</td></tr>
+            <tr><td>控制 DB/head/mirror 与离机 expected head 尚无东京演练</td><td>必须在独立加密恢复域验证链一致、回滚/分叉失败关闭和第二代恢复；缺证时不得开放上传</td></tr>
+            <tr><td>当前加密验证仅支持 dm-crypt</td><td>provider-managed encryption 在增加确定性验证器前只能标记未验证，不能用供应商声明替代运行证据</td></tr>
+            <tr><td>凭据、数据卷和备份运维成本</td><td>明确密钥保管、事故恢复责任、磁盘/CPU/带宽预算；未测量前不声称 ROI</td></tr>
+            <tr><td>未来更换接收器或时序库</td><td>保留版本化 JSON 契约、手机不可变批次与 SQLite 权威；在隔离数据上重建投影并校验</td></tr>
+          </tbody></table></div>
+          <p><strong>最少需用户/运维决定：</strong>加密卷与密钥保管方式、现有 VM 迁移维护窗口及回滚授权、可用真机与签名条件。其余本地源码问题应先由开发者自查，不转嫁为用户问题。</p>
+        </section>
+
+        <section id="verification">
+          <h2>12 本文档 Verification Log</h2>
+          <div class="plain-note">2026-09-19：PRD 已按 P0 双数据库、控制意图、身份轮换、投影代次和诚实证据边界更新；根 <code>prd.html</code> 仅保留兼容入口。治理脚本负责检查唯一 PRD、端口/配对/加密措辞、本地链接和 77-case 状态表。静态检查不提升 iPhone/Tokyo 产品成熟度；视觉交互若未重新打开验证，必须保持未验证。本文批注只保存在当前浏览器 localStorage，不进入产品数据或正式验收账本。</div>
+          <p><strong>AI-NATIVE GATE: INTERCEPT</strong> — 真实健康上传继续关闭。下一步是完成逐项真机/私网/恢复证据，再由获授权的人作发布决定。</p>
+        </section>
+
+        <div class="footer">工程级 PRD · 资料来源仅限本仓库当前文件与注明日期的预检观察。没有医疗诊断或生产部署声明。</div>
+
+      </main>
+    </div>
+    <button class="comment-rail-toggle-btn" data-comment-rail-toggle type="button" aria-controls="comment-rail" aria-expanded="false" aria-label="展开右侧批注栏" title="展开右侧批注栏">
+      <svg class="portal-sidebar-toggle-icon comment-rail-toggle-icon" viewBox="0 0 18 58" aria-hidden="true">
+        <path d="M 11.4 18.5 L 6.8 24 L 11.4 29.5"></path>
+        <path d="M 11.4 30.5 L 6.8 36 L 11.4 41.5"></path>
+        <path class="portal-sidebar-toggle-spine" d="M 14.1 17 L 14.1 43"></path>
+      </svg>
+    </button>
+    <aside class="comment-rail" id="comment-rail" aria-label="右侧批注栏已收起" aria-hidden="true">
+      <div class="comment-rail-head">
+        <div class="comment-rail-main">
+          <p class="comment-rail-title" data-comment-rail-title>审阅批注</p>
+          <div class="comment-filter" role="group" aria-label="批注筛选" data-comment-filter-group>
+            <button class="comment-filter-btn" type="button" data-comment-filter-value="all" aria-pressed="false">all</button>
+            <button class="comment-filter-btn is-active" type="button" data-comment-filter-value="open" aria-pressed="true">未解决</button>
+            <button class="comment-filter-btn" type="button" data-comment-filter-value="resolved" aria-pressed="false">已解决</button>
+          </div>
+        </div>
+        <span class="comment-count" data-comment-count>0</span>
+      </div>
+
+      <div class="comment-composer" data-comment-composer aria-hidden="true">
+        <p class="comment-composer-meta" data-comment-composer-meta>锚点：请选择正文锚点</p>
+        <div class="comment-composer-quote" data-comment-composer-quote>请先选中文档正文。</div>
+        <form data-comment-form>
+          <textarea class="comment-input" data-comment-input rows="4" placeholder="输入批注意见，例如：这里需要补充验收口径或风险边界。"></textarea>
+          <div class="comment-composer-actions">
+            <button class="control-btn" data-comment-cancel type="button">取消</button>
+            <button class="control-btn primary" type="submit">保存批注</button>
+          </div>
+        </form>
+      </div>
+
+      <div class="comment-list" data-comment-list></div>
+      <div class="comment-empty" data-comment-empty>
+        暂无未解决批注或代办。选中左侧正文后点击浮动“设置批注 / 设置代办”，即可在右侧创建 Word 风格审阅项。
+      </div>
+    </aside>
+  </div>
+  <div class="comment-selection-toolbar" data-comment-selection-toolbar aria-label="文本审阅操作">
+    <button class="comment-selection-btn" data-comment-selection-button type="button">设置批注</button>
+    <button class="comment-selection-btn todo" data-comment-todo-button type="button">设置代办</button>
+  </div>
+  <div class="comment-toast" data-comment-toast role="status" aria-live="polite"></div>
+  <svg class="comment-connectors" data-comment-connectors aria-hidden="true"></svg>
+  <script>
+    (() => {
+      const openButtons = Array.from(document.querySelectorAll("[data-open-aip-image]"));
+      const closeButton = document.querySelector("[data-close-aip-image]");
+      const fitButton = document.querySelector("[data-fit-aip-image]");
+      const originalButton = document.querySelector("[data-original-aip-image]");
+      const originalLink = document.querySelector("[data-open-original-aip-image]");
+      const lightbox = document.querySelector("[data-aip-image-lightbox]");
+      const image = document.querySelector("[data-aip-image-full]");
+      const view = document.querySelector("[data-aip-image-view]");
+      const title = lightbox?.querySelector(".image-lightbox-title strong");
+      const subtitle = lightbox?.querySelector(".image-lightbox-title span");
+      let lastTrigger = null;
+
+      if (!openButtons.length || !closeButton || !fitButton || !originalButton || !originalLink || !lightbox || !image || !view || !title || !subtitle) {
+        return;
+      }
+
+      const resolveSourceImage = (trigger) => {
+        const figure = trigger.closest(".figure-card, .reference-figure");
+        return figure?.querySelector("img[data-aip-reference-image], img") || document.querySelector("img[data-aip-reference-image]");
+      };
+
+      const setOriginal = (enabled) => {
+        image.classList.toggle("is-original", enabled);
+        if (enabled) {
+          requestAnimationFrame(() => {
+            view.scrollLeft = Math.max(0, (image.clientWidth - view.clientWidth) / 2);
+            view.scrollTop = 0;
+          });
+        } else {
+          view.scrollLeft = 0;
+          view.scrollTop = 0;
+        }
+      };
+
+      const openLightbox = async (trigger) => {
+        const sourceImage = resolveSourceImage(trigger);
+        if (!sourceImage) {
+          return;
+        }
+        const sourceUrl = sourceImage.currentSrc || sourceImage.src;
+        const figure = sourceImage.closest(".figure-card, .reference-figure");
+        const heading = figure?.querySelector("h3")?.textContent?.trim() || sourceImage.alt || "嵌入图片";
+        lastTrigger = trigger;
+        image.src = sourceUrl;
+        image.alt = sourceImage.alt || heading;
+        originalLink.href = sourceUrl;
+        title.textContent = heading;
+        subtitle.textContent = "文档嵌入图片 · 高清查看 · Esc 关闭";
+        lightbox.classList.add("is-open");
+        lightbox.setAttribute("aria-hidden", "false");
+        document.body.style.overflow = "hidden";
+        setOriginal(false);
+        closeButton.focus();
+        if (lightbox.requestFullscreen && !document.fullscreenElement) {
+          try {
+            await lightbox.requestFullscreen();
+          } catch (_) {
+            // Some file:// and embedded browser contexts block native fullscreen; the fixed overlay remains active.
+          }
+        }
+      };
+
+      const closeLightbox = async () => {
+        lightbox.classList.remove("is-open");
+        lightbox.setAttribute("aria-hidden", "true");
+        document.body.style.overflow = "";
+        setOriginal(false);
+        if (document.fullscreenElement === lightbox && document.exitFullscreen) {
+          try {
+            await document.exitFullscreen();
+          } catch (_) {
+            // Keep close behavior reliable even if the browser refuses fullscreen exit.
+          }
+        }
+        (lastTrigger || openButtons[0]).focus();
+      };
+
+      openButtons.forEach((openButton) => {
+        openButton.addEventListener("click", () => openLightbox(openButton));
+      });
+      closeButton.addEventListener("click", closeLightbox);
+      fitButton.addEventListener("click", () => setOriginal(false));
+      originalButton.addEventListener("click", () => setOriginal(true));
+      lightbox.addEventListener("click", (event) => {
+        if (event.target === lightbox) {
+          closeLightbox();
+        }
+      });
+      document.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && lightbox.classList.contains("is-open")) {
+          closeLightbox();
+        }
+      });
+    })();
+
+    (() => {
+      const storageKey = "boazHealthPrdNavCollapsedV1";
+      const shell = document.querySelector(".shell");
+      const navRail = document.querySelector(".nav-rail");
+      const toggle = document.getElementById("portal-sidebar-toggle-btn");
+
+      if (!shell || !navRail || !toggle) {
+        return;
+      }
+
+      const isDesktop = () => window.matchMedia("(min-width: 1181px)").matches;
+
+      const requestLayoutRefresh = () => {
+        window.dispatchEvent(new Event("resize"));
+        window.setTimeout(() => window.dispatchEvent(new Event("resize")), 220);
+      };
+
+      const setSidebarCollapsed = (collapsed, persist = true) => {
+        const effectiveCollapsed = collapsed && isDesktop();
+        shell.classList.toggle("nav-collapsed", effectiveCollapsed);
+        navRail.setAttribute("aria-hidden", String(effectiveCollapsed));
+        toggle.setAttribute("aria-pressed", effectiveCollapsed ? "true" : "false");
+        toggle.setAttribute("aria-label", effectiveCollapsed ? "展开左侧功能侧栏" : "收起左侧功能侧栏");
+        toggle.title = effectiveCollapsed ? "展开左侧功能侧栏" : "收起左侧功能侧栏";
+
+        if (persist) {
+          try {
+            localStorage.setItem(storageKey, collapsed ? "1" : "0");
+          } catch (_) {
+            // File previews can block storage in some embedded browser modes.
+          }
+        }
+
+        requestLayoutRefresh();
+      };
+
+      const loadSidebarState = () => {
+        try {
+          return localStorage.getItem(storageKey) === "1";
+        } catch (_) {
+          return false;
+        }
+      };
+
+      toggle.addEventListener("click", () => {
+        setSidebarCollapsed(!shell.classList.contains("nav-collapsed"));
+      });
+
+      window.addEventListener("resize", () => {
+        if (!isDesktop() && shell.classList.contains("nav-collapsed")) {
+          setSidebarCollapsed(false, false);
+        }
+      });
+
+      setSidebarCollapsed(loadSidebarState(), false);
+    })();
+
+    (() => {
+      const docRoot = document.querySelector("main");
+      const tocLinks = Array.from(document.querySelectorAll('.toc a[href^="#"]'));
+
+      if (!docRoot || !tocLinks.length) {
+        return;
+      }
+
+      const readHashId = (hash) => {
+        const raw = (hash || "").replace(/^#/, "");
+        if (!raw) {
+          return "";
+        }
+
+        try {
+          return decodeURIComponent(raw);
+        } catch (_) {
+          return raw;
+        }
+      };
+
+      const entries = tocLinks.map((link) => {
+        const id = readHashId(link.getAttribute("href"));
+        const section = id ? document.getElementById(id) : null;
+        return section ? { id, link, section } : null;
+      }).filter(Boolean);
+
+      if (!entries.length) {
+        return;
+      }
+
+      let activeId = "";
+      let frame = null;
+      let activeHoldUntil = 0;
+
+      const isWideRail = () => window.matchMedia("(min-width: 1181px)").matches;
+      const directHoldMs = 900;
+      const navigationHoldMs = 1800;
+
+      const setActiveSection = (id, options = {}) => {
+        if (!id || id === activeId) {
+          return;
+        }
+
+        if (options.holdMs) {
+          activeHoldUntil = Date.now() + options.holdMs;
+        }
+
+        activeId = id;
+        entries.forEach((entry) => {
+          const active = entry.id === id;
+          entry.link.classList.toggle("is-active", active);
+
+          if (active) {
+            entry.link.setAttribute("aria-current", "location");
+            if (options.scrollNav !== false && isWideRail()) {
+              entry.link.scrollIntoView({ block: "nearest" });
+            }
+          } else {
+            entry.link.removeAttribute("aria-current");
+          }
+        });
+      };
+
+      const getSectionIdFromTarget = (target) => {
+        const section = target?.closest?.("main section[id]");
+        if (!section) {
+          return "";
+        }
+
+        return entries.some((entry) => entry.id === section.id) ? section.id : "";
+      };
+
+      const resolveVisibleSectionId = () => {
+        const anchorY = Math.min(Math.max(window.innerHeight * .24, 120), 280);
+        let currentId = entries[0].id;
+        let bestScore = Number.POSITIVE_INFINITY;
+
+        entries.forEach((entry) => {
+          const rect = entry.section.getBoundingClientRect();
+          if (rect.bottom <= 0 || rect.top >= window.innerHeight) {
+            return;
+          }
+
+          const containsAnchor = rect.top <= anchorY && rect.bottom >= anchorY;
+          const score = Math.abs(rect.top - anchorY) - (containsAnchor ? 200 : 0);
+          if (score < bestScore) {
+            bestScore = score;
+            currentId = entry.id;
+          }
+        });
+
+        return currentId;
+      };
+
+      const updateFromViewport = (options = {}) => {
+        frame = null;
+        const hashId = readHashId(window.location.hash);
+        const hashEntry = hashId ? entries.find((entry) => entry.id === hashId) : null;
+        if (options.preferHash && hashEntry) {
+          setActiveSection(hashEntry.id, { ...options, holdMs: navigationHoldMs });
+          return;
+        }
+
+        if (Date.now() < activeHoldUntil) {
+          return;
+        }
+
+        setActiveSection(resolveVisibleSectionId(), options);
+      };
+
+      const scheduleViewportUpdate = (options = {}) => {
+        if (frame) {
+          cancelAnimationFrame(frame);
+        }
+
+        frame = requestAnimationFrame(() => updateFromViewport(options));
+      };
+
+      tocLinks.forEach((link) => {
+        link.addEventListener("click", () => {
+          const id = readHashId(link.getAttribute("href"));
+          setActiveSection(id, { holdMs: navigationHoldMs });
+          window.setTimeout(() => scheduleViewportUpdate({ preferHash: true }), 220);
+        });
+      });
+
+      docRoot.addEventListener("click", (event) => {
+        const id = getSectionIdFromTarget(event.target);
+        if (id) {
+          setActiveSection(id, { scrollNav: false, holdMs: directHoldMs });
+        }
+      }, true);
+
+      docRoot.addEventListener("focusin", (event) => {
+        const id = getSectionIdFromTarget(event.target);
+        if (id) {
+          setActiveSection(id, { scrollNav: false, holdMs: directHoldMs });
+        }
+      });
+
+      window.addEventListener("scroll", () => scheduleViewportUpdate({ scrollNav: false }), { passive: true });
+      window.addEventListener("resize", () => scheduleViewportUpdate({ scrollNav: false }));
+      window.addEventListener("hashchange", () => updateFromViewport({ preferHash: true }));
+
+      updateFromViewport({ preferHash: true });
+    })();
+
+    (() => {
+      const storageKey = "boazHealthPrdCommentsV1";
+      const shell = document.querySelector(".shell");
+      const docRoot = document.querySelector("main");
+      const rail = document.querySelector(".comment-rail");
+      const railTitle = document.querySelector("[data-comment-rail-title]");
+      const railToggle = document.querySelector("[data-comment-rail-toggle]");
+      const selectionToolbar = document.querySelector("[data-comment-selection-toolbar]");
+      const selectionButton = document.querySelector("[data-comment-selection-button]");
+      const todoButton = document.querySelector("[data-comment-todo-button]");
+      const composer = document.querySelector("[data-comment-composer]");
+      const composerQuote = document.querySelector("[data-comment-composer-quote]");
+      const composerMeta = document.querySelector("[data-comment-composer-meta]");
+      const form = document.querySelector("[data-comment-form]");
+      const input = document.querySelector("[data-comment-input]");
+      const cancelButton = document.querySelector("[data-comment-cancel]");
+      const filterButtons = Array.from(document.querySelectorAll("[data-comment-filter-value]"));
+      const list = document.querySelector("[data-comment-list]");
+      const empty = document.querySelector("[data-comment-empty]");
+      const count = document.querySelector("[data-comment-count]");
+      const toast = document.querySelector("[data-comment-toast]");
+      const connectors = document.querySelector("[data-comment-connectors]");
+
+      if (!shell || !docRoot || !rail || !railTitle || !railToggle || !selectionToolbar || !selectionButton || !todoButton || !composer || !composerQuote || !composerMeta || !form || !input || !cancelButton || !filterButtons.length || !list || !empty || !count || !toast || !connectors) {
+        return;
+      }
+
+      let comments = [];
+      let activeCommentId = null;
+      let breathingCommentId = null;
+      let draftSelection = null;
+      let commentFilterMode = "open";
+      let selectionTimer = null;
+      let toastTimer = null;
+      let connectorFrame = null;
+      let imagePinDrag = null;
+      let suppressNextImagePinClick = false;
+      const railStorageKey = `${storageKey}:railCollapsed`;
+      let commentsCollapsed = true;
+
+      const formatter = new Intl.DateTimeFormat("zh-CN", {
+        month: "2-digit",
+        day: "2-digit",
+        hour: "2-digit",
+        minute: "2-digit"
+      });
+
+      const safeComments = (items) => {
+        if (!Array.isArray(items)) {
+          return [];
+        }
+        return items.map((item) => ({
+          id: String(item.id || `c_${Date.now()}`),
+          kind: item.kind === "todo" ? "todo" : "comment",
+          quote: String(item.quote || "").slice(0, 240),
+          sectionId: String(item.sectionId || "summary"),
+          sectionTitle: String(item.sectionTitle || "文档"),
+          body: String(item.body || ""),
+          createdAt: String(item.createdAt || new Date().toISOString()),
+          resolved: Boolean(item.resolved),
+          anchor: item.anchor && Array.isArray(item.anchor.startPath) && Array.isArray(item.anchor.endPath) ? {
+            startPath: item.anchor.startPath.map((part) => Number(part)).filter(Number.isInteger),
+            startOffset: Number(item.anchor.startOffset) || 0,
+            endPath: item.anchor.endPath.map((part) => Number(part)).filter(Number.isInteger),
+            endOffset: Number(item.anchor.endOffset) || 0
+          } : null,
+          textAnchor: item.textAnchor && Number.isFinite(Number(item.textAnchor.start)) && Number.isFinite(Number(item.textAnchor.end)) ? {
+            start: Math.max(0, Number(item.textAnchor.start)),
+            end: Math.max(0, Number(item.textAnchor.end))
+          } : null,
+          imagePoint: item.imagePoint && item.imagePoint.imageId && Number.isFinite(Number(item.imagePoint.xPct)) && Number.isFinite(Number(item.imagePoint.yPct)) ? {
+            imageId: String(item.imagePoint.imageId),
+            xPct: Math.min(100, Math.max(0, Number(item.imagePoint.xPct))),
+            yPct: Math.min(100, Math.max(0, Number(item.imagePoint.yPct)))
+          } : null,
+          replies: Array.isArray(item.replies) ? item.replies.map((reply) => ({
+            body: String(reply.body || ""),
+            createdAt: String(reply.createdAt || new Date().toISOString())
+          })).filter((reply) => reply.body.trim()) : []
+        })).filter((item) => item.body.trim() && item.quote.trim());
+      };
+
+      const loadComments = () => {
+        try {
+          comments = safeComments(JSON.parse(localStorage.getItem(storageKey) || "[]"));
+        } catch (_) {
+          comments = [];
+        }
+      };
+
+      const saveComments = () => {
+        localStorage.setItem(storageKey, JSON.stringify(comments));
+      };
+
+      const formatTime = (iso) => {
+        const date = new Date(iso);
+        if (Number.isNaN(date.getTime())) {
+          return "刚刚";
+        }
+        return formatter.format(date);
+      };
+
+      const makeButton = (label, action, variant = "") => {
+        const button = document.createElement("button");
+        button.type = "button";
+        button.className = `control-btn${variant ? ` ${variant}` : ""}`;
+        button.dataset.commentAction = action;
+        button.setAttribute("aria-label", label);
+        button.textContent = label;
+        return button;
+      };
+
+      const iconPaths = {
+        delete: "M8 6V4h8v2h5v2H3V6h5Zm1 4h2v8H9v-8Zm4 0h2v8h-2v-8ZM6 9h12l-1 12H7L6 9Z"
+      };
+
+      const makeIconButton = (label, action, icon) => {
+        const button = makeButton(label, action, "icon");
+        button.title = label;
+        button.innerHTML = `<svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="${iconPaths[icon]}"></path></svg>`;
+        return button;
+      };
+
+      const showToast = (message) => {
+        toast.textContent = message;
+        toast.classList.add("is-visible");
+        clearTimeout(toastTimer);
+        toastTimer = setTimeout(() => {
+          toast.classList.remove("is-visible");
+        }, 2400);
+      };
+
+      const clearConnectors = () => {
+        connectors.replaceChildren();
+      };
+
+      const canCollapseRail = () => !window.matchMedia("(max-width: 640px)").matches;
+
+      const updateRailToggle = (collapsed) => {
+        railToggle.setAttribute("aria-expanded", String(!collapsed));
+        railToggle.setAttribute("aria-label", collapsed ? "展开右侧批注栏" : "收起右侧批注栏");
+        railToggle.title = collapsed ? "展开右侧批注栏" : "收起右侧批注栏";
+        rail.setAttribute("aria-hidden", String(collapsed));
+        rail.setAttribute("aria-label", collapsed ? "右侧批注栏已收起" : "文档批注");
+      };
+
+      const loadRailCollapsedState = () => {
+        try {
+          const value = localStorage.getItem(railStorageKey);
+          if (value === null) {
+            return true;
+          }
+          return value === "1";
+        } catch (_) {
+          return true;
+        }
+      };
+
+      const saveRailCollapsedState = (collapsed) => {
+        try {
+          localStorage.setItem(railStorageKey, collapsed ? "1" : "0");
+        } catch (_) {
+          // File previews can block storage in some embedded browser modes.
+        }
+      };
+
+      const setRailCollapsed = (collapsed, persist = false) => {
+        const nextCollapsed = Boolean(collapsed && canCollapseRail());
+        const currentCollapsed = commentsCollapsed || shell.classList.contains("comments-collapsed");
+        commentsCollapsed = nextCollapsed;
+        shell.classList.toggle("comments-collapsed", nextCollapsed);
+        updateRailToggle(nextCollapsed);
+
+        if (persist) {
+          saveRailCollapsedState(nextCollapsed);
+        }
+
+        if (nextCollapsed === currentCollapsed) {
+          if (!nextCollapsed) {
+            scheduleConnectorDraw();
+          }
+          return;
+        }
+
+        if (nextCollapsed) {
+          clearConnectors();
+          return;
+        }
+
+        scheduleConnectorDraw();
+        window.setTimeout(scheduleConnectorDraw, 220);
+      };
+
+      const toggleRail = () => {
+        setRailCollapsed(!commentsCollapsed, true);
+      };
+
+      const drawConnectors = () => {
+        connectorFrame = null;
+        clearConnectors();
+
+        if (commentsCollapsed) {
+          return;
+        }
+
+        if (window.matchMedia("(max-width: 640px)").matches) {
+          return;
+        }
+
+        const width = window.innerWidth;
+        const height = window.innerHeight;
+        connectors.setAttribute("viewBox", `0 0 ${width} ${height}`);
+        connectors.setAttribute("width", String(width));
+        connectors.setAttribute("height", String(height));
+
+        visibleComments().forEach((comment) => {
+          if (comment.resolved) {
+            return;
+          }
+
+          const marker = docRoot.querySelector(`[data-comment-ref="${comment.id}"]`);
+          const card = list.querySelector(`[data-comment-id="${comment.id}"]`);
+          if (!marker || !card) {
+            return;
+          }
+
+          const markerRect = marker.getBoundingClientRect();
+          const cardRect = card.getBoundingClientRect();
+          const markerVisible = markerRect.bottom > 0 && markerRect.top < height;
+          const cardVisible = cardRect.bottom > 0 && cardRect.top < height;
+          if (!markerVisible || !cardVisible) {
+            return;
+          }
+
+          const mainRect = docRoot.getBoundingClientRect();
+          const gutterLeft = Math.min(width - 10, Math.max(10, mainRect.right + 8));
+          const x2 = Math.min(width - 6, Math.max(6, cardRect.left - 8));
+          const laneX = Math.min(x2 - 10, Math.max(gutterLeft, gutterLeft + (x2 - gutterLeft) * 0.5));
+          const x1 = Math.min(x2 - 16, Math.max(6, gutterLeft));
+          const y1 = Math.min(height - 6, Math.max(6, markerRect.top + markerRect.height / 2));
+          const y2 = Math.min(height - 6, Math.max(6, cardRect.top + Math.min(42, cardRect.height / 2)));
+          const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+          path.setAttribute("d", `M ${x1} ${y1} L ${laneX} ${y1} L ${laneX} ${y2} L ${x2} ${y2}`);
+          if (activeCommentId === comment.id) {
+            path.classList.add("is-active");
+          }
+          connectors.append(path);
+        });
+      };
+
+      const scheduleConnectorDraw = () => {
+        if (connectorFrame !== null) {
+          return;
+        }
+        connectorFrame = requestAnimationFrame(drawConnectors);
+      };
+
+      const getSectionMeta = (node) => {
+        const element = node.nodeType === Node.ELEMENT_NODE ? node : node.parentElement;
+        const section = element && element.closest ? element.closest("section") : null;
+        const targetSection = section || docRoot.querySelector("section");
+        const heading = targetSection ? targetSection.querySelector("h1, h2, h3") : null;
+        return {
+          sectionId: targetSection && targetSection.id ? targetSection.id : "summary",
+          sectionTitle: heading ? heading.textContent.trim() : "文档正文"
+        };
+      };
+
+      const getImageZone = (imageId) => Array.from(docRoot.querySelectorAll("[data-comment-image-zone]"))
+        .find((zone) => zone.dataset.commentImageId === imageId);
+
+      const getImagePointFromClientPosition = (event, zone, requireInside = false) => {
+        const image = zone.querySelector("img");
+        if (!image) {
+          return null;
+        }
+        const rect = image.getBoundingClientRect();
+        if (!rect || rect.width <= 0 || rect.height <= 0) {
+          return null;
+        }
+        const inside = event.clientX >= rect.left && event.clientX <= rect.right && event.clientY >= rect.top && event.clientY <= rect.bottom;
+        if (requireInside && !inside) {
+          return null;
+        }
+        return {
+          imageId: zone.dataset.commentImageId || image.alt || "image",
+          xPct: Math.min(100, Math.max(0, ((event.clientX - rect.left) / rect.width) * 100)),
+          yPct: Math.min(100, Math.max(0, ((event.clientY - rect.top) / rect.height) * 100))
+        };
+      };
+
+      const getImagePointQuote = (zone, imagePoint) => {
+        const image = zone.querySelector("img");
+        const imageTitle = zone.dataset.commentImageTitle || (image && image.alt) || "图片";
+        return `${imageTitle} · ${imagePoint.xPct.toFixed(1)}%, ${imagePoint.yPct.toFixed(1)}%`;
+      };
+
+      const setImagePinPosition = (pin, imagePoint) => {
+        pin.style.left = `${imagePoint.xPct}%`;
+        pin.style.top = `${imagePoint.yPct}%`;
+      };
+
+      const createImagePin = (imagePoint, options = {}) => {
+        const zone = getImageZone(imagePoint.imageId);
+        const layer = zone && zone.querySelector("[data-image-comment-layer]");
+        if (!zone || !layer) {
+          return null;
+        }
+        const pin = document.createElement(options.id ? "button" : "span");
+        pin.className = `image-comment-pin${options.active ? " is-active" : ""}${options.breathe ? " is-breathing" : ""}${options.draft ? " is-draft" : ""}`;
+        setImagePinPosition(pin, imagePoint);
+        pin.title = options.title || "图片批注点";
+        pin.setAttribute("aria-label", options.label || "图片批注点");
+        if (options.id) {
+          pin.type = "button";
+          pin.dataset.commentRef = options.id;
+          pin.dataset.imageCommentPin = options.id;
+        } else {
+          pin.dataset.imageDraftPin = "";
+        }
+        layer.append(pin);
+        return pin;
+      };
+
+      const clearImagePins = () => {
+        docRoot.querySelectorAll("[data-image-comment-pin]").forEach((pin) => pin.remove());
+      };
+
+      const clearImageDraftPin = () => {
+        docRoot.querySelectorAll("[data-image-draft-pin]").forEach((pin) => pin.remove());
+      };
+
+      const renderDraftImagePin = (draft) => {
+        clearImageDraftPin();
+        if (!draft || !draft.imagePoint) {
+          return;
+        }
+        createImagePin(draft.imagePoint, {
+          draft: true,
+          title: "待保存的图片批注点",
+          label: "待保存的图片批注点"
+        });
+      };
+
+      const getDraftFromImagePoint = (event, zone) => {
+        const imagePoint = getImagePointFromClientPosition(event, zone, true);
+        if (!imagePoint) {
+          return null;
+        }
+        const sectionMeta = getSectionMeta(zone);
+        return {
+          quote: getImagePointQuote(zone, imagePoint),
+          ...sectionMeta,
+          imagePoint,
+          rect: {
+            top: event.clientY,
+            right: event.clientX,
+            bottom: event.clientY,
+            left: event.clientX
+          }
+        };
+      };
+
+      const updateImagePinDrag = (event) => {
+        if (!imagePinDrag) {
+          return false;
+        }
+        const imagePoint = getImagePointFromClientPosition(event, imagePinDrag.zone, false);
+        if (!imagePoint) {
+          return false;
+        }
+        imagePinDrag.moved = true;
+        if (imagePinDrag.comment) {
+          imagePinDrag.comment.imagePoint = imagePoint;
+          imagePinDrag.comment.quote = getImagePointQuote(imagePinDrag.zone, imagePoint);
+        } else if (draftSelection && draftSelection.imagePoint) {
+          draftSelection.imagePoint = imagePoint;
+          draftSelection.quote = getImagePointQuote(imagePinDrag.zone, imagePoint);
+          composerQuote.textContent = draftSelection.quote;
+        }
+        setImagePinPosition(imagePinDrag.pin, imagePoint);
+        scheduleConnectorDraw();
+        return true;
+      };
+
+      const startImagePinDrag = (event, pin) => {
+        if (event.button !== 0) {
+          return;
+        }
+        const zone = pin.closest("[data-comment-image-zone]");
+        if (!zone) {
+          return;
+        }
+        const comment = pin.dataset.commentRef
+          ? comments.find((item) => item.id === pin.dataset.commentRef)
+          : null;
+        if (pin.dataset.commentRef && !comment) {
+          return;
+        }
+        event.preventDefault();
+        event.stopPropagation();
+        activeCommentId = comment ? comment.id : activeCommentId;
+        imagePinDrag = {
+          comment,
+          id: comment ? comment.id : null,
+          pin,
+          pointerId: event.pointerId,
+          zone,
+          moved: false
+        };
+        pin.classList.add("is-dragging");
+        zone.classList.add("is-dragging-pin");
+        if (pin.setPointerCapture && event.pointerId !== undefined) {
+          try {
+            pin.setPointerCapture(event.pointerId);
+          } catch (_) {
+            // Some embedded browsers do not expose pointer capture for file previews.
+          }
+        }
+      };
+
+      const finishImagePinDrag = () => {
+        if (!imagePinDrag) {
+          return;
+        }
+        const { comment, id, moved, pin, zone } = imagePinDrag;
+        pin.classList.remove("is-dragging");
+        zone.classList.remove("is-dragging-pin");
+        imagePinDrag = null;
+        if (!moved) {
+          return;
+        }
+        suppressNextImagePinClick = true;
+        window.setTimeout(() => {
+          suppressNextImagePinClick = false;
+        }, 180);
+        if (comment) {
+          saveComments();
+          focusComment(id, false);
+          return;
+        }
+        renderDraftImagePin(draftSelection);
+      };
+
+      const getNodePath = (root, node) => {
+        const path = [];
+        let current = node;
+        while (current && current !== root) {
+          const parent = current.parentNode;
+          if (!parent) {
+            return null;
+          }
+          path.unshift(Array.prototype.indexOf.call(parent.childNodes, current));
+          current = parent;
+        }
+        return current === root ? path : null;
+      };
+
+      const resolveNodePath = (root, path) => {
+        if (!Array.isArray(path)) {
+          return null;
+        }
+        return path.reduce((node, index) => {
+          if (!node || !node.childNodes || index < 0 || index >= node.childNodes.length) {
+            return null;
+          }
+          return node.childNodes[index];
+        }, root);
+      };
+
+      const isCommentableTextNode = (node) => {
+        const value = node.nodeValue || "";
+        if (!value.trim()) {
+          return false;
+        }
+        const parent = node.parentElement;
+        return Boolean(parent && !parent.closest("script, style, textarea, button, a, .comment-anchor-badge, .comment-rail"));
+      };
+
+      const createRangeAnchor = (range, sectionId) => {
+        const section = document.getElementById(sectionId);
+        if (!section || !section.contains(range.startContainer) || !section.contains(range.endContainer)) {
+          return null;
+        }
+        const startPath = getNodePath(section, range.startContainer);
+        const endPath = getNodePath(section, range.endContainer);
+        if (!startPath || !endPath) {
+          return null;
+        }
+        return {
+          startPath,
+          startOffset: range.startOffset,
+          endPath,
+          endOffset: range.endOffset
+        };
+      };
+
+      const createTextAnchor = (range, sectionId) => {
+        const section = document.getElementById(sectionId);
+        if (!section || !section.contains(range.startContainer) || !section.contains(range.endContainer)) {
+          return null;
+        }
+
+        const walker = document.createTreeWalker(section, NodeFilter.SHOW_TEXT, {
+          acceptNode(node) {
+            return isCommentableTextNode(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+          }
+        });
+
+        let cursor = 0;
+        let start = null;
+        let end = null;
+        let node = walker.nextNode();
+        while (node) {
+          const length = (node.nodeValue || "").length;
+          if (node === range.startContainer) {
+            start = cursor + range.startOffset;
+          }
+          if (node === range.endContainer) {
+            end = cursor + range.endOffset;
+          }
+          cursor += length;
+          node = walker.nextNode();
+        }
+
+        if (start === null || end === null || end <= start) {
+          return null;
+        }
+
+        return { start, end };
+      };
+
+      const getDraftFromSelection = () => {
+        const selection = window.getSelection();
+        if (!selection || selection.rangeCount === 0 || selection.isCollapsed) {
+          return null;
+        }
+
+        const text = selection.toString().replace(/\s+/g, " ").trim();
+        if (text.length < 2) {
+          return null;
+        }
+
+        const range = selection.getRangeAt(0);
+        const container = range.commonAncestorContainer.nodeType === Node.ELEMENT_NODE
+          ? range.commonAncestorContainer
+          : range.commonAncestorContainer.parentElement;
+
+        if (!container || !docRoot.contains(container)) {
+          return null;
+        }
+
+        const rect = range.getBoundingClientRect();
+        if (!rect || (rect.width === 0 && rect.height === 0)) {
+          return null;
+        }
+
+        const sectionMeta = getSectionMeta(container);
+        return {
+          quote: text.slice(0, 220),
+          ...sectionMeta,
+          anchor: createRangeAnchor(range, sectionMeta.sectionId),
+          textAnchor: createTextAnchor(range, sectionMeta.sectionId),
+          rect: {
+            top: rect.top,
+            right: rect.right,
+            bottom: rect.bottom,
+            left: rect.left
+          }
+        };
+      };
+
+      const hideSelectionButton = () => {
+        selectionToolbar.classList.remove("is-visible");
+      };
+
+      const rememberSelection = () => {
+        const draft = getDraftFromSelection();
+        if (draft) {
+          draftSelection = draft;
+        }
+        return draft;
+      };
+
+      const updateSelectionButton = () => {
+        const draft = rememberSelection();
+        if (!draft) {
+          hideSelectionButton();
+          return;
+        }
+
+        const left = Math.max(8, Math.min(window.innerWidth - 178, Math.max(8, draft.rect.right - 22)));
+        const top = Math.min(window.innerHeight - 44, Math.max(8, draft.rect.top - 42));
+        selectionToolbar.style.left = `${left}px`;
+        selectionToolbar.style.top = `${top}px`;
+        selectionToolbar.classList.add("is-visible");
+      };
+
+      const openComposer = (draft) => {
+        const activeDraft = draft || draftSelection;
+        if (!activeDraft || !activeDraft.quote) {
+          showToast("请先在正文中选中需要批注的文字。");
+          return;
+        }
+        setRailCollapsed(false);
+        draftSelection = activeDraft;
+        composerQuote.textContent = activeDraft.quote;
+        composerMeta.textContent = activeDraft.imagePoint ? `锚点：图片 · ${activeDraft.sectionTitle}` : `锚点：${activeDraft.sectionTitle}`;
+        composer.classList.add("is-open");
+        composer.setAttribute("aria-hidden", "false");
+        input.value = "";
+        renderDraftImagePin(activeDraft);
+        rail.scrollTo({ top: 0, behavior: "auto" });
+        requestAnimationFrame(() => input.focus({ preventScroll: true }));
+        hideSelectionButton();
+      };
+
+      const closeComposer = () => {
+        composer.classList.remove("is-open");
+        composer.setAttribute("aria-hidden", "true");
+        input.value = "";
+        clearImageDraftPin();
+      };
+
+      const createCommentRecord = (draft, body, kind = "comment") => ({
+        id: `c_${Date.now().toString(36)}_${Math.random().toString(36).slice(2, 8)}`,
+        kind: kind === "todo" ? "todo" : "comment",
+        quote: draft.quote,
+        sectionId: draft.sectionId,
+        sectionTitle: draft.sectionTitle,
+        body,
+        createdAt: new Date().toISOString(),
+        resolved: false,
+        anchor: draft.anchor || null,
+        textAnchor: draft.textAnchor || null,
+        imagePoint: draft.imagePoint || null,
+        replies: []
+      });
+
+      const createTodoFromDraft = (draft) => {
+        const activeDraft = draft || draftSelection;
+        if (!activeDraft || !activeDraft.quote) {
+          showToast("请先在正文中选中需要设置代办的文字。");
+          return;
+        }
+        setRailCollapsed(false);
+        draftSelection = activeDraft;
+        const todo = createCommentRecord(activeDraft, "待办：请跟进该段内容。", "todo");
+        comments.unshift(todo);
+        saveComments();
+        closeComposer();
+        hideSelectionButton();
+        setCommentFilterMode("open", false);
+        showToast("代办已保存到本机浏览器。");
+        focusComment(todo.id);
+      };
+
+      const unwrapHighlights = () => {
+        docRoot.querySelectorAll(".comment-highlight").forEach((span) => {
+          span.replaceWith(document.createTextNode(span.textContent || ""));
+        });
+        docRoot.normalize();
+      };
+
+      const clearSectionBadges = () => {
+        docRoot.querySelectorAll(".comment-anchor-badge").forEach((badge) => badge.remove());
+      };
+
+      const getCommentTextFilter = () => ({
+        acceptNode(node) {
+          return isCommentableTextNode(node) ? NodeFilter.FILTER_ACCEPT : NodeFilter.FILTER_REJECT;
+        }
+      });
+
+      const getCommentHighlightClass = (commentId) => {
+        const classes = ["comment-highlight"];
+        if (activeCommentId === commentId) {
+          classes.push("is-active");
+        }
+        if (activeCommentId === commentId && breathingCommentId === commentId) {
+          classes.push("is-breathing");
+        }
+        return classes.join(" ");
+      };
+
+      const wrapSegments = (segments, commentId) => {
+        segments.forEach((segment) => {
+          const segmentRange = document.createRange();
+          segmentRange.setStart(segment.node, segment.start);
+          segmentRange.setEnd(segment.node, segment.end);
+          const marker = document.createElement("span");
+          marker.className = getCommentHighlightClass(commentId);
+          marker.dataset.commentRef = commentId;
+          segmentRange.surroundContents(marker);
+        });
+
+        return segments.length > 0;
+      };
+
+      const wrapTextSegments = (range, section, commentId) => {
+        const walker = document.createTreeWalker(section, NodeFilter.SHOW_TEXT, getCommentTextFilter());
+        const segments = [];
+        let node = walker.nextNode();
+        while (node) {
+          if (range.intersectsNode(node)) {
+            let start = 0;
+            let end = node.nodeValue.length;
+            if (node === range.startContainer) {
+              start = range.startOffset;
+            }
+            if (node === range.endContainer) {
+              end = range.endOffset;
+            }
+            if (start < end && (node.nodeValue || "").slice(start, end).trim()) {
+              segments.push({ node, start, end });
+            }
+          }
+          node = walker.nextNode();
+        }
+
+        return wrapSegments(segments, commentId);
+      };
+
+      const highlightFromTextAnchor = (comment, section) => {
+        if (!comment.textAnchor || comment.textAnchor.end <= comment.textAnchor.start) {
+          return false;
+        }
+
+        const walker = document.createTreeWalker(section, NodeFilter.SHOW_TEXT, getCommentTextFilter());
+        const segments = [];
+        let cursor = 0;
+        let node = walker.nextNode();
+        while (node) {
+          const length = (node.nodeValue || "").length;
+          const nodeStart = cursor;
+          const nodeEnd = cursor + length;
+          if (nodeEnd > comment.textAnchor.start && nodeStart < comment.textAnchor.end) {
+            const start = Math.max(0, comment.textAnchor.start - nodeStart);
+            const end = Math.min(length, comment.textAnchor.end - nodeStart);
+            if (start < end && (node.nodeValue || "").slice(start, end).trim()) {
+              segments.push({ node, start, end });
+            }
+          }
+          cursor = nodeEnd;
+          node = walker.nextNode();
+        }
+
+        return wrapSegments(segments, comment.id);
+      };
+
+      const highlightFromAnchor = (comment, section) => {
+        if (!comment.anchor) {
+          return false;
+        }
+        const startNode = resolveNodePath(section, comment.anchor.startPath);
+        const endNode = resolveNodePath(section, comment.anchor.endPath);
+        if (!startNode || !endNode || startNode.nodeType !== Node.TEXT_NODE || endNode.nodeType !== Node.TEXT_NODE) {
+          return false;
+        }
+        const startOffset = Math.min(comment.anchor.startOffset, startNode.nodeValue.length);
+        const endOffset = Math.min(comment.anchor.endOffset, endNode.nodeValue.length);
+        let range;
+        try {
+          range = document.createRange();
+          range.setStart(startNode, startOffset);
+          range.setEnd(endNode, endOffset);
+        } catch (_) {
+          return false;
+        }
+        return wrapTextSegments(range, section, comment.id);
+      };
+
+      const highlightFromQuote = (comment, section) => {
+        const walker = document.createTreeWalker(section, NodeFilter.SHOW_TEXT, getCommentTextFilter());
+        let node = walker.nextNode();
+        while (node) {
+          const rawIndex = (node.nodeValue || "").indexOf(comment.quote);
+          if (rawIndex >= 0) {
+            const range = document.createRange();
+            range.setStart(node, rawIndex);
+            range.setEnd(node, Math.min(node.nodeValue.length, rawIndex + comment.quote.length));
+            const marker = document.createElement("span");
+            marker.className = getCommentHighlightClass(comment.id);
+            marker.dataset.commentRef = comment.id;
+            range.surroundContents(marker);
+            return true;
+          }
+          node = walker.nextNode();
+        }
+        return false;
+      };
+
+      const highlightImagePoint = (comment) => {
+        if (!comment.imagePoint) {
+          return false;
+        }
+        return Boolean(createImagePin(comment.imagePoint, {
+          id: comment.id,
+          active: activeCommentId === comment.id,
+          breathe: activeCommentId === comment.id && breathingCommentId === comment.id,
+          title: `查看图片批注：${comment.quote}`,
+          label: `查看图片批注：${comment.quote}`
+        }));
+      };
+
+      const highlightComment = (comment) => {
+        if (highlightImagePoint(comment)) {
+          return;
+        }
+        const section = document.getElementById(comment.sectionId);
+        if (!section || !comment.quote) {
+          return;
+        }
+        if (highlightFromQuote(comment, section)) {
+          return;
+        }
+        if (highlightFromTextAnchor(comment, section)) {
+          return;
+        }
+        if (highlightFromAnchor(comment, section)) {
+          return;
+        }
+      };
+
+      const setCommentFilterMode = (mode, shouldRender = true) => {
+        const nextMode = ["all", "open", "resolved"].includes(mode) ? mode : "open";
+        commentFilterMode = nextMode;
+        filterButtons.forEach((button) => {
+          const isActive = button.dataset.commentFilterValue === nextMode;
+          button.classList.toggle("is-active", isActive);
+          button.setAttribute("aria-pressed", String(isActive));
+        });
+        if (shouldRender) {
+          render();
+        }
+      };
+
+      const visibleComments = () => comments.filter((comment) => {
+        if (commentFilterMode === "all") {
+          return true;
+        }
+        if (commentFilterMode === "resolved") {
+          return comment.resolved;
+        }
+        return !comment.resolved;
+      });
+
+      const getCommentSequence = (visible) => {
+        const sequence = new Map();
+        visible
+          .filter((comment) => !comment.resolved)
+          .slice()
+          .sort((a, b) => {
+            const timeA = new Date(a.createdAt).getTime();
+            const timeB = new Date(b.createdAt).getTime();
+            return (Number.isNaN(timeA) ? 0 : timeA) - (Number.isNaN(timeB) ? 0 : timeB);
+          })
+          .forEach((comment, index) => {
+            sequence.set(comment.id, index + 1);
+          });
+        return sequence;
+      };
+
+      const addSectionBadges = (visible) => {
+        const sequence = getCommentSequence(visible);
+        const grouped = new Map();
+        visible.filter((comment) => !comment.resolved).forEach((comment) => {
+          const group = grouped.get(comment.sectionId) || [];
+          group.push(comment);
+          grouped.set(comment.sectionId, group);
+        });
+
+        grouped.forEach((group, sectionId) => {
+          const section = document.getElementById(sectionId);
+          if (!section) {
+            return;
+          }
+          const sortedGroup = group
+            .slice()
+            .sort((a, b) => (sequence.get(a.id) || 0) - (sequence.get(b.id) || 0));
+          const numbers = sortedGroup.map((comment) => sequence.get(comment.id)).filter(Boolean);
+          const badge = document.createElement("button");
+          badge.type = "button";
+          badge.className = "comment-anchor-badge";
+          badge.dataset.commentSection = sectionId;
+          badge.dataset.commentId = sortedGroup[0].id;
+          const badgeLabel = sortedGroup.some((comment) => comment.kind === "todo") ? "批注/代办" : "批注";
+          badge.textContent = `${badgeLabel} ${numbers.join("、")}`;
+          badge.title = `查看${badgeLabel} ${numbers.join("、")}`;
+          section.prepend(badge);
+        });
+      };
+
+      const clearTocTodoCounts = () => {
+        document.querySelectorAll(".toc-todo-count").forEach((badge) => badge.remove());
+      };
+
+      const updateTocTodoCounts = () => {
+        clearTocTodoCounts();
+        const grouped = new Map();
+        comments
+          .filter((comment) => comment.kind === "todo" && !comment.resolved)
+          .forEach((comment) => {
+            grouped.set(comment.sectionId, (grouped.get(comment.sectionId) || 0) + 1);
+          });
+
+        document.querySelectorAll('.toc a[href^="#"]').forEach((link) => {
+          const href = link.getAttribute("href") || "";
+          const sectionId = decodeURIComponent(href.replace(/^#/, ""));
+          const total = grouped.get(sectionId);
+          if (!total) {
+            return;
+          }
+          const badge = document.createElement("span");
+          badge.className = "toc-todo-count";
+          badge.setAttribute("aria-label", `待办 ${total}`);
+          badge.textContent = `待办 ${total}`;
+          link.append(badge);
+        });
+      };
+
+      const render = () => {
+        const unresolved = comments.filter((comment) => !comment.resolved);
+        const visible = visibleComments();
+        count.textContent = String(unresolved.length);
+        list.innerHTML = "";
+        empty.style.display = visible.length ? "none" : "block";
+        clearConnectors();
+        unwrapHighlights();
+        clearImagePins();
+        clearImageDraftPin();
+        clearSectionBadges();
+
+        visible.forEach((comment) => {
+          const shouldShowAnchor = !comment.resolved || activeCommentId === comment.id;
+          if (shouldShowAnchor) {
+            highlightComment(comment);
+          }
+
+          const card = document.createElement("article");
+          card.className = `comment-card${activeCommentId === comment.id ? " is-active" : ""}${comment.resolved ? " is-resolved" : ""}${comment.kind === "todo" ? " is-todo" : ""}`;
+          card.dataset.commentId = comment.id;
+
+          if (comment.resolved) {
+            const resolvedMark = document.createElement("span");
+            resolvedMark.className = "comment-resolved-mark";
+            resolvedMark.title = "已解决";
+            resolvedMark.setAttribute("aria-label", "已解决");
+            card.append(resolvedMark);
+          }
+
+          const main = document.createElement("div");
+          main.className = "comment-card-main";
+
+          const quote = document.createElement("div");
+          quote.className = "comment-quote";
+          quote.dataset.commentAction = "jump";
+          quote.setAttribute("role", "button");
+          quote.setAttribute("tabindex", "0");
+          quote.setAttribute("title", "跳转到左侧批注锚点");
+          quote.setAttribute("aria-label", `跳转到左侧锚点：${comment.quote}`);
+          quote.textContent = comment.quote;
+
+          const meta = document.createElement("p");
+          meta.className = "comment-card-meta";
+          const typePill = document.createElement("span");
+          typePill.className = `comment-type-pill${comment.kind === "todo" ? " todo" : ""}`;
+          typePill.textContent = comment.kind === "todo" ? "待办" : "批注";
+          const metaText = document.createElement("span");
+          metaText.textContent = `${comment.sectionTitle} · Summer Review · ${formatTime(comment.createdAt)}${comment.resolved ? " · 已解决" : ""}`;
+          meta.append(typePill, metaText);
+
+          const body = document.createElement("p");
+          body.className = "comment-card-body";
+          body.textContent = comment.body;
+
+          const replies = document.createElement("div");
+          replies.className = "comment-replies";
+          comment.replies.forEach((reply) => {
+            const item = document.createElement("div");
+            item.className = "comment-reply";
+            const author = document.createElement("strong");
+            author.textContent = `回复 · ${formatTime(reply.createdAt)}`;
+            const text = document.createElement("span");
+            text.textContent = reply.body;
+            item.append(author, text);
+            replies.append(item);
+          });
+
+          const replyInput = document.createElement("textarea");
+          replyInput.className = "comment-reply-input";
+          replyInput.rows = 2;
+          replyInput.placeholder = "回复这条批注";
+          replyInput.dataset.commentReplyInput = comment.id;
+
+          const actions = document.createElement("div");
+          actions.className = "comment-card-actions";
+          actions.append(
+            makeButton("回复", "reply", "primary"),
+            makeButton(comment.resolved ? "恢复" : "解决", "resolve"),
+            makeIconButton("删除", "delete", "delete")
+          );
+
+          main.append(quote, meta, body);
+          if (comment.replies.length) {
+            main.append(replies);
+          }
+          main.append(replyInput, actions);
+          card.append(main);
+          list.append(card);
+        });
+
+        addSectionBadges(visible);
+        updateTocTodoCounts();
+        drawConnectors();
+      };
+
+      const focusComment = (id, scrollDocument = true, options = {}) => {
+        const comment = comments.find((item) => item.id === id);
+        if (!comment) {
+          return;
+        }
+        activeCommentId = id;
+        breathingCommentId = options.breathe ? id : null;
+        setRailCollapsed(false);
+        render();
+
+        requestAnimationFrame(() => {
+          const card = list.querySelector(`[data-comment-id="${id}"]`);
+          const marker = docRoot.querySelector(`[data-comment-ref="${id}"]`);
+          const section = document.getElementById(comment.sectionId);
+          if (scrollDocument) {
+            (marker || section)?.scrollIntoView({ block: "center", behavior: "smooth" });
+          }
+          card?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          scheduleConnectorDraw();
+          setTimeout(scheduleConnectorDraw, 360);
+        });
+      };
+
+      document.addEventListener("selectionchange", () => {
+        clearTimeout(selectionTimer);
+        selectionTimer = setTimeout(updateSelectionButton, 80);
+      });
+
+      docRoot.addEventListener("mouseup", () => {
+        setTimeout(updateSelectionButton, 0);
+      });
+
+      docRoot.addEventListener("keyup", updateSelectionButton);
+
+      docRoot.addEventListener("touchend", () => {
+        setTimeout(updateSelectionButton, 0);
+      }, { passive: true });
+
+      selectionButton.addEventListener("mousedown", (event) => {
+        rememberSelection();
+        event.preventDefault();
+      });
+
+      todoButton.addEventListener("mousedown", (event) => {
+        rememberSelection();
+        event.preventDefault();
+      });
+
+      selectionButton.addEventListener("click", () => {
+        openComposer(rememberSelection() || draftSelection);
+      });
+
+      todoButton.addEventListener("click", () => {
+        createTodoFromDraft(rememberSelection() || draftSelection);
+      });
+
+      railToggle.addEventListener("click", toggleRail);
+
+      railToggle.addEventListener("keydown", (event) => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          toggleRail();
+        }
+      });
+
+      cancelButton.addEventListener("click", closeComposer);
+
+      form.addEventListener("submit", (event) => {
+        event.preventDefault();
+        const body = input.value.trim();
+        if (!draftSelection || !draftSelection.quote) {
+          showToast("请先选中文档正文。");
+          return;
+        }
+        if (!body) {
+          showToast("批注内容不能为空。");
+          input.focus();
+          return;
+        }
+
+        const comment = createCommentRecord(draftSelection, body);
+        comments.unshift(comment);
+        saveComments();
+        closeComposer();
+        showToast("批注已保存到本机浏览器。");
+        focusComment(comment.id);
+      });
+
+      list.addEventListener("click", (event) => {
+        const card = event.target.closest(".comment-card");
+        if (!card) {
+          return;
+        }
+        const id = card.dataset.commentId;
+        const actionButton = event.target.closest("[data-comment-action]");
+        if (!actionButton && event.target.closest(".comment-reply-input")) {
+          return;
+        }
+        if (!actionButton) {
+          focusComment(id, false);
+          return;
+        }
+
+        const comment = comments.find((item) => item.id === id);
+        if (!comment) {
+          return;
+        }
+
+        const action = actionButton.dataset.commentAction;
+        if (action === "jump") {
+          focusComment(id, true, { breathe: true });
+        }
+        if (action === "resolve") {
+          comment.resolved = !comment.resolved;
+          activeCommentId = id;
+          setCommentFilterMode(comment.resolved ? "resolved" : "open", false);
+          saveComments();
+          const itemLabel = comment.kind === "todo" ? "代办" : "批注";
+          showToast(comment.resolved ? `${itemLabel}已解决。` : `${itemLabel}已恢复。`);
+          render();
+          requestAnimationFrame(() => {
+            list.querySelector(`[data-comment-id="${id}"]`)?.scrollIntoView({ block: "nearest", behavior: "smooth" });
+          });
+        }
+        if (action === "delete") {
+          if (window.confirm("删除这条本机批注？")) {
+            comments = comments.filter((item) => item.id !== id);
+            saveComments();
+            showToast("批注已删除。");
+            render();
+          }
+        }
+        if (action === "reply") {
+          const replyInput = card.querySelector(`[data-comment-reply-input="${id}"]`);
+          const value = replyInput ? replyInput.value.trim() : "";
+          if (!value) {
+            showToast("回复内容不能为空。");
+            replyInput?.focus();
+            return;
+          }
+          comment.replies.push({
+            body: value,
+            createdAt: new Date().toISOString()
+          });
+          saveComments();
+          showToast("回复已保存。");
+          focusComment(id, false);
+        }
+      });
+
+      list.addEventListener("keydown", (event) => {
+        if (event.key !== "Enter" && event.key !== " ") {
+          return;
+        }
+        const actionTarget = event.target.closest("[data-comment-action='jump']");
+        if (!actionTarget || !list.contains(actionTarget)) {
+          return;
+        }
+        const card = actionTarget.closest(".comment-card");
+        const id = card && card.dataset.commentId;
+        if (!id) {
+          return;
+        }
+        event.preventDefault();
+        focusComment(id, true, { breathe: true });
+      });
+
+      docRoot.addEventListener("pointerdown", (event) => {
+        const pin = event.target.closest("[data-image-comment-pin], [data-image-draft-pin]");
+        if (!pin || !docRoot.contains(pin)) {
+          return;
+        }
+        startImagePinDrag(event, pin);
+      });
+
+      document.addEventListener("pointermove", (event) => {
+        if (!imagePinDrag) {
+          return;
+        }
+        event.preventDefault();
+        updateImagePinDrag(event);
+      });
+
+      document.addEventListener("pointerup", finishImagePinDrag);
+      document.addEventListener("pointercancel", finishImagePinDrag);
+
+      docRoot.addEventListener("click", (event) => {
+        const marker = event.target.closest("[data-comment-ref]");
+        if (marker && docRoot.contains(marker) && marker.dataset.commentRef) {
+          if (suppressNextImagePinClick) {
+            event.preventDefault();
+            return;
+          }
+          focusComment(marker.dataset.commentRef, false);
+          return;
+        }
+
+        const badge = event.target.closest(".comment-anchor-badge");
+        if (badge) {
+          const target = visibleComments().find((comment) => {
+            if (badge.dataset.commentId) {
+              return comment.id === badge.dataset.commentId && !comment.resolved;
+            }
+            return comment.sectionId === badge.dataset.commentSection && !comment.resolved;
+          });
+          if (target) {
+            focusComment(target.id, false);
+          }
+        }
+      });
+
+      docRoot.addEventListener("dblclick", (event) => {
+        if (event.target.closest("[data-comment-ref], [data-image-comment-pin], [data-image-draft-pin]")) {
+          return;
+        }
+        const imageZone = event.target.closest("[data-comment-image-zone]");
+        if (imageZone && docRoot.contains(imageZone)) {
+          const draft = getDraftFromImagePoint(event, imageZone);
+          if (draft) {
+            event.preventDefault();
+            openComposer(draft);
+          }
+        }
+      });
+
+      filterButtons.forEach((button) => {
+        button.addEventListener("click", () => {
+          setCommentFilterMode(button.dataset.commentFilterValue);
+        });
+      });
+
+      window.addEventListener("scroll", () => {
+        if (selectionToolbar.classList.contains("is-visible")) {
+          updateSelectionButton();
+        }
+        scheduleConnectorDraw();
+      }, { passive: true });
+
+      window.addEventListener("resize", () => {
+        if (selectionToolbar.classList.contains("is-visible")) {
+          updateSelectionButton();
+        }
+        if (!canCollapseRail() && (commentsCollapsed || shell.classList.contains("comments-collapsed"))) {
+          setRailCollapsed(false, false);
+          return;
+        }
+        scheduleConnectorDraw();
+      });
+
+      rail.addEventListener("scroll", scheduleConnectorDraw, { passive: true });
+
+      setRailCollapsed(loadRailCollapsedState(), false);
+      setCommentFilterMode("open", false);
+      loadComments();
+      render();
+    })();
+  </script>
+</body>
+</html>

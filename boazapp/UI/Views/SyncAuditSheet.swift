@@ -54,11 +54,11 @@ struct SyncAuditSheet: View {
         case .pairingRequired: "Cloud upload needs private pairing and separate consent."
         case .queued: "Records are safely queued on this iPhone for a later upload."
         case .uploading: "A batch is being sent to the Tokyo receiver."
-        case .cloudSaved: "The Tokyo receiver committed the batch to its SQLite record. Metrics may still be behind."
-        case .metricsPending: "The Tokyo SQLite receipt exists. The VictoriaMetrics projection has not been confirmed."
-        case .metricsCurrent: "The Tokyo SQLite receipt and server metric projection have both been confirmed."
-        case .erasurePending: "Upload is off. The erasure request may still be queued on this iPhone. Wait for Tokyo to confirm active removal and managed backup expiry."
-        case .activeErasureConfirmed: "Tokyo confirmed active SQLite and metrics removal and managed backup expiry."
+        case .cloudSaved: "The configured Tokyo receiver reported that it committed this batch to SQLite. Its metrics projection may still be behind."
+        case .metricsPending: "A receipt from the configured receiver reports a SQLite commit; no current-generation metrics receipt has been recorded yet."
+        case .metricsCurrent: "The configured receiver reported a SQLite commit and metrics projection at the recorded times. This is a receiver receipt, not a guarantee about later retention."
+        case .erasurePending: "Upload is off. The request is retained on this iPhone until the configured receiver returns a valid completion receipt."
+        case .activeErasureConfirmed: "The configured receiver reported active SQLite and metrics removal plus expiry of its managed backups. This receipt does not attest to unmanaged copies."
         case .offline: "The Tokyo receiver could not be reached. Pending records remain on this iPhone."
         case .failure(let message): message
         }

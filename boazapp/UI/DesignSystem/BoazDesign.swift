@@ -76,6 +76,7 @@ struct DampenedSyncButton: View {
         case .collecting: "COLLECTING HEALTH"
         case .committing: "COMMITTING TO TOKYO"
         case .failed: "TRY AGAIN"
+        case .cancelled: "SYNC CANCELED"
         case .finished:
             switch cloudState {
             case .metricsCurrent: "SYNCHRONIZED"

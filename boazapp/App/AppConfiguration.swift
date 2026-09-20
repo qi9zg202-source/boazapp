@@ -5,12 +5,54 @@ enum BoazConfiguration {
     static let consentKey = "boaz.health.cloudUploadConsent"
     static let endpointKey = "boaz.health.tokyoEndpoint"
     static let deviceIDKey = "boaz.health.deviceID"
+    static let deviceIdentityTransitionsKey = "boaz.health.deviceIdentityTransitions"
+
+    private struct DeviceIdentityTransitions: Codable {
+        var latestErasureID: String?
+        var replacements: [String: String]
+    }
 
     static var deviceID: String {
-        if let id = UserDefaults.standard.string(forKey: deviceIDKey) { return id }
+        deviceID(in: .standard)
+    }
+
+    static func deviceID(in defaults: UserDefaults) -> String {
+        if let id = defaults.string(forKey: deviceIDKey), !id.isEmpty { return id }
         let id = UUID().uuidString.lowercased()
-        UserDefaults.standard.set(id, forKey: deviceIDKey)
+        defaults.set(id, forKey: deviceIDKey)
         return id
+    }
+
+    /// A completed cloud erasure creates a new upload identity. Persisting the
+    /// replacement before installing it makes a retry after any interruption
+    /// reuse the same identity instead of generating another one.
+    @discardableResult
+    static func rotateDeviceID(afterCompletedErasure erasureID: String,
+                               in defaults: UserDefaults = .standard) throws -> String {
+        guard !erasureID.isEmpty else { throw TokyoGatewayError.unexpectedResponse }
+        let decoder = JSONDecoder()
+        var transitions: DeviceIdentityTransitions
+        if let data = defaults.data(forKey: deviceIdentityTransitionsKey) {
+            transitions = try decoder.decode(DeviceIdentityTransitions.self, from: data)
+        } else {
+            transitions = DeviceIdentityTransitions(latestErasureID: nil, replacements: [:])
+        }
+
+        if let replacement = transitions.replacements[erasureID] {
+            // Only the latest completion may repair an interrupted install.
+            // Replayed older receipts must never roll identity backwards.
+            if transitions.latestErasureID == erasureID {
+                defaults.set(replacement, forKey: deviceIDKey)
+            }
+            return deviceID(in: defaults)
+        }
+
+        let replacement = UUID().uuidString.lowercased()
+        transitions.latestErasureID = erasureID
+        transitions.replacements[erasureID] = replacement
+        defaults.set(try JSONEncoder().encode(transitions), forKey: deviceIdentityTransitionsKey)
+        defaults.set(replacement, forKey: deviceIDKey)
+        return replacement
     }
 
     static var uploadConsent: Bool {
@@ -105,6 +147,15 @@ enum TokyoErasureStore {
         if status == errSecItemNotFound { return nil }
         guard status == errSecSuccess, let data = value as? Data else { throw CredentialError.unavailable(status) }
         return try JSONDecoder().decode(TokyoErasureCredential.self, from: data)
+    }
+
+    /// A missing recovery record is the only state that permits upload. A
+    /// Keychain or decoding failure must propagate and keep the upload gate
+    /// closed instead of being interpreted as absence.
+    static func requireNoPendingForUpload(
+        read: () throws -> TokyoErasureCredential? = TokyoErasureStore.current
+    ) throws {
+        guard try read() == nil else { throw TokyoGatewayError.erasurePending }
     }
 
     static func createIfNeeded() throws -> TokyoErasureCredential {

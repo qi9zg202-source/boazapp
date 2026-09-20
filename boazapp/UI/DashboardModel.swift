@@ -115,7 +115,7 @@ struct DashboardSnapshot: Sendable {
 }
 
 enum SyncPhase: Equatable, Sendable {
-    case idle, collecting, committing, finished, failed
+    case idle, collecting, committing, finished, failed, cancelled
 
     var isWorking: Bool { self == .collecting || self == .committing }
 }

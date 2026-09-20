@@ -8,6 +8,66 @@ private struct ObserverCompletion: @unchecked Sendable {
     func finish() { body() }
 }
 
+/// HKHealthStore.stop(_:) need not deliver a final callback. The gate completes
+/// a one-shot query exactly once, whether its result or cancellation wins.
+final class HealthQueryGate<Value: Sendable>: @unchecked Sendable {
+    private let store: HKHealthStore
+    private let lock = NSLock()
+    private var continuation: CheckedContinuation<Value, Error>?
+    private var query: HKQuery?
+    private var completed = false
+    private var cancelled = false
+
+    init(store: HKHealthStore) { self.store = store }
+
+    func register(_ continuation: CheckedContinuation<Value, Error>) {
+        lock.lock()
+        let cancelled = completed
+        if !cancelled { self.continuation = continuation }
+        lock.unlock()
+        if cancelled { continuation.resume(throwing: CancellationError()) }
+    }
+
+    func install(_ query: HKQuery) -> Bool {
+        lock.lock()
+        defer { lock.unlock() }
+        guard !completed else { return false }
+        self.query = query
+        return true
+    }
+
+    func finish(_ result: Result<Value, Error>) {
+        lock.lock()
+        guard !completed else { lock.unlock(); return }
+        completed = true
+        let continuation = self.continuation
+        self.continuation = nil
+        query = nil
+        lock.unlock()
+        continuation?.resume(with: result)
+    }
+
+    func cancel() {
+        lock.lock()
+        guard !completed else { lock.unlock(); return }
+        completed = true
+        cancelled = true
+        let continuation = self.continuation
+        self.continuation = nil
+        lock.unlock()
+        continuation?.resume(throwing: CancellationError())
+    }
+
+    @MainActor
+    func stopCancelledQuery() {
+        lock.lock()
+        let query = cancelled ? self.query : nil
+        self.query = nil
+        lock.unlock()
+        if let query { store.stop(query) }
+    }
+}
+
 /// Reads only the allowlisted types. A successful authorization request is not proof that
 /// HealthKit granted read access; callers must represent empty pages as "no readable data".
 @MainActor
@@ -39,6 +99,7 @@ final class HealthKitManager {
         }
         let anchor = try decodeAnchor(anchorData)
         let result = try await anchoredPage(sampleType: sampleType, predicate: nil, anchor: anchor)
+        try Task.checkCancellation()
         let converted = try result.samples.map { sample in
             guard let converted = event(from: sample) else {
                 throw HealthCollectionError.unconvertibleSample(sample.uuid.uuidString)
@@ -59,21 +120,41 @@ final class HealthKitManager {
         )
     }
 
-    /// Query date bounds in the user's current calendar. Each day produces the three ring
+    /// Query Gregorian date bounds in the user's current time zone. Each day produces the three ring
     /// actual values and goals. Re-query recent days because summaries can be revised later.
     /// The local ledger must assign monotonically increasing revisions on changed day values.
     func fetchActivitySummaries(from start: Date, through end: Date) async throws -> [HealthEvent] {
         guard isAvailable else { throw HealthCollectionError.unavailable }
-        guard start <= end else { throw HealthCollectionError.invalidDateRange }
-        let calendar = Calendar.current
-        guard let dayCount = calendar.dateComponents([.day], from: calendar.startOfDay(for: start),
-                                                     to: calendar.startOfDay(for: end)).day,
-              dayCount <= 30 else { throw HealthCollectionError.invalidDateRange }
-        let first = calendar.dateComponents([.year, .month, .day], from: start)
-        let last = calendar.dateComponents([.year, .month, .day], from: end)
+        let calendar = Self.activityCalendar(timeZone: .current)
+        let (first, last) = try Self.activitySummaryDateComponents(from: start, through: end, calendar: calendar)
         let predicate = HKQuery.predicate(forActivitySummariesBetweenStart: first, end: last)
         let summaries = try await HKActivitySummaryQueryDescriptor(predicate: predicate).result(for: store)
-        return try summaries.flatMap(activityEvents)
+        try Task.checkCancellation()
+        return try summaries.flatMap { try activityEvents(from: $0, calendar: calendar) }
+    }
+
+    /// HealthKit requires Gregorian era/year/month/day components with their calendar attached.
+    /// Keep this conversion separate so it can be checked without reading personal Health data.
+    static func activitySummaryDateComponents(
+        from start: Date, through end: Date, calendar: Calendar
+    ) throws -> (DateComponents, DateComponents) {
+        guard start <= end else { throw HealthCollectionError.invalidDateRange }
+        let activityCalendar = Self.activityCalendar(timeZone: calendar.timeZone)
+        guard let dayCount = activityCalendar.dateComponents(
+            [.day], from: activityCalendar.startOfDay(for: start), to: activityCalendar.startOfDay(for: end)
+        ).day,
+              dayCount <= 30 else { throw HealthCollectionError.invalidDateRange }
+        var first = activityCalendar.dateComponents([.era, .year, .month, .day], from: start)
+        var last = activityCalendar.dateComponents([.era, .year, .month, .day], from: end)
+        first.calendar = activityCalendar
+        last.calendar = activityCalendar
+        return (first, last)
+    }
+
+    private static func activityCalendar(timeZone: TimeZone) -> Calendar {
+        var calendar = Calendar(identifier: .gregorian)
+        calendar.timeZone = timeZone
+        return calendar
     }
 
     /// HealthKit's statistics engine supplies day totals without summing overlapping
@@ -90,6 +171,7 @@ final class HealthKitManager {
         var values: [String: Double] = [:]
         var failed: [String] = []
         for (identifier, unit, multiplier) in measures {
+            try Task.checkCancellation()
             guard let type = HKObjectType.quantityType(forIdentifier: identifier) else {
                 failed.append(identifier.rawValue)
                 continue
@@ -100,9 +182,12 @@ final class HealthKitManager {
             )
             do {
                 if let quantity = try await descriptor.result(for: store)?.sumQuantity() {
+                    try Task.checkCancellation()
                     let value = quantity.doubleValue(for: unit) * multiplier
                     if value.isFinite { values[identifier.rawValue] = value }
                 }
+            } catch is CancellationError {
+                throw CancellationError()
             } catch {
                 failed.append(identifier.rawValue)
             }
@@ -123,6 +208,7 @@ final class HealthKitManager {
         guard let workout = try await workout(with: workoutID) else {
             throw HealthCollectionError.unsupportedType("workout \(workoutID.uuidString) unavailable")
         }
+        try Task.checkCancellation()
         let all = workout.workoutEvents ?? []
         let upper = min(all.count, offset + limit)
         guard offset < upper else { return WorkoutEventPage(events: [], nextOffset: nil) }
@@ -150,11 +236,13 @@ final class HealthKitManager {
         guard let workout = try await workout(with: workoutID) else {
             throw HealthCollectionError.unsupportedType("workout \(workoutID.uuidString) unavailable")
         }
+        try Task.checkCancellation()
         let result = try await anchoredPage(
             sampleType: heartRateType,
             predicate: HKQuery.predicateForObjects(from: workout),
             anchor: try decodeAnchor(anchorData)
         )
+        try Task.checkCancellation()
         let prefix = "workout:\(workoutID.uuidString):heart-rate:"
         let converted = try result.samples.map { sample -> HealthEvent in
             guard let quantity = sample as? HKQuantitySample,
@@ -230,36 +318,60 @@ final class HealthKitManager {
         observerQueries.removeAll()
     }
 
-    private struct AnchoredResult {
+    /// HealthKit result objects are immutable once delivered by a one-shot query.
+    private struct AnchoredResult: @unchecked Sendable {
         let samples: [HKSample]
         let deleted: [HKDeletedObject]
         let anchor: HKQueryAnchor
     }
 
+    private struct WorkoutQueryResult: @unchecked Sendable {
+        let workout: HKWorkout?
+    }
+
     private func anchoredPage(sampleType: HKSampleType, predicate: NSPredicate?, anchor: HKQueryAnchor?) async throws -> AnchoredResult {
-        try await withCheckedThrowingContinuation { continuation in
+        try await cancellableQuery { gate in
             let query = HKAnchoredObjectQuery(type: sampleType, predicate: predicate, anchor: anchor,
                                               limit: HealthTypeCatalog.pageLimit) { _, samples, deleted, newAnchor, error in
-                if let error { continuation.resume(throwing: error); return }
+                if let error { gate.finish(.failure(error)); return }
                 guard let newAnchor else {
-                    continuation.resume(throwing: HealthCollectionError.noAnchorReturned)
+                    gate.finish(.failure(HealthCollectionError.noAnchorReturned))
                     return
                 }
-                continuation.resume(returning: AnchoredResult(samples: samples ?? [], deleted: deleted ?? [], anchor: newAnchor))
+                gate.finish(.success(AnchoredResult(samples: samples ?? [], deleted: deleted ?? [], anchor: newAnchor)))
             }
-            store.execute(query)
+            return query
         }
     }
 
     private func workout(with id: UUID) async throws -> HKWorkout? {
-        try await withCheckedThrowingContinuation { continuation in
+        let result: WorkoutQueryResult = try await cancellableQuery { gate in
             let query = HKSampleQuery(sampleType: HKObjectType.workoutType(),
                                       predicate: HKQuery.predicateForObject(with: id), limit: 1,
                                       sortDescriptors: nil) { _, samples, error in
-                if let error { continuation.resume(throwing: error) }
-                else { continuation.resume(returning: samples?.first as? HKWorkout) }
+                if let error { gate.finish(.failure(error)) }
+                else { gate.finish(.success(WorkoutQueryResult(workout: samples?.first as? HKWorkout))) }
             }
-            store.execute(query)
+            return query
+        }
+        return result.workout
+    }
+
+    private func cancellableQuery<Value: Sendable>(_ makeQuery: (HealthQueryGate<Value>) -> HKQuery) async throws -> Value {
+        let gate = HealthQueryGate<Value>(store: store)
+        return try await withTaskCancellationHandler {
+            try await withCheckedThrowingContinuation { continuation in
+                gate.register(continuation)
+                guard !Task.isCancelled else { gate.cancel(); return }
+                let query = makeQuery(gate)
+                guard gate.install(query) else { return }
+                store.execute(query)
+            }
+        } onCancel: {
+            // Resume immediately so a callback racing cancellation cannot win.
+            // Stop on the HealthKit manager's actor after query creation yields.
+            gate.cancel()
+            Task { @MainActor in gate.stopCancelledQuery() }
         }
     }
 
@@ -338,8 +450,7 @@ final class HealthKitManager {
         return nil
     }
 
-    private func activityEvents(from summary: HKActivitySummary) throws -> [HealthEvent] {
-        let calendar = Calendar.current
+    private func activityEvents(from summary: HKActivitySummary, calendar: Calendar) throws -> [HealthEvent] {
         let components = summary.dateComponents(for: calendar)
         guard let dayStart = calendar.date(from: components),
               let dayEnd = calendar.date(byAdding: .day, value: 1, to: dayStart) else {

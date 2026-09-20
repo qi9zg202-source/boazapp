@@ -1,0 +1,49 @@
+{
+  "devicesAndConfigurations" : [
+    {
+      "device" : {
+        "architecture" : "arm64",
+        "deviceId" : "84EB8BA7-1EDD-43D4-9FEE-C0FB736E5D2A",
+        "deviceName" : "Boaz Acceptance Snapshot",
+        "modelName" : "iPhone 16 Pro",
+        "osBuildNumber" : "23F77",
+        "osVersion" : "26.5",
+        "platform" : "iOS Simulator"
+      },
+      "expectedFailures" : 0,
+      "failedTests" : 0,
+      "passedTests" : 47,
+      "skippedTests" : 0,
+      "testPlanConfiguration" : {
+        "configurationId" : "1",
+        "configurationName" : "Test Scheme Action"
+      }
+    }
+  ],
+  "environmentDescription" : "boazapp · Built with macOS 26.6.2",
+  "expectedFailures" : 0,
+  "failedTests" : 0,
+  "finishTime" : 1789721315.597,
+  "passedTests" : 47,
+  "result" : "Passed",
+  "runtimeWarnings" : [
+
+  ],
+  "skippedTests" : 0,
+  "startTime" : 1789721292.942,
+  "statistics" : [
+
+  ],
+  "testFailures" : [
+
+  ],
+  "title" : "Test - boazapp",
+  "topInsights" : [
+    {
+      "category" : "Longest Test Runs",
+      "impact" : "82% of duration",
+      "text" : "2 longest test runs with outlier durations exceeding 2.51s (three standard deviations)"
+    }
+  ],
+  "totalTestCount" : 47
+}
