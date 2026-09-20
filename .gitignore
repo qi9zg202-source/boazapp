@@ -1,0 +1,14 @@
+.DS_Store
+Server/target/
+DerivedData/
+*.xcuserstate
+*.xcuserdata/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+*.db-wal
+*.db-shm
+.env
+*.p12
+*.mobileprovision
