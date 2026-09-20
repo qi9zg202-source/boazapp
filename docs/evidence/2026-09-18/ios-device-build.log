@@ -1,0 +1,793 @@
+Command line invocation:
+    /Applications/Xcode.app/Contents/Developer/usr/bin/xcodebuild -project boazapp.xcodeproj -scheme boazapp -destination generic/platform=iOS -derivedDataPath /private/tmp/boazapp-acceptance-snapshot-device CODE_SIGNING_ALLOWED=NO build-for-testing
+
+Build settings from command line:
+    CODE_SIGNING_ALLOWED = NO
+
+ComputePackagePrebuildTargetDependencyGraph
+
+Prepare packages
+
+CreateBuildRequest
+
+SendProjectDescription
+
+CreateBuildOperation
+
+ComputeTargetDependencyGraph
+note: Building targets in dependency order
+note: Target dependency graph (2 targets)
+    Target 'boazappTests' in project 'boazapp'
+        ➜ Explicit dependency on target 'boazapp' in project 'boazapp'
+    Target 'boazapp' in project 'boazapp' (no dependencies)
+
+GatherProvisioningInputs
+
+CreateBuildDescription
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -v -E -dM -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -x c -c /dev/null
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc --version
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --print-asset-tag-combinations --output-format xml1 /tmp/boazapp-acceptance-source/boazapp/Resources/Assets.xcassets
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/ld -version_details
+
+ExecuteExternalTool /Applications/Xcode.app/Contents/Developer/usr/bin/actool --version --output-format xml1
+
+Build description signature: a582ec64a3845f2c1594c86e858224b7
+Build description path: /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/XCBuildData/a582ec64a3845f2c1594c86e858224b7.xcbuilddata
+CreateBuildDirectory /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    builtin-create-build-directory /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex
+
+CreateBuildDirectory /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    builtin-create-build-directory /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/boazapp-acceptance-snapshot-device/CompilationCache.noindex
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    builtin-create-build-directory /tmp/boazapp-acceptance-snapshot-device/CompilationCache.noindex
+
+ClangStatCache /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk /tmp/boazapp-acceptance-snapshot-device/SDKStatCaches.noindex/iphoneos27.0-24A430-6c78b3cbc238196c85e1bf6c792c5915.sdkstatcache
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang-stat-cache /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -o /tmp/boazapp-acceptance-snapshot-device/SDKStatCaches.noindex/iphoneos27.0-24A430-6c78b3cbc238196c85e1bf6c792c5915.sdkstatcache
+
+CreateBuildDirectory /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    builtin-create-build-directory /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex
+
+CreateBuildDirectory /tmp/boazapp-acceptance-snapshot-device/Build/Products
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    builtin-create-build-directory /tmp/boazapp-acceptance-snapshot-device/Build/Products
+
+CreateBuildDirectory /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/ExplicitPrecompiledModules
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    builtin-create-build-directory /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/PrecompiledHeaders
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    builtin-create-build-directory /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/PrecompiledHeaders
+
+CreateBuildDirectory /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    builtin-create-build-directory /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos
+
+CreateBuildDirectory /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    builtin-create-build-directory /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+CreateBuildDirectory /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    builtin-create-build-directory /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp-6d608ea7f7bd480d5f264c68969ab4e7-VFS-iphoneos/all-product-headers.yaml
+    cd /tmp/boazapp-acceptance-source/boazapp.xcodeproj
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp-6d608ea7f7bd480d5f264c68969ab4e7-VFS-iphoneos/all-product-headers.yaml
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-all-non-framework-target-headers.hmap (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-all-target-headers.hmap (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-all-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-DebugDylibInstallName-normal-arm64.txt (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-DebugDylibInstallName-normal-arm64.txt
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-DebugDylibPath-normal-arm64.txt (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-DebugDylibPath-normal-arm64.txt
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp.hmap (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp.DependencyStaticMetadataFileList (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-generated-files.hmap (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-generated-files.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-project-headers.hmap (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-project-headers.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-own-target-headers.hmap (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-own-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/empty-boazappTests.plist (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/empty-boazappTests.plist
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests.DependencyMetadataFileList (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests.DependencyMetadataFileList
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests.hmap (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests.DependencyStaticMetadataFileList (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests.DependencyStaticMetadataFileList
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp_const_extract_protocols.json (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp_const_extract_protocols.json
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.LinkFileList (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.LinkFileList
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.SwiftFileList (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.SwiftFileList
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.SwiftConstValuesFileList (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-project-headers.hmap (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-project-headers.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-own-target-headers.hmap (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-own-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-generated-files.hmap (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-generated-files.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-all-target-headers.hmap (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-all-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-all-non-framework-target-headers.hmap (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-all-non-framework-target-headers.hmap
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests_const_extract_protocols.json (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests_const_extract_protocols.json
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.SwiftFileList (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.SwiftFileList
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.SwiftConstValuesFileList (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.SwiftConstValuesFileList
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.LinkFileList (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.LinkFileList
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-OutputFileMap.json (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-OutputFileMap.json
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp.DependencyMetadataFileList (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp.DependencyMetadataFileList
+
+WriteAuxiliaryFile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-OutputFileMap.json (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    write-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-OutputFileMap.json
+
+MkDir /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /bin/mkdir -p /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app
+
+MkDir /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /bin/mkdir -p /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns
+
+MkDir /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /bin/mkdir -p /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest
+
+Ld /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/__preview.dylib normal (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0 -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -F/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -install_name @rpath/boazapp.debug.dylib -Xlinker -dead_strip -rdynamic -Xlinker -dependency_info -Xlinker /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp_dependency_info.dat -o /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/__preview.dylib
+
+CpResource /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/Schema.sql /tmp/boazapp-acceptance-source/boazapp/Core/Database/Schema.sql (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks /tmp/boazapp-acceptance-source/boazapp/Core/Database/Schema.sql /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app
+
+MkDir /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_output/thinned (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /bin/mkdir -p /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_output/thinned
+
+MkDir /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_output/unthinned (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /bin/mkdir -p /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_output/unthinned
+
+GenerateAssetSymbols /tmp/boazapp-acceptance-source/boazapp/Resources/Assets.xcassets (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /tmp/boazapp-acceptance-source/boazapp/Resources/Assets.xcassets --compile /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app --output-format human-readable-text --notices --warnings --export-dependency-info /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_dependencies --output-partial-info-plist /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_generated_info.plist --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --minimum-deployment-target 17.0 --platform iphoneos --bundle-identifier com.beckliu.boazhealth --generate-swift-asset-symbol-extensions NO --generate-swift-asset-symbols /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/GeneratedAssetSymbols.swift --generate-objc-asset-symbols /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/GeneratedAssetSymbols.h --generate-asset-symbol-index /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/* com.apple.actool.compilation-results */
+/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/GeneratedAssetSymbols-Index.plist
+/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/GeneratedAssetSymbols.h
+/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/GeneratedAssetSymbols.swift
+
+
+CompileAssetCatalogVariant thinned /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app /tmp/boazapp-acceptance-source/boazapp/Resources/Assets.xcassets (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /Applications/Xcode.app/Contents/Developer/usr/bin/actool /tmp/boazapp-acceptance-source/boazapp/Resources/Assets.xcassets --compile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_output/thinned --output-format human-readable-text --notices --warnings --export-dependency-info /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_dependencies_thinned --output-partial-info-plist /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_generated_info.plist_thinned --app-icon AppIcon --compress-pngs --enable-on-demand-resources YES --development-region en --target-device iphone --minimum-deployment-target 17.0 --platform iphoneos
+/* com.apple.actool.compilation-results */
+/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_generated_info.plist_thinned
+/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_output/thinned/AppIcon60x60@2x.png
+/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_output/thinned/AppIcon76x76@2x~ipad.png
+/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_output/thinned/Assets.car
+
+
+SwiftDriver boazapp normal arm64 com.apple.xcode.tools.swift.compiler (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name boazapp -Onone @/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -target arm64-apple-ios17.0 -g -module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/boazapp-acceptance-snapshot-device/Index.noindex/DataStore -swift-version 6 -I /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -F /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -emit-localized-strings -emit-localized-strings-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64 -c -j18 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/boazapp-acceptance-snapshot-device/SDKStatCaches.noindex/iphoneos27.0-24A430-6c78b3cbc238196c85e1bf6c792c5915.sdkstatcache -output-file-map /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -sdk-module-cache-path /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-generated-files.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-own-target-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-project-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/include -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources-normal/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-Swift.h -working-directory /tmp/boazapp-acceptance-source -experimental-emit-module-separately -disable-cmo
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_AvailabilityInternal-CQZUTUIGZRCYY1MXRY2MT6WCC.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_Builtin_stddef-SEY33PXLY48RQM459LDU4EK6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_SwiftConcurrencyShims-13WKER9B1LWCJWVU9XP4YCL66.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/ptrcheck-ARFC6ZN3D34XGGQYDD8BZ6YFP.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/ptrauth-20KUAHGG8DIDYFRUE9D1ELCDB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/SwiftShims-D2Y90R5N8XRK2GXZU6Z0HWZ98.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/DeveloperToolsSupport-65A88A70CA0MG9KMMSL798ZOO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_Builtin_stdarg-1WYI23L5G2KJYM4VBISUKRT5T.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_Builtin_stdbool-4UYIBLYUOHNE6O4B9FPIJNFYH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_Builtin_float-5CLXMMX4DVLZVFLWAPO9V9QD1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_DarwinFoundation1-95UM9NPO0Q133DRV06M5PSUCX.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/SQLite3-BHR6U0WTU0ACTDHU27QMD47BS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_DarwinFoundation2-5HH42M3CLO7V7PTQ7PKTRD5DG.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_Builtin_limits-204ADHHMT8J5X0XZAMYQX2ARV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_Builtin_tgmath-AHX8ZM0X7ONJIMZTC6AZ3VIP6.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/sys_types-TJDFT0OOBJG55OIE2LISREED.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/string_h-TVNYVMKXBCV21TIF3N7RL67P.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_Builtin_stdint-B6Y2KBRTVUK8YO665QSJLJZL3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_Builtin_stdatomic-4KR9H8CBLHZLD7X16UZ00T4ZL.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_Builtin_intrinsics-6RKKOH3M74X6YZINM69W26OZT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_DarwinFoundation3-SJW1MZJ2I4BEU6741L8YPFK.pcm
+
+LinkAssetCatalog /tmp/boazapp-acceptance-source/boazapp/Resources/Assets.xcassets (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-linkAssetCatalog --thinned /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_output/thinned --thinned-dependencies /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_dependencies_thinned --thinned-info-plist-content /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_generated_info.plist_thinned --unthinned /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_output/unthinned --unthinned-dependencies /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_dependencies_unthinned --unthinned-info-plist-content /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_generated_info.plist_unthinned --output /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app --plist-output /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_generated_info.plist
+note: Emplaced /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/AppIcon60x60@2x.png (in target 'boazapp' from project 'boazapp')
+note: Emplaced /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/Assets.car (in target 'boazapp' from project 'boazapp')
+note: Emplaced /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/AppIcon76x76@2x~ipad.png (in target 'boazapp' from project 'boazapp')
+
+ProcessInfoPlistFile /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/Info.plist /tmp/boazapp-acceptance-source/boazapp/Resources/Info.plist (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-infoPlistUtility /tmp/boazapp-acceptance-source/boazapp/Resources/Info.plist -producttype com.apple.product-type.application -genpkginfo /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PkgInfo -expandbuildsettings -format binary -platform iphoneos -additionalcontentfile /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/assetcatalog_generated_info.plist -requiredArchitecture arm64 -o /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/Info.plist
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_Builtin_inttypes-C22BYNIHTRM7DFDW8MF9YZXMS.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/Darwin-C2F7Q8UPTFW61T3IMAFX7L681.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/simd-B411HWVCE5INPACT4WIYQ0ANM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/MachO-1TJXWAL1MZOLTX1CKYEWYSC1Z.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/ObjectiveC-2S6AYCGCWQZ5MT021DKCRX7R8.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/os_object-1PAQ4H4O3OUV9XYL5QX2YE49C.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/os_workgroup-5NEJP1LFBNUEX4LBT93GL3T4E.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/Spatial-6V89L6ZX5QT8WN75BDE968CVH.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/Dispatch-5BY3IHHGCA8WTS15GRRU9CJ6U.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/XPC-E1OEHHYC2HN411OI2TJBFQCTO.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreFoundation-26ENQE3IMXSB6PPJKTGA1Q13D.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/os-DA5JMCK0W5I1PCGLRJIQQB2U.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreGraphics-B54FYNDIGFJ10SOUL26QHV67M.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CFNetwork-97D7CUH1T33G85K86ZDOO7YF2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreAudioTypes-A9CVR3VTOB3B89DZ6CLCU6WZB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/Security-D1DNVI9FS1M0OK6CC1QXINAYN.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreAudio-B3K8DF036KANVBF951LC1FH6R.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/Foundation-F2G5HE5VY35CMV6PE3HGT2UQ2.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreText-CBC7SRZFWCDQ2GRVBHLDQREFT.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/ImageIO-61RALB3K551S9L05L7O6SN3ZA.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/OSLog-1P9GP6ZQSEVZNOBJNSG05HPYM.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/Accessibility-7N8P93VHOZY6NG0LNWSL8K5FE.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreData-DTDAP1NN3TONT92MYYXHZ19FD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/LocalAuthentication-1G3FNL94DYOX3T5D97JP11O93.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/UserNotifications-C9RR01QAOOARBDG2G3F8DPQNI.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreTransferable-UAS38F17X0LZAUXRTQXV2333.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/UniformTypeIdentifiers-BNUWYSEDEZD9VZWYZSSSEJZH4.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/IOSurface-EV2JHN1FZCNDJCU7SGEEY31GB.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/FileProvider-7AKWYWQ6A8YLF0GCB47S24E9D.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/Symbols-7CVTSVKZX7MLG3SBVW1DR6RSY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/DataDetection-2GG8N4X98LRNSHHVYMCPK449V.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/UIUtilities-7TMREAV0T7BPCP8AHMJ422Q92.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/_LocationEssentials-6QPZZS916SQF987Z9GHSGIC5I.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreLocation-DF3PLLCLKVZ11NS8SMP6UUJ78.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/OpenGLES-C0NBDU7MTDJSO8D6VQTE7EP33.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/Metal-EL9DL42CQLUG2VPMEDJG9LPOF.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/HealthKit-23Y3TXUF8YSN4AS7I2JJZZ2QY.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreMotion-4GS0PXE35XTUKU7HAKKFD7KDW.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreVideo-15UPRLMNHI8OIEMQV9F105XJV.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/QuartzCore-DSMDDG0OAXQQ93UDZKJD0KOA3.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreImage-5XX0QAWEO1HUZFWPB289OPLFD.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/CoreMedia-R4ETVUGXHDXMYK1Z0R6GLP8K.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/SwiftUICore-5WOGAA29VO338HVPATF5ERRB1.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/UIKit-46WX8BMFLKKBT3LCPW24SPNN0.pcm
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules/SwiftUI-8E3UIKWM4FERUZMXR86EN6PBJ.pcm
+
+SwiftCompile normal arm64 Compiling\ MainDashboardView.swift /tmp/boazapp-acceptance-source/boazapp/UI/Views/MainDashboardView.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/UI/Views/MainDashboardView.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile MainDashboardView.swift
+
+SwiftCompile normal arm64 Compiling\ BoazDesign.swift /tmp/boazapp-acceptance-source/boazapp/UI/DesignSystem/BoazDesign.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/UI/DesignSystem/BoazDesign.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile BoazDesign.swift
+
+SwiftCompile normal arm64 Compiling\ SyncAuditSheet.swift /tmp/boazapp-acceptance-source/boazapp/UI/Views/SyncAuditSheet.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/UI/Views/SyncAuditSheet.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile SyncAuditSheet.swift
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ boazapp (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    
+
+SwiftCompile normal arm64 Compiling\ HealthSections.swift /tmp/boazapp-acceptance-source/boazapp/UI/Views/HealthSections.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/UI/Views/HealthSections.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile HealthSections.swift
+
+SwiftCompile normal arm64 Compiling\ DashboardModel.swift /tmp/boazapp-acceptance-source/boazapp/UI/DashboardModel.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/UI/DashboardModel.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile DashboardModel.swift
+
+SwiftCompile normal arm64 Compiling\ HealthSettingsSheet.swift /tmp/boazapp-acceptance-source/boazapp/UI/Views/HealthSettingsSheet.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/UI/Views/HealthSettingsSheet.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile HealthSettingsSheet.swift
+
+SwiftCompile normal arm64 Compiling\ WorkoutDetailDispatcher.swift /tmp/boazapp-acceptance-source/boazapp/Health/WorkoutDetailDispatcher.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/Health/WorkoutDetailDispatcher.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile WorkoutDetailDispatcher.swift
+
+SwiftCompile normal arm64 Compiling\ SleepDerivation.swift /tmp/boazapp-acceptance-source/boazapp/Health/SleepDerivation.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/Health/SleepDerivation.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile SleepDerivation.swift
+
+SwiftCompile normal arm64 Compiling\ HealthModels.swift /tmp/boazapp-acceptance-source/boazapp/Health/HealthModels.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/Health/HealthModels.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile HealthModels.swift
+
+SwiftCompile normal arm64 Compiling\ BoazLocalDatabase.swift /tmp/boazapp-acceptance-source/boazapp/Core/Database/BoazLocalDatabase.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/Core/Database/BoazLocalDatabase.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile BoazLocalDatabase.swift
+
+SwiftCompile normal arm64 Compiling\ GeneratedAssetSymbols.swift /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/GeneratedAssetSymbols.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile GeneratedAssetSymbols.swift
+
+SwiftCompile normal arm64 Compiling\ TokyoCloudGateway.swift /tmp/boazapp-acceptance-source/boazapp/Core/Network/TokyoCloudGateway.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/Core/Network/TokyoCloudGateway.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile TokyoCloudGateway.swift
+
+SwiftCompile normal arm64 Compiling\ AppConfiguration.swift,\ BoazApp.swift /tmp/boazapp-acceptance-source/boazapp/App/AppConfiguration.swift /tmp/boazapp-acceptance-source/boazapp/App/BoazApp.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/App/AppConfiguration.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile AppConfiguration.swift
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/App/BoazApp.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile BoazApp.swift
+
+SwiftCompile normal arm64 Compiling\ BoazCoordinator.swift /tmp/boazapp-acceptance-source/boazapp/App/BoazCoordinator.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/App/BoazCoordinator.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile BoazCoordinator.swift
+
+SwiftCompile normal arm64 Compiling\ SleepAnalyzer.swift /tmp/boazapp-acceptance-source/boazapp/Health/SleepAnalyzer.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/Health/SleepAnalyzer.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile SleepAnalyzer.swift
+
+SwiftCompile normal arm64 Compiling\ HealthTypeCatalog.swift /tmp/boazapp-acceptance-source/boazapp/Health/HealthTypeCatalog.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/Health/HealthTypeCatalog.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile HealthTypeCatalog.swift
+
+SwiftCompile normal arm64 Compiling\ HealthKitManager.swift /tmp/boazapp-acceptance-source/boazapp/Health/HealthKitManager.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/Health/HealthKitManager.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile HealthKitManager.swift
+
+SwiftCompile normal arm64 Compiling\ SyncEngine.swift /tmp/boazapp-acceptance-source/boazapp/Core/Network/SyncEngine.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/boazapp/Core/Network/SyncEngine.swift (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile SyncEngine.swift
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for boazapp (in target 'boazapp' from project 'boazapp')
+
+SwiftDriver\ Compilation\ Requirements boazapp normal arm64 com.apple.xcode.tools.swift.compiler (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name boazapp -Onone @/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -target arm64-apple-ios17.0 -g -module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/boazapp-acceptance-snapshot-device/Index.noindex/DataStore -swift-version 6 -I /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -F /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -emit-localized-strings -emit-localized-strings-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64 -c -j18 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/boazapp-acceptance-snapshot-device/SDKStatCaches.noindex/iphoneos27.0-24A430-6c78b3cbc238196c85e1bf6c792c5915.sdkstatcache -output-file-map /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -sdk-module-cache-path /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-generated-files.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-own-target-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-project-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/include -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources-normal/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-Swift.h -working-directory /tmp/boazapp-acceptance-source -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling GeneratedAssetSymbols.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling HealthModels.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SleepDerivation.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftMergeGeneratedHeaders /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/boazapp-Swift.h /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-Swift.h (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-swiftHeaderTool -arch arm64 /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-Swift.h -o /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/boazapp-Swift.h
+
+Copy /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.swiftmodule/arm64-apple-ios.swiftmodule /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.swiftmodule (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.swiftmodule /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.swiftmodule/arm64-apple-ios.swiftmodule
+
+Copy /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.swiftmodule/arm64-apple-ios.swiftdoc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.swiftdoc (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.swiftdoc /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.swiftmodule/arm64-apple-ios.swiftdoc
+
+Copy /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.swiftmodule/arm64-apple-ios.abi.json /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.abi.json (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.abi.json /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.swiftmodule/arm64-apple-ios.abi.json
+
+Copy /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.swiftsourceinfo (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.swiftsourceinfo /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo
+
+SwiftDriver boazappTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftDriver -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name boazappTests -Onone @/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.SwiftFileList -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -target arm64-apple-ios17.0 -g -module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -Xfrontend -serialize-debugging-options -index-store-path /tmp/boazapp-acceptance-snapshot-device/Index.noindex/DataStore -swift-version 6 -I /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib -F /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk/Developer/Library/Frameworks -emit-localized-strings -emit-localized-strings-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64 -c -j18 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/boazapp-acceptance-snapshot-device/SDKStatCaches.noindex/iphoneos27.0-24A430-6c78b3cbc238196c85e1bf6c792c5915.sdkstatcache -output-file-map /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -sdk-module-cache-path /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-generated-files.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-own-target-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-project-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/include -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/DerivedSources-normal/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/DerivedSources/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-Swift.h -working-directory /tmp/boazapp-acceptance-source -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling WorkoutDetailDispatcher.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling HealthTypeCatalog.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling TokyoCloudGateway.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling DashboardModel.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SleepAnalyzer.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling HealthKitManager.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCUIAutomation-DTF5NHECJJ6V899ZM9E5DQBWN.pcm
+
+SwiftDriverJobDiscovery normal arm64 Compiling SyncEngine.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftExplicitDependencyGeneratePcm arm64 /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCTest-AGLDNJ80RTOPLMV84E51RA53W.pcm
+
+SwiftExplicitDependencyCompileModuleFromInterface arm64 /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCUIAutomation-3DTURGMZ55KL4.swiftmodule
+
+SwiftDriverJobDiscovery normal arm64 Compiling BoazCoordinator.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftExplicitDependencyCompileModuleFromInterface arm64 /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules/XCTest-2X8H85BQKCGP4.swiftmodule
+
+SwiftCompile normal arm64 Compiling\ SleepVitalWindowTests.swift /tmp/boazapp-acceptance-source/Tests/SleepVitalWindowTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/Tests/SleepVitalWindowTests.swift (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile SleepVitalWindowTests.swift
+
+SwiftEmitModule normal arm64 Emitting\ module\ for\ boazappTests (in target 'boazappTests' from project 'boazapp')
+
+SwiftCompile normal arm64 (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    
+
+SwiftCompile normal arm64 Compiling\ SleepAnalyzerTests.swift /tmp/boazapp-acceptance-source/Tests/SleepAnalyzerTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/Tests/SleepAnalyzerTests.swift (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile SleepAnalyzerTests.swift
+
+SwiftCompile normal arm64 Compiling\ WorkoutDetailDispatcherTests.swift /tmp/boazapp-acceptance-source/Tests/WorkoutDetailDispatcherTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/Tests/WorkoutDetailDispatcherTests.swift (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile WorkoutDetailDispatcherTests.swift
+
+SwiftCompile normal arm64 Compiling\ SleepHistoryTests.swift /tmp/boazapp-acceptance-source/Tests/SleepHistoryTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/Tests/SleepHistoryTests.swift (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile SleepHistoryTests.swift
+
+SwiftCompile normal arm64 Compiling\ TokyoEndpointTests.swift /tmp/boazapp-acceptance-source/Tests/TokyoEndpointTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/Tests/TokyoEndpointTests.swift (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile TokyoEndpointTests.swift
+
+SwiftCompile normal arm64 Compiling\ LocalLedgerTests.swift /tmp/boazapp-acceptance-source/Tests/LocalLedgerTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/Tests/LocalLedgerTests.swift (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile LocalLedgerTests.swift
+
+SwiftCompile normal arm64 Compiling\ HealthUnitTests.swift /tmp/boazapp-acceptance-source/Tests/HealthUnitTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/Tests/HealthUnitTests.swift (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile HealthUnitTests.swift
+
+SwiftCompile normal arm64 Compiling\ ActivityDayTests.swift /tmp/boazapp-acceptance-source/Tests/ActivityDayTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftCompile normal arm64 /tmp/boazapp-acceptance-source/Tests/ActivityDayTests.swift (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-SwiftPerFileCompile ActivityDayTests.swift
+
+SwiftDriverJobDiscovery normal arm64 Compiling BoazLocalDatabase.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Emitting module for boazappTests (in target 'boazappTests' from project 'boazapp')
+
+SwiftDriver\ Compilation\ Requirements boazappTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-Swift-Compilation-Requirements -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name boazappTests -Onone @/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.SwiftFileList -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -target arm64-apple-ios17.0 -g -module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -Xfrontend -serialize-debugging-options -index-store-path /tmp/boazapp-acceptance-snapshot-device/Index.noindex/DataStore -swift-version 6 -I /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib -F /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk/Developer/Library/Frameworks -emit-localized-strings -emit-localized-strings-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64 -c -j18 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/boazapp-acceptance-snapshot-device/SDKStatCaches.noindex/iphoneos27.0-24A430-6c78b3cbc238196c85e1bf6c792c5915.sdkstatcache -output-file-map /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -sdk-module-cache-path /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-generated-files.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-own-target-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-project-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/include -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/DerivedSources-normal/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/DerivedSources/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-Swift.h -working-directory /tmp/boazapp-acceptance-source -experimental-emit-module-separately -disable-cmo
+
+SwiftMergeGeneratedHeaders /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/DerivedSources/boazappTests-Swift.h /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-Swift.h (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-swiftHeaderTool -arch arm64 /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-Swift.h -o /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/DerivedSources/boazappTests-Swift.h
+
+Copy /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazappTests.swiftmodule/arm64-apple-ios.abi.json /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.abi.json (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.abi.json /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazappTests.swiftmodule/arm64-apple-ios.abi.json
+
+Copy /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazappTests.swiftmodule/arm64-apple-ios.swiftmodule /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.swiftmodule (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.swiftmodule /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazappTests.swiftmodule/arm64-apple-ios.swiftmodule
+
+Copy /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazappTests.swiftmodule/arm64-apple-ios.swiftdoc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.swiftdoc (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.swiftdoc /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazappTests.swiftmodule/arm64-apple-ios.swiftdoc
+
+Copy /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazappTests.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.swiftsourceinfo (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-copy -exclude .DS_Store -exclude CVS -exclude .svn -exclude .git -exclude .hg -strip-unsigned-binaries -strip-deterministic -strip-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/strip -resolve-src-symlinks -rename /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.swiftsourceinfo /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazappTests.swiftmodule/Project/arm64-apple-ios.swiftsourceinfo
+
+SwiftDriverJobDiscovery normal arm64 Compiling ActivityDayTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling HealthUnitTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SleepVitalWindowTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SleepAnalyzerTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling WorkoutDetailDispatcherTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling TokyoEndpointTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling AppConfiguration.swift, BoazApp.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling SleepHistoryTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling LocalLedgerTests.swift (in target 'boazappTests' from project 'boazapp')
+
+SwiftDriver\ Compilation boazappTests normal arm64 com.apple.xcode.tools.swift.compiler (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name boazappTests -Onone @/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.SwiftFileList -plugin-path /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/host/plugins/testing -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -target arm64-apple-ios17.0 -g -module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -Xfrontend -serialize-debugging-options -index-store-path /tmp/boazapp-acceptance-snapshot-device/Index.noindex/DataStore -swift-version 6 -I /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -Isystem /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib -F /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Frameworks -F /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk/Developer/Library/Frameworks -emit-localized-strings -emit-localized-strings-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64 -c -j18 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/boazapp-acceptance-snapshot-device/SDKStatCaches.noindex/iphoneos27.0-24A430-6c78b3cbc238196c85e1bf6c792c5915.sdkstatcache -output-file-map /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -sdk-module-cache-path /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-generated-files.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-own-target-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests-project-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/include -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/DerivedSources-normal/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/DerivedSources/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests-Swift.h -working-directory /tmp/boazapp-acceptance-source -experimental-emit-module-separately -disable-cmo
+
+SwiftDriverJobDiscovery normal arm64 Compiling SyncAuditSheet.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling BoazDesign.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling MainDashboardView.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling HealthSections.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriverJobDiscovery normal arm64 Compiling HealthSettingsSheet.swift (in target 'boazapp' from project 'boazapp')
+
+SwiftDriver\ Compilation boazapp normal arm64 com.apple.xcode.tools.swift.compiler (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-Swift-Compilation -- /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/swiftc -module-name boazapp -Onone @/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.SwiftFileList -enable-experimental-feature DebugDescriptionMacro -sdk /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -target arm64-apple-ios17.0 -g -module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -Xfrontend -serialize-debugging-options -enable-testing -index-store-path /tmp/boazapp-acceptance-snapshot-device/Index.noindex/DataStore -swift-version 6 -I /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -F /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -emit-localized-strings -emit-localized-strings-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64 -c -j18 -enable-batch-mode -incremental -Xcc -ivfsstatcache -Xcc /tmp/boazapp-acceptance-snapshot-device/SDKStatCaches.noindex/iphoneos27.0-24A430-6c78b3cbc238196c85e1bf6c792c5915.sdkstatcache -output-file-map /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-OutputFileMap.json -save-temps -no-color-diagnostics -explicit-module-build -module-cache-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules -clang-scanner-module-cache-path /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex -sdk-module-cache-path /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules -emit-dependencies -emit-module -emit-module-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.swiftmodule -serialize-diagnostics -dependency-scan-serialize-diagnostics-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-dependency-scan.dia -validate-clang-modules-once -clang-build-session-file /tmp/boazapp-acceptance-snapshot-device/ModuleCache.noindex/Session.modulevalidation -Xcc -fmodules-prune-interval\=86400 -Xcc -fmodules-prune-after\=345600 -emit-const-values -const-gather-protocols-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp_const_extract_protocols.json -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-generated-files.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-own-target-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-all-target-headers.hmap -Xcc -iquote -Xcc /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-project-headers.hmap -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/include -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources-normal/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources/arm64 -Xcc -I/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/DerivedSources -emit-objc-header -emit-objc-header-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp-Swift.h -working-directory /tmp/boazapp-acceptance-source -experimental-emit-module-separately -disable-cmo
+
+Ld /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp.debug.dylib normal (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0 -dynamiclib -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -L/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -F/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -F/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -filelist /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.LinkFileList -install_name @rpath/boazapp.debug.dylib -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -dead_strip -Xlinker -object_path_lto -Xlinker /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp_lto.o -rdynamic -Xlinker -dependency_info -Xlinker /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.swiftmodule -lsqlite3 -Xlinker -alias -Xlinker _main -Xlinker ___debug_main_executable_dylib_entry_point -o /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp.debug.dylib
+
+ConstructStubExecutorLinkFileList /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-ExecutorLinkFileList-normal-arm64.txt (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    construct-stub-executor-link-file-list /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp.debug.dylib /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/libPreviewsJITStubExecutor_no_swift_entry_point.a /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/libPreviewsJITStubExecutor.a --output /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-ExecutorLinkFileList-normal-arm64.txt
+note: Using stub executor library with Swift entry point. (in target 'boazapp' from project 'boazapp')
+
+GenerateDSYMFile /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app.dSYM /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp.debug.dylib (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    export PATH\=/Applications/Xcode.app/Contents/SharedFrameworks/SwiftBuild.framework/Versions/A/PlugIns/SWBBuildService.bundle/Contents/PlugIns/SWBUniversalPlatformPlugin.bundle/Contents/Frameworks/SWBUniversalPlatform.framework/Resources:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/libexec:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/local/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/local/bin:/Users/beckliu/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Applications/VMware\ Fusion.app/Contents/Public:/usr/local/go/bin:/Users/beckliu/.codex/tmp/arg0/codex-arg0W1Z0wx:/Users/beckliu/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/beckliu/.antigravity-ide/antigravity-ide/bin:/Users/beckliu/.grok/bin:/Applications/Docker.app/Contents/Resources/bin:/Users/beckliu/Library/Python/3.9/bin:/Users/beckliu/anaconda3/bin:/Users/beckliu/anaconda3/condabin:/Users/beckliu/.antigravity/antigravity/bin:/Users/beckliu/.codex/tmp/arg0/codex-arg0UsE13V:/Users/beckliu/.codex/tmp/arg0/codex-arg0GqiPcW:/Users/beckliu/.cargo/bin:/Applications/ChatGPT.app/Contents/Resources:/Users/beckliu/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp.debug.dylib -o /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app.dSYM
+
+Ld /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp normal (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0 -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -F/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -Xlinker -rpath -Xlinker @executable_path -rdynamic -e ___debug_blank_executor_main -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_dylib -Xlinker /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-DebugDylibPath-normal-arm64.txt -Xlinker -sectcreate -Xlinker __TEXT -Xlinker __debug_instlnm -Xlinker /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-DebugDylibInstallName-normal-arm64.txt -Xlinker -filelist -Xlinker /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp-ExecutorLinkFileList-normal-arm64.txt /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp.debug.dylib -o /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp
+
+GenerateDSYMFile /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app.dSYM /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    export PATH\=/Applications/Xcode.app/Contents/SharedFrameworks/SwiftBuild.framework/Versions/A/PlugIns/SWBBuildService.bundle/Contents/PlugIns/SWBUniversalPlatformPlugin.bundle/Contents/Frameworks/SWBUniversalPlatform.framework/Resources:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/libexec:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/local/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/local/bin:/Users/beckliu/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Applications/VMware\ Fusion.app/Contents/Public:/usr/local/go/bin:/Users/beckliu/.codex/tmp/arg0/codex-arg0W1Z0wx:/Users/beckliu/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/beckliu/.antigravity-ide/antigravity-ide/bin:/Users/beckliu/.grok/bin:/Applications/Docker.app/Contents/Resources/bin:/Users/beckliu/Library/Python/3.9/bin:/Users/beckliu/anaconda3/bin:/Users/beckliu/anaconda3/condabin:/Users/beckliu/.antigravity/antigravity/bin:/Users/beckliu/.codex/tmp/arg0/codex-arg0UsE13V:/Users/beckliu/.codex/tmp/arg0/codex-arg0GqiPcW:/Users/beckliu/.cargo/bin:/Applications/ChatGPT.app/Contents/Resources:/Users/beckliu/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil -q /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp -o /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app.dSYM
+
+ExtractAppIntentsMetadata (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name boazapp --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk --xcode-version 27A266a --platform-family iOS --deployment-target 17.0 --bundle-identifier com.beckliu.boazhealth --output /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app --target-triple arm64-apple-ios17.0 --binary-file /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp --dependency-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp_dependency_info.dat --stringsdata-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.SwiftFileList --metadata-file-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp.DependencyMetadataFileList --static-metadata-file-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/Objects-normal/arm64/boazapp.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-09-18 16:48:20.104 appintentsmetadataprocessor[78842:10422680] Starting appintentsmetadataprocessor export
+2026-09-18 16:48:20.106 appintentsmetadataprocessor[78842:10422680] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+CopySwiftLibs /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp.debug.dylib --scan-folder /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/Frameworks --scan-folder /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns --scan-folder /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/SystemExtensions --scan-folder /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/Extensions --platform iphoneos --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/Frameworks --strip-bitcode --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os --back-deploy-swift-span
+Ignoring --strip-bitcode because --sign was not passed
+
+AppIntentsSSUTraining (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/Info.plist --temp-dir-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/ssu --bundle-id com.beckliu.boazhealth --product-path /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app --extracted-metadata-path /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/Metadata.appintents --metadata-file-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazapp.build/boazapp.DependencyMetadataFileList --source-file /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/Info.plist --archive-ssu-assets
+2026-09-18 16:48:20.129 appintentsnltrainingprocessor[78843:10422686] Parsing options for appintentsnltrainingprocessor
+2026-09-18 16:48:20.130 appintentsnltrainingprocessor[78843:10422686] Starting AppIntents SSU YAML Generation
+2026-09-18 16:48:20.130 appintentsnltrainingprocessor[78843:10422686] No AppShortcuts found - Skipping.
+
+ProcessInfoPlistFile /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/Info.plist /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/empty-boazappTests.plist (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-infoPlistUtility /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/empty-boazappTests.plist -producttype com.apple.product-type.bundle.unit-test -expandbuildsettings -format binary -platform iphoneos -requiredArchitecture arm64 -o /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/Info.plist
+
+Ld /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/boazappTests normal (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/clang -Xlinker -reproducible -target arm64-apple-ios17.0 -bundle -isysroot /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk -Os -Xlinker -no_warn_duplicate_libraries -L/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -L/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -L/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib -F/tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/EagerLinkingTBDs/Debug-iphoneos -F/tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/Library/Frameworks -iframework /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk/Developer/Library/Frameworks -filelist /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.LinkFileList -Xlinker -rpath -Xlinker /usr/lib/swift -Xlinker -rpath -Xlinker @loader_path/Frameworks -Xlinker -rpath -Xlinker @executable_path/Frameworks -Xlinker -dead_strip -bundle_loader /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp -Xlinker -object_path_lto -Xlinker /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests_lto.o -Xlinker -dependency_info -Xlinker /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests_dependency_info.dat -fobjc-link-runtime -L/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/lib/swift/iphoneos -L/usr/lib/swift -Xlinker -add_ast_path -Xlinker /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.swiftmodule -Xlinker -needed_framework -Xlinker XCTest -framework XCTest -Xlinker -needed-lXCTestSwiftSupport -lXCTestSwiftSupport /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/boazapp.debug.dylib -o /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/boazappTests
+
+CopySwiftLibs /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-swiftStdLibTool --copy --verbose --scan-executable /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/boazappTests --scan-folder /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/Frameworks --scan-folder /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/PlugIns --scan-folder /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/SystemExtensions --scan-folder /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/Extensions --platform iphoneos --toolchain /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --destination /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/Frameworks --strip-bitcode --scan-executable /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/lib/libXCTestSwiftSupport.dylib --strip-bitcode-tool /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/bitcode_strip --emit-dependency-info /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/SwiftStdLibToolInputDependencies.dep --filter-for-swift-os --back-deploy-swift-span
+Ignoring --strip-bitcode because --sign was not passed
+
+ExtractAppIntentsMetadata (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsmetadataprocessor --toolchain-dir /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain --module-name boazappTests --sdk-root /Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/SDKs/iPhoneOS27.0.sdk --xcode-version 27A266a --platform-family iOS --deployment-target 17.0 --bundle-identifier com.beckliu.boazhealth.tests --output /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest --target-triple arm64-apple-ios17.0 --binary-file /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/boazappTests --dependency-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests_dependency_info.dat --stringsdata-file /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/ExtractedAppShortcutsMetadata.stringsdata --source-file-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.SwiftFileList --metadata-file-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests.DependencyMetadataFileList --static-metadata-file-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests.DependencyStaticMetadataFileList --swift-const-vals-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/Objects-normal/arm64/boazappTests.SwiftConstValuesFileList --compile-time-extraction --deployment-aware-processing --no-app-shortcuts-localization
+2026-09-18 16:48:20.447 appintentsmetadataprocessor[78848:10422897] Starting appintentsmetadataprocessor export
+2026-09-18 16:48:20.449 appintentsmetadataprocessor[78848:10422897] warning: Metadata extraction skipped, no AppIntents.framework dependency found
+
+GenerateDSYMFile /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest.dSYM /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/boazappTests (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    export PATH\=/Applications/Xcode.app/Contents/SharedFrameworks/SwiftBuild.framework/Versions/A/PlugIns/SWBBuildService.bundle/Contents/PlugIns/SWBUniversalPlatformPlugin.bundle/Contents/Frameworks/SWBUniversalPlatform.framework/Resources:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/libexec:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/usr/local/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/Platforms/iPhoneOS.platform/Developer/usr/local/bin:/Applications/Xcode.app/Contents/Developer/usr/bin:/Applications/Xcode.app/Contents/Developer/usr/local/bin:/Users/beckliu/.local/bin:/opt/homebrew/bin:/opt/homebrew/sbin:/usr/local/bin:/System/Cryptexes/App/usr/bin:/usr/bin:/bin:/usr/sbin:/sbin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/local/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/bin:/var/run/com.apple.security.cryptexd/codex.system/bootstrap/usr/appleinternal/bin:/pkg/env/global/bin:/Library/Apple/usr/bin:/Applications/VMware\ Fusion.app/Contents/Public:/usr/local/go/bin:/Users/beckliu/.codex/tmp/arg0/codex-arg0W1Z0wx:/Users/beckliu/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/override:/Users/beckliu/.antigravity-ide/antigravity-ide/bin:/Users/beckliu/.grok/bin:/Applications/Docker.app/Contents/Resources/bin:/Users/beckliu/Library/Python/3.9/bin:/Users/beckliu/anaconda3/bin:/Users/beckliu/anaconda3/condabin:/Users/beckliu/.antigravity/antigravity/bin:/Users/beckliu/.codex/tmp/arg0/codex-arg0UsE13V:/Users/beckliu/.codex/tmp/arg0/codex-arg0GqiPcW:/Users/beckliu/.cargo/bin:/Applications/ChatGPT.app/Contents/Resources:/Users/beckliu/.cache/codex-runtimes/codex-primary-runtime/dependencies/bin/fallback
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/dsymutil /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/boazappTests -o /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest.dSYM
+
+AppIntentsSSUTraining (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /Applications/Xcode.app/Contents/Developer/Toolchains/XcodeDefault.xctoolchain/usr/bin/appintentsnltrainingprocessor --infoplist-path /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/Info.plist --temp-dir-path /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/ssu --bundle-id com.beckliu.boazhealth.tests --product-path /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest --extracted-metadata-path /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/Metadata.appintents --metadata-file-list /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/boazapp.build/Debug-iphoneos/boazappTests.build/boazappTests.DependencyMetadataFileList --source-file /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest/Info.plist --archive-ssu-assets
+2026-09-18 16:48:20.465 appintentsnltrainingprocessor[78850:10422901] Parsing options for appintentsnltrainingprocessor
+2026-09-18 16:48:20.465 appintentsnltrainingprocessor[78850:10422901] Starting AppIntents SSU YAML Generation
+2026-09-18 16:48:20.465 appintentsnltrainingprocessor[78850:10422901] No AppShortcuts found - Skipping.
+
+RegisterExecutionPolicyException /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-RegisterExecutionPolicyException /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest
+
+Touch /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest (in target 'boazappTests' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /usr/bin/touch -c /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app/PlugIns/boazappTests.xctest
+
+RegisterExecutionPolicyException /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-RegisterExecutionPolicyException /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app
+
+Validate /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    builtin-validationUtility /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app -shallow-bundle -infoplist-subpath Info.plist
+
+Touch /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app (in target 'boazapp' from project 'boazapp')
+    cd /tmp/boazapp-acceptance-source
+    /usr/bin/touch -c /tmp/boazapp-acceptance-snapshot-device/Build/Products/Debug-iphoneos/boazapp.app
+
+PruneExplicitPrecompiledModules /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/SwiftExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/boazapp-acceptance-snapshot-device/SDKExplicitPrecompiledModules
+
+PruneExplicitPrecompiledModules /tmp/boazapp-acceptance-snapshot-device/Build/Intermediates.noindex/ExplicitPrecompiledModules
+
+** TEST BUILD SUCCEEDED **
+

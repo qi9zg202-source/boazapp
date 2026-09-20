@@ -1,0 +1,37 @@
+{
+  "scope": "isolated_loopback_upload_disabled",
+  "results": [
+    {
+      "check": "unauthenticated_status",
+      "status": "PASS",
+      "http_status": 401
+    },
+    {
+      "check": "pairing_gate_closed",
+      "status": "PASS",
+      "http_status": 503
+    },
+    {
+      "check": "batch_gate_closed",
+      "status": "PASS",
+      "http_status": 503
+    },
+    {
+      "check": "unknown_route",
+      "status": "PASS",
+      "http_status": 404
+    },
+    {
+      "check": "loopback_socket_and_startup_address",
+      "status": "PASS"
+    },
+    {
+      "check": "intact_database_with_zero_records",
+      "status": "PASS"
+    },
+    {
+      "check": "child_stopped_and_temporary_data_removed",
+      "status": "PASS"
+    }
+  ]
+}

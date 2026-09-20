@@ -1,0 +1,556 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {};
+	objectVersion = 56;
+	objects = {
+		E2AB6FFB9054B23729EB98DB = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "App/AppConfiguration.swift";
+			sourceTree = "<group>";
+		};
+		6E3BC1687C81AAFBC19472AB = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "App/BoazApp.swift";
+			sourceTree = "<group>";
+		};
+		209E537040A3D77CC8745284 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "App/BoazCoordinator.swift";
+			sourceTree = "<group>";
+		};
+		2B8C264D2A278CA404D08BDF = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Core/Database/BoazLocalDatabase.swift";
+			sourceTree = "<group>";
+		};
+		C02DCEB4BD33F419A9C2401B = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Core/Network/SyncEngine.swift";
+			sourceTree = "<group>";
+		};
+		7838B29851499A4ACA6221DE = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Core/Network/TokyoCloudGateway.swift";
+			sourceTree = "<group>";
+		};
+		E171F4DDB68BAB693AB94B65 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Health/HealthKitManager.swift";
+			sourceTree = "<group>";
+		};
+		5C7A3F9E525BA480DE5B1908 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Health/HealthModels.swift";
+			sourceTree = "<group>";
+		};
+		6DE2AE29847A69C82E2F324E = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Health/HealthTypeCatalog.swift";
+			sourceTree = "<group>";
+		};
+		64B836FC9C232E1B0E5EDF70 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Health/SleepAnalyzer.swift";
+			sourceTree = "<group>";
+		};
+		DCC2189EC97ABFA5AEBC48AE = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Health/SleepDerivation.swift";
+			sourceTree = "<group>";
+		};
+		F4356C84189E94C754150947 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "Health/WorkoutDetailDispatcher.swift";
+			sourceTree = "<group>";
+		};
+		15F86670235CD1BC085B9CC8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "UI/DashboardModel.swift";
+			sourceTree = "<group>";
+		};
+		802774F5955E14BCB87F7333 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "UI/DesignSystem/BoazDesign.swift";
+			sourceTree = "<group>";
+		};
+		69D6C39465F47A69BABD57E8 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "UI/Views/HealthSections.swift";
+			sourceTree = "<group>";
+		};
+		93B9AFDF6FF71EB439C5B5F3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "UI/Views/HealthSettingsSheet.swift";
+			sourceTree = "<group>";
+		};
+		414706A2F090FD7A8ECA024C = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "UI/Views/MainDashboardView.swift";
+			sourceTree = "<group>";
+		};
+		3B3ED277EAD4AEC23521D94D = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "UI/Views/SyncAuditSheet.swift";
+			sourceTree = "<group>";
+		};
+		0A5BE81BAEC744983E9B6DD3 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = "Core/Database/Schema.sql";
+			sourceTree = "<group>";
+		};
+		EC59BFE7E8326763C24281D7 = {
+			isa = PBXFileReference;
+			lastKnownFileType = folder.assetcatalog;
+			path = "Resources/Assets.xcassets";
+			sourceTree = "<group>";
+		};
+		9C5820EE1B11460B2E53F34F = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.xml;
+			path = "Resources/Info.plist";
+			sourceTree = "<group>";
+		};
+		AD8F2174F95CD71A7DE9E630 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text.plist.entitlements;
+			path = "Resources/boazapp.entitlements";
+			sourceTree = "<group>";
+		};
+		D4A08A0629604847455BD195 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ActivityDayTests.swift";
+			sourceTree = "<group>";
+		};
+		F87B50F64AFD44153B8EAB54 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "ClientArchitectureTests.swift";
+			sourceTree = "<group>";
+		};
+		E969CAF2CB3938D44476E794 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "GRDBMigrationTests.swift";
+			sourceTree = "<group>";
+		};
+		5F79670EA63925C816CD82DD = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "HealthUnitTests.swift";
+			sourceTree = "<group>";
+		};
+		6D802C556C9D3E20B4449FA2 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "LocalHarnessMigrationTests.swift";
+			sourceTree = "<group>";
+		};
+		78F1391CBC3497294AFD9991 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "LocalLedgerTests.swift";
+			sourceTree = "<group>";
+		};
+		1FAF5D7AC919460B498BE0F9 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SleepAnalyzerTests.swift";
+			sourceTree = "<group>";
+		};
+		693127CCD94731EF78E908FD = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SleepHistoryTests.swift";
+			sourceTree = "<group>";
+		};
+		2201172C01B2CF1EBBBA9652 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "SleepVitalWindowTests.swift";
+			sourceTree = "<group>";
+		};
+		19D4E62B9F26E36E42FADC27 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "TokyoEndpointTests.swift";
+			sourceTree = "<group>";
+		};
+		B429C4570D09CFEA37571AEE = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "WorkoutDetailDispatcherTests.swift";
+			sourceTree = "<group>";
+		};
+		840BDD74AADAD713682DDD1A = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "../scripts/GatewayTransportHarness.swift";
+			sourceTree = "<group>";
+		};
+		9D07A987744E6C29AFB2E396 = {
+			isa = PBXFileReference;
+			lastKnownFileType = sourcecode.swift;
+			path = "../scripts/LocalCoreHarness.swift";
+			sourceTree = "<group>";
+		};
+		7BBD54B35B44BDF164C25AB4 = {
+			isa = PBXFileReference;
+			lastKnownFileType = text;
+			path = "Fixtures/SchemaV1.sql";
+			sourceTree = "<group>";
+		};
+		B6CDB6E5D160E013280D3C68 = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.application;
+			includeInIndex = 0;
+			path = boazapp.app;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		E02A90D9643568EA39115CFB = {
+			isa = PBXFileReference;
+			explicitFileType = wrapper.cfbundle;
+			includeInIndex = 0;
+			path = boazappTests.xctest;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		87FCAC000C6D06B63449246F = {
+			isa = PBXBuildFile;
+			fileRef = E2AB6FFB9054B23729EB98DB;
+		};
+		40A6757433C05C85C9F6AF7B = {
+			isa = PBXBuildFile;
+			fileRef = 6E3BC1687C81AAFBC19472AB;
+		};
+		EE09B388B3170D8756B71078 = {
+			isa = PBXBuildFile;
+			fileRef = 209E537040A3D77CC8745284;
+		};
+		43410D5AB219D73DE81B9E81 = {
+			isa = PBXBuildFile;
+			fileRef = 2B8C264D2A278CA404D08BDF;
+		};
+		84659A75599BD0E7AA407AE7 = {
+			isa = PBXBuildFile;
+			fileRef = C02DCEB4BD33F419A9C2401B;
+		};
+		D011FE83478711BDCD3422F8 = {
+			isa = PBXBuildFile;
+			fileRef = 7838B29851499A4ACA6221DE;
+		};
+		226CEC460F7105E31C8C2023 = {
+			isa = PBXBuildFile;
+			fileRef = E171F4DDB68BAB693AB94B65;
+		};
+		1E51381D41E392897B104989 = {
+			isa = PBXBuildFile;
+			fileRef = 5C7A3F9E525BA480DE5B1908;
+		};
+		CCB7AA449CA9F0BC7CBDFB20 = {
+			isa = PBXBuildFile;
+			fileRef = 6DE2AE29847A69C82E2F324E;
+		};
+		987F7BC588FC4B2FE4149B9F = {
+			isa = PBXBuildFile;
+			fileRef = 64B836FC9C232E1B0E5EDF70;
+		};
+		C57E5AE50209E47ABF57BD9B = {
+			isa = PBXBuildFile;
+			fileRef = DCC2189EC97ABFA5AEBC48AE;
+		};
+		6BCB3E207F9400697C7DEBA2 = {
+			isa = PBXBuildFile;
+			fileRef = F4356C84189E94C754150947;
+		};
+		34633F2240DAE79745ABF30D = {
+			isa = PBXBuildFile;
+			fileRef = 15F86670235CD1BC085B9CC8;
+		};
+		25A2B461FE0D7C5D92F422AA = {
+			isa = PBXBuildFile;
+			fileRef = 802774F5955E14BCB87F7333;
+		};
+		2366F25252218C0898F95A37 = {
+			isa = PBXBuildFile;
+			fileRef = 69D6C39465F47A69BABD57E8;
+		};
+		0A492C0DE719E0D3286FBB5B = {
+			isa = PBXBuildFile;
+			fileRef = 93B9AFDF6FF71EB439C5B5F3;
+		};
+		8D44C0E184C32B4BD5FB038E = {
+			isa = PBXBuildFile;
+			fileRef = 414706A2F090FD7A8ECA024C;
+		};
+		30BFEFC87BC7C1DC0DFB29FE = {
+			isa = PBXBuildFile;
+			fileRef = 3B3ED277EAD4AEC23521D94D;
+		};
+		EA696CD165A95D4ED0688864 = {
+			isa = PBXBuildFile;
+			fileRef = 0A5BE81BAEC744983E9B6DD3;
+		};
+		B23EC60703160BEF7FFD24D1 = {
+			isa = PBXBuildFile;
+			fileRef = EC59BFE7E8326763C24281D7;
+		};
+		E3410AE0FDF0101F4A4A767E = {
+			isa = PBXBuildFile;
+			fileRef = D4A08A0629604847455BD195;
+		};
+		5542E65079FD82B23365AE51 = {
+			isa = PBXBuildFile;
+			fileRef = F87B50F64AFD44153B8EAB54;
+		};
+		BBDBFFDB1ACC7C482D09ABBD = {
+			isa = PBXBuildFile;
+			fileRef = E969CAF2CB3938D44476E794;
+		};
+		37ED2EE08E50F27FC3B6121F = {
+			isa = PBXBuildFile;
+			fileRef = 5F79670EA63925C816CD82DD;
+		};
+		24783642F2277CDC5EB11AA8 = {
+			isa = PBXBuildFile;
+			fileRef = 6D802C556C9D3E20B4449FA2;
+		};
+		69CA217F2F5EF8383E26AD98 = {
+			isa = PBXBuildFile;
+			fileRef = 78F1391CBC3497294AFD9991;
+		};
+		6DE8938557DF7A15B4B4EB8B = {
+			isa = PBXBuildFile;
+			fileRef = 1FAF5D7AC919460B498BE0F9;
+		};
+		8D0D6AC6BEC3A93350447136 = {
+			isa = PBXBuildFile;
+			fileRef = 693127CCD94731EF78E908FD;
+		};
+		B9D72C691F934781272A0A40 = {
+			isa = PBXBuildFile;
+			fileRef = 2201172C01B2CF1EBBBA9652;
+		};
+		A77CE2A1163479EEE1FDDBD2 = {
+			isa = PBXBuildFile;
+			fileRef = 19D4E62B9F26E36E42FADC27;
+		};
+		F59FCD4593292E3EC24FA3C3 = {
+			isa = PBXBuildFile;
+			fileRef = B429C4570D09CFEA37571AEE;
+		};
+		29DE01F65BB26BF0997A3035 = {
+			isa = PBXBuildFile;
+			fileRef = 840BDD74AADAD713682DDD1A;
+		};
+		94944BC8092B6EEC82AF3347 = {
+			isa = PBXBuildFile;
+			fileRef = 9D07A987744E6C29AFB2E396;
+		};
+		C4465B85E3470A11621A8780 = {
+			isa = PBXBuildFile;
+			fileRef = 7BBD54B35B44BDF164C25AB4;
+		};
+		F2FC5285BBD5FCFCA4395990 = {
+			isa = PBXBuildFile;
+			productRef = 4B933A4F7B90950627E34195;
+		};
+		82ED1AC415CD55010FACF95C = {
+			isa = PBXBuildFile;
+			productRef = BC2E9E7B356FDB78EE118320;
+		};
+		DF891E785808226D241F246E = {
+			isa = PBXGroup;
+			children = ( CF8D0BD4B75E8C2C174692A5, EEFE21A1443933CA4DE017DA, 00C45FD35CB0F9C5F764F070, );
+			sourceTree = "<group>";
+		};
+		CF8D0BD4B75E8C2C174692A5 = {
+			isa = PBXGroup;
+			children = ( E2AB6FFB9054B23729EB98DB, 6E3BC1687C81AAFBC19472AB, 209E537040A3D77CC8745284, 2B8C264D2A278CA404D08BDF, C02DCEB4BD33F419A9C2401B, 7838B29851499A4ACA6221DE, E171F4DDB68BAB693AB94B65, 5C7A3F9E525BA480DE5B1908, 6DE2AE29847A69C82E2F324E, 64B836FC9C232E1B0E5EDF70, DCC2189EC97ABFA5AEBC48AE, F4356C84189E94C754150947, 15F86670235CD1BC085B9CC8, 802774F5955E14BCB87F7333, 69D6C39465F47A69BABD57E8, 93B9AFDF6FF71EB439C5B5F3, 414706A2F090FD7A8ECA024C, 3B3ED277EAD4AEC23521D94D, 0A5BE81BAEC744983E9B6DD3, EC59BFE7E8326763C24281D7, 9C5820EE1B11460B2E53F34F, AD8F2174F95CD71A7DE9E630, );
+			path = boazapp;
+			sourceTree = "<group>";
+		};
+		EEFE21A1443933CA4DE017DA = {
+			isa = PBXGroup;
+			children = ( D4A08A0629604847455BD195, F87B50F64AFD44153B8EAB54, E969CAF2CB3938D44476E794, 5F79670EA63925C816CD82DD, 6D802C556C9D3E20B4449FA2, 78F1391CBC3497294AFD9991, 1FAF5D7AC919460B498BE0F9, 693127CCD94731EF78E908FD, 2201172C01B2CF1EBBBA9652, 19D4E62B9F26E36E42FADC27, B429C4570D09CFEA37571AEE, 840BDD74AADAD713682DDD1A, 9D07A987744E6C29AFB2E396, 7BBD54B35B44BDF164C25AB4, );
+			path = Tests;
+			sourceTree = "<group>";
+		};
+		00C45FD35CB0F9C5F764F070 = {
+			isa = PBXGroup;
+			children = ( B6CDB6E5D160E013280D3C68, E02A90D9643568EA39115CFB, );
+			name = Products;
+			sourceTree = "<group>";
+		};
+		507A349611DBB42F9CF9069B = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ( 87FCAC000C6D06B63449246F, 40A6757433C05C85C9F6AF7B, EE09B388B3170D8756B71078, 43410D5AB219D73DE81B9E81, 84659A75599BD0E7AA407AE7, D011FE83478711BDCD3422F8, 226CEC460F7105E31C8C2023, 1E51381D41E392897B104989, CCB7AA449CA9F0BC7CBDFB20, 987F7BC588FC4B2FE4149B9F, C57E5AE50209E47ABF57BD9B, 6BCB3E207F9400697C7DEBA2, 34633F2240DAE79745ABF30D, 25A2B461FE0D7C5D92F422AA, 2366F25252218C0898F95A37, 0A492C0DE719E0D3286FBB5B, 8D44C0E184C32B4BD5FB038E, 30BFEFC87BC7C1DC0DFB29FE, );
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		4C29BBC16528FEA9E858725B = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ( EA696CD165A95D4ED0688864, B23EC60703160BEF7FFD24D1, );
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		283236DFCBED01B817B33E02 = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ( E3410AE0FDF0101F4A4A767E, 5542E65079FD82B23365AE51, BBDBFFDB1ACC7C482D09ABBD, 37ED2EE08E50F27FC3B6121F, 24783642F2277CDC5EB11AA8, 69CA217F2F5EF8383E26AD98, 6DE8938557DF7A15B4B4EB8B, 8D0D6AC6BEC3A93350447136, B9D72C691F934781272A0A40, A77CE2A1163479EEE1FDDBD2, F59FCD4593292E3EC24FA3C3, 29DE01F65BB26BF0997A3035, 94944BC8092B6EEC82AF3347, );
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		868C2D0100C5F6D76CC6F758 = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = ( C4465B85E3470A11621A8780, );
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		2D3446C63F9EEB9172CAE05B = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = ( F2FC5285BBD5FCFCA4395990, );
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		CC40A40B1A5630AD4E7C4B11 = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = ( 82ED1AC415CD55010FACF95C, );
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		29C7B681C8D62CBAC94D51C0 = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 8A4C137FDF67CE32F42E0D24;
+			buildPhases = ( 507A349611DBB42F9CF9069B, 2D3446C63F9EEB9172CAE05B, 4C29BBC16528FEA9E858725B, );
+			buildRules = ();
+			dependencies = ();
+			name = boazapp;
+			productName = boazapp;
+			packageProductDependencies = ( 4B933A4F7B90950627E34195, );
+			productReference = B6CDB6E5D160E013280D3C68;
+			productType = "com.apple.product-type.application";
+		};
+		7EC8F98B7A265120217712DE = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = F833221A9EA1121CADE90FD9;
+			buildPhases = ( 283236DFCBED01B817B33E02, CC40A40B1A5630AD4E7C4B11, 868C2D0100C5F6D76CC6F758, );
+			buildRules = ();
+			dependencies = ( B57660E4BEB73D5292856B6A, );
+			packageProductDependencies = ( BC2E9E7B356FDB78EE118320, );
+			name = boazappTests;
+			productName = boazappTests;
+			productReference = E02A90D9643568EA39115CFB;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		98F54143AB4E86B28C3AFEE0 = {
+			isa = PBXProject;
+			attributes = { BuildIndependentTargetsInParallel = 1; LastUpgradeCheck = 2700; TargetAttributes = { 29C7B681C8D62CBAC94D51C0 = { CreatedOnToolsVersion = 27.0; SystemCapabilities = { com.apple.HealthKit = { enabled = 1; }; }; }; }; };
+			buildConfigurationList = EF518AB9E379FA8088ED7FA6;
+			compatibilityVersion = "Xcode 14.0";
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = ( en, Base, );
+			mainGroup = DF891E785808226D241F246E;
+			productRefGroup = 00C45FD35CB0F9C5F764F070;
+			packageReferences = ( 913157E722D98F8083CE0E78, );
+			projectDirPath = "";
+			projectRoot = "";
+			targets = ( 29C7B681C8D62CBAC94D51C0, 7EC8F98B7A265120217712DE, );
+		};
+		B57660E4BEB73D5292856B6A = {
+			isa = PBXTargetDependency;
+			target = 29C7B681C8D62CBAC94D51C0;
+			targetProxy = F9B1326DFC287D15EB97FEF5;
+		};
+		F9B1326DFC287D15EB97FEF5 = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 98F54143AB4E86B28C3AFEE0;
+			proxyType = 1;
+			remoteGlobalIDString = 29C7B681C8D62CBAC94D51C0;
+			remoteInfo = boazapp;
+		};
+		913157E722D98F8083CE0E78 = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/groue/GRDB.swift.git";
+			requirement = { kind = exactVersion; version = "7.11.1"; };
+		};
+		4B933A4F7B90950627E34195 = {
+			isa = XCSwiftPackageProductDependency;
+			package = 913157E722D98F8083CE0E78;
+			productName = GRDB;
+		};
+		BC2E9E7B356FDB78EE118320 = {
+			isa = XCSwiftPackageProductDependency;
+			package = 913157E722D98F8083CE0E78;
+			productName = GRDB;
+		};
+		877A6BA951A2EA0025A2ABE8 = {
+			isa = XCBuildConfiguration;
+			buildSettings = { SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SWIFT_VERSION = 6.0; SWIFT_STRICT_CONCURRENCY = complete; CLANG_ENABLE_MODULES = YES; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG"; };
+			name = Debug;
+		};
+		959134B361DD7E21ADEA3164 = {
+			isa = XCBuildConfiguration;
+			buildSettings = { SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SWIFT_VERSION = 6.0; SWIFT_STRICT_CONCURRENCY = complete; CLANG_ENABLE_MODULES = YES; SWIFT_EMIT_LOC_STRINGS = YES; SWIFT_OPTIMIZATION_LEVEL = "-O"; };
+			name = Release;
+		};
+		3CF6A4F2E05B3AAE7E2CBFEE = {
+			isa = XCBuildConfiguration;
+			buildSettings = { SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SWIFT_VERSION = 6.0; SWIFT_STRICT_CONCURRENCY = complete; CLANG_ENABLE_MODULES = YES; SWIFT_EMIT_LOC_STRINGS = YES; PRODUCT_BUNDLE_IDENTIFIER = com.beckliu.boazhealth; PRODUCT_NAME = boazapp; INFOPLIST_FILE = "boazapp/Resources/Info.plist"; GENERATE_INFOPLIST_FILE = NO; CODE_SIGN_ENTITLEMENTS = "boazapp/Resources/boazapp.entitlements"; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; MARKETING_VERSION = 0.1.0; TARGETED_DEVICE_FAMILY = "1"; SUPPORTS_MACCATALYST = NO; ENABLE_PREVIEWS = YES; ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; DEVELOPMENT_TEAM = D8TL58ZY2T; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG"; ENABLE_TESTABILITY = YES; };
+			name = Debug;
+		};
+		23FB2CAEB38545C3793097DD = {
+			isa = XCBuildConfiguration;
+			buildSettings = { SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SWIFT_VERSION = 6.0; SWIFT_STRICT_CONCURRENCY = complete; CLANG_ENABLE_MODULES = YES; SWIFT_EMIT_LOC_STRINGS = YES; PRODUCT_BUNDLE_IDENTIFIER = com.beckliu.boazhealth; PRODUCT_NAME = boazapp; INFOPLIST_FILE = "boazapp/Resources/Info.plist"; GENERATE_INFOPLIST_FILE = NO; CODE_SIGN_ENTITLEMENTS = "boazapp/Resources/boazapp.entitlements"; CODE_SIGN_STYLE = Automatic; CURRENT_PROJECT_VERSION = 1; MARKETING_VERSION = 0.1.0; TARGETED_DEVICE_FAMILY = "1"; SUPPORTS_MACCATALYST = NO; ENABLE_PREVIEWS = YES; ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon; DEVELOPMENT_TEAM = D8TL58ZY2T; SWIFT_OPTIMIZATION_LEVEL = "-O"; };
+			name = Release;
+		};
+		E2657B9FA91DD4A55652006F = {
+			isa = XCBuildConfiguration;
+			buildSettings = { SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SWIFT_VERSION = 6.0; SWIFT_STRICT_CONCURRENCY = complete; CLANG_ENABLE_MODULES = YES; SWIFT_EMIT_LOC_STRINGS = YES; PRODUCT_BUNDLE_IDENTIFIER = com.beckliu.boazhealth.tests; PRODUCT_NAME = boazappTests; GENERATE_INFOPLIST_FILE = YES; CODE_SIGN_STYLE = Automatic; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/boazapp.app/boazapp"; BUNDLE_LOADER = "$(TEST_HOST)"; OTHER_LDFLAGS = "-lsqlite3"; DEVELOPMENT_TEAM = D8TL58ZY2T; SWIFT_OPTIMIZATION_LEVEL = "-Onone"; SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) DEBUG"; };
+			name = Debug;
+		};
+		B4343C19535B18410503AED7 = {
+			isa = XCBuildConfiguration;
+			buildSettings = { SDKROOT = iphoneos; IPHONEOS_DEPLOYMENT_TARGET = 17.0; SWIFT_VERSION = 6.0; SWIFT_STRICT_CONCURRENCY = complete; CLANG_ENABLE_MODULES = YES; SWIFT_EMIT_LOC_STRINGS = YES; PRODUCT_BUNDLE_IDENTIFIER = com.beckliu.boazhealth.tests; PRODUCT_NAME = boazappTests; GENERATE_INFOPLIST_FILE = YES; CODE_SIGN_STYLE = Automatic; TEST_HOST = "$(BUILT_PRODUCTS_DIR)/boazapp.app/boazapp"; BUNDLE_LOADER = "$(TEST_HOST)"; OTHER_LDFLAGS = "-lsqlite3"; DEVELOPMENT_TEAM = D8TL58ZY2T; SWIFT_OPTIMIZATION_LEVEL = "-O"; };
+			name = Release;
+		};
+		EF518AB9E379FA8088ED7FA6 = {
+			isa = XCConfigurationList;
+			buildConfigurations = ( 877A6BA951A2EA0025A2ABE8, 959134B361DD7E21ADEA3164, );
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		8A4C137FDF67CE32F42E0D24 = {
+			isa = XCConfigurationList;
+			buildConfigurations = ( 3CF6A4F2E05B3AAE7E2CBFEE, 23FB2CAEB38545C3793097DD, );
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		F833221A9EA1121CADE90FD9 = {
+			isa = XCConfigurationList;
+			buildConfigurations = ( E2657B9FA91DD4A55652006F, B4343C19535B18410503AED7, );
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+	};
+	rootObject = 98F54143AB4E86B28C3AFEE0;
+}

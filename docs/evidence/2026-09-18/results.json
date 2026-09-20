@@ -1,0 +1,228 @@
+{
+  "recorded_at_utc": "2026-09-18T08:51:58.755449+00:00",
+  "release_gate": "INTERCEPT",
+  "real_upload_enabled": false,
+  "source_snapshot_sha256": "9a94ac421ec1c264df5b21804d577dd379d807ce093953ab9ac42200d5ce029b",
+  "base_commit": "480dae2dd2822cbd7facc4e840b52bb3629c8208",
+  "environment": {
+    "macOS": "26.6.2 (25G83), arm64",
+    "Xcode": "27.0 (27A266a)",
+    "Swift": "6.4, Swift 6 language mode",
+    "iPhone_SDK": "27.0",
+    "iOS_minimum": "17.0",
+    "simulator": "iPhone 16 Pro, iOS 26.5 (23F77)",
+    "rustc_and_cargo": "1.96.0",
+    "physical_iPhone": "not available in inventory",
+    "Tokyo": "read-only preflight only; no changes"
+  },
+  "checks": [
+    {
+      "name": "ios_xctest",
+      "working_directory": "/private/tmp/boazapp-acceptance-source",
+      "passed": 47,
+      "failed": 0,
+      "skipped": 0,
+      "exit_code": 0,
+      "command": [
+        "xcodebuild",
+        "-project",
+        "boazapp.xcodeproj",
+        "-scheme",
+        "boazapp",
+        "-destination",
+        "platform=iOS Simulator,id=84EB8BA7-1EDD-43D4-9FEE-C0FB736E5D2A",
+        "-parallel-testing-enabled",
+        "NO",
+        "-derivedDataPath",
+        "/private/tmp/boazapp-acceptance-snapshot-sim",
+        "-resultBundlePath",
+        "/private/tmp/boazapp-acceptance-20260918/ios-frozen-source.xcresult",
+        "CODE_SIGNING_ALLOWED=NO",
+        "test"
+      ],
+      "result_bundle": "/private/tmp/boazapp-acceptance-20260918/ios-frozen-source.xcresult",
+      "evidence": [
+        "ios-summary.json",
+        "ios-tests.json",
+        "ios-action.json",
+        "ios-accepted-final.log"
+      ],
+      "note": "Final acceptance-task run of the frozen source snapshot; every source hash matches the live repository at evidence capture. Result bundle independently checked."
+    },
+    {
+      "name": "generic_ios_build_for_testing",
+      "working_directory": "/private/tmp/boazapp-acceptance-source",
+      "exit_code": 0,
+      "command": "xcodebuild -project boazapp.xcodeproj -scheme boazapp -destination generic/platform=iOS -derivedDataPath /private/tmp/boazapp-acceptance-snapshot-device CODE_SIGNING_ALLOWED=NO build-for-testing",
+      "compiler_warnings": 0,
+      "AppIntents_metadata_tool_warnings": 2,
+      "evidence": [
+        "ios-device-build.log"
+      ]
+    },
+    {
+      "name": "server_integration",
+      "passed": 26,
+      "failed": 0,
+      "exit_code": 0,
+      "command": "cargo test --manifest-path Server/Cargo.toml --offline --locked",
+      "evidence": [
+        "server-tests.log"
+      ]
+    },
+    {
+      "name": "server_static",
+      "exit_code": 0,
+      "command": "cargo clippy --manifest-path Server/Cargo.toml --offline --locked --all-targets -- -D warnings",
+      "evidence": [
+        "server-clippy.log"
+      ]
+    },
+    {
+      "name": "server_release_macos",
+      "exit_code": 0,
+      "command": "cargo build --manifest-path Server/Cargo.toml --release --offline --locked",
+      "binary_sha256": "8a9f35b7ad446c19b206e5c1e360d24bfffa3a76502093a9d1e9d0360f5ffc4c",
+      "evidence": [
+        "server-release.log"
+      ]
+    },
+    {
+      "name": "receiver_loopback_http",
+      "passed": 7,
+      "failed": 0,
+      "exit_code": 0,
+      "command": "python3 scripts/test_server_http.py --build",
+      "evidence": [
+        "server-http.json",
+        "server-http-build.log"
+      ]
+    },
+    {
+      "name": "swift_core_10k",
+      "passed": 11,
+      "failed": 0,
+      "exit_code": 0,
+      "command": "bash scripts/test_local_core.sh",
+      "evidence": [
+        "local-core.log"
+      ]
+    },
+    {
+      "name": "swift_core_100k",
+      "passed": 11,
+      "failed": 0,
+      "exit_code": 0,
+      "command": "BOAZ_TEST_RECORDS=100000 bash scripts/test_local_core.sh",
+      "evidence": [
+        "local-core-100k.log"
+      ]
+    },
+    {
+      "name": "gateway_urlprotocol",
+      "passed": 3,
+      "failed": 0,
+      "exit_code": 0,
+      "command": "bash scripts/test_gateway_transport.sh",
+      "evidence": [
+        "gateway-transport.log"
+      ]
+    },
+    {
+      "name": "concurrency_repeat",
+      "passed_executions": 20,
+      "failed": 0,
+      "scope": "ten runs each of eight-way duplicate batch and single-use pairing races",
+      "evidence": [
+        "server-concurrency-repeat.log"
+      ]
+    },
+    {
+      "name": "dashboard_visual",
+      "result": "inspected empty screen only",
+      "evidence": [
+        "dashboard-empty.png"
+      ],
+      "temporary_simulator_cleanup": "created simulator was shut down and deleted; existing simulator preserved"
+    },
+    {
+      "name": "Tokyo_preflight",
+      "result": "FAIL",
+      "scope": "read-only",
+      "evidence": [
+        "tokyo-preflight.log"
+      ]
+    }
+  ],
+  "initial_failure": {
+    "executed": 43,
+    "failed": 26,
+    "cause": "Simulator lacks effective file protection attribute; double close also observed in failure cleanup. Both paths corrected and subsequent suite passed.",
+    "evidence": [
+      "ios-protection-failure.log",
+      "source-protection-failure.json"
+    ]
+  },
+  "acceptance_cases": {
+    "total": 74,
+    "dispositions": {
+      "PASS": 13,
+      "BLOCKED": 39,
+      "NOT_RUN": 20,
+      "FAIL": 2
+    },
+    "note": "Case-level requirements differ from automated test methods; no combined coverage percentage."
+  },
+  "measurements": [
+    {
+      "quantity_records": 10000,
+      "import_pages": 20,
+      "batches": 50,
+      "import_seconds": 2.034,
+      "batch_prepare_and_acknowledge_seconds": 6.492,
+      "sqlite_wal_shm_bytes": 11652448,
+      "scope": "single synthetic Mac run; not HealthKit, phone, network or Tokyo throughput"
+    },
+    {
+      "quantity_records": 100000,
+      "import_pages": 200,
+      "batches": 500,
+      "import_seconds": 20.614,
+      "batch_prepare_and_acknowledge_seconds": 74.906,
+      "sqlite_wal_shm_bytes": 112010008,
+      "scope": "single synthetic Mac run; not HealthKit, phone, network or Tokyo throughput"
+    }
+  ],
+  "limitations": [
+    "No signed physical iPhone/Watch acceptance.",
+    "Simulator skips effective protection-class read-back; physical build remains strict.",
+    "No complete interactive consent, settings, audit, accessibility or haptic checks.",
+    "No accepted native Tokyo VM, private HTTPS, encrypted storage, restore or rollback.",
+    "No end-to-end real HealthKit/HTTPS/native-metrics ingestion or projection-delay measurement.",
+    "Historical backup restore must reconcile later erasures and revocations before reopening ingest.",
+    "No commit, push, deployment or real Health data upload performed by this acceptance work."
+  ],
+  "artifact_sha256": {
+    "README.md": "eb12a49cee617ff7ccf8a8243833357da4ad09643e8326a3abc77268630d347d",
+    "case-results.csv": "78b5d865aa48c8bd3c6c9022ed979f24aae21e9e4505593b83f7632521390b11",
+    "dashboard-empty.png": "dcb32795da9a585bcade44b1495f9d4785b27a27d7092f87effe6047492214af",
+    "gateway-transport.log": "ca82fd88802ac9e1a0394e2698fd4396f56452cbb204c0de1e29012727be752c",
+    "ios-accepted-final.log": "8a7fd0e5583fd7615dbccca0417c376f1b0eedee91d3b70755468a1300752f78",
+    "ios-action.json": "eb17953a33d82f16352fcbdfaac563977e30ef4c37f424dce36aecd37aa09679",
+    "ios-device-build.log": "6820c8120f1562a44afbdf4ab64f0c09d24a92855c8f1a2f7bd8788f7bdd7026",
+    "ios-protection-failure.log": "2032333814e75bfceee57bd5a924632a9c72e5378bf8008a19427073dc344736",
+    "ios-summary.json": "1822e1710c5425344326001f2b4cd9bd26ab2170f477a5b091fc2554129596b4",
+    "ios-tests.json": "ca0e88a42aa0009205d08b15cb35f9270ce1903bfb7592d5e80442eeca946003",
+    "local-core-100k.log": "8224ec847bfec1a6cb24f6426ad896d91a9be4cb57a218a1c812cb4abc360b64",
+    "local-core.log": "da16fc66dea5e17e506ef6d00ec572e254e9fb671581da41a64b7a0d8d88f4da",
+    "server-clippy.log": "53e245e7cf83bc54485fb74f11e2fa08691e7a9adb294f91965521dbd8d71e44",
+    "server-concurrency-repeat.log": "baf6dd1e5962b1da8772651c6e2534bcea69b6e582d3c985af7ab16b2e5eee0c",
+    "server-http-build.log": "ee1d3fffa2022e962e63e0dbe4d35c9c198450a20c29fc09030f635dbb38bfcd",
+    "server-http.json": "d5aa32399d89d4cc48e2c1b55af4db874869ee136c1b5ad6af80a05135929aaf",
+    "server-release.log": "b4c7b84276f1d4997d2ccdec2cda2a8e213f79ee153f81ae36e805498d23870a",
+    "server-tests.log": "8240f51de98611bd8c97da94008cb9af7984a01d48f1d227b1c700db8bc62b12",
+    "source-manifest.json": "2aa310e5d1a36befb8d54e0e2cf92cdabc945f99d65ef8dbbcf5e0d14a0ffa9d",
+    "source-protection-failure.json": "cfce4255904a09667685448eb2b6c3d5af26d32fab63daac1c8828c99a197ae9",
+    "tokyo-preflight.log": "2f4c7d02364f03deb9735d52041a0f1e48bea00af67680597a478c5c4a9ebfba"
+  }
+}

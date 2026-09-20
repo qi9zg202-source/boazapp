@@ -1,0 +1,100 @@
+Concurrency iteration 1/10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s
+     Running tests/api.rs (target/debug/deps/api-b60d012e75a45f3e)
+
+running 2 tests
+test concurrent_identical_batches_create_one_receipt_event_and_projection_job ... ok
+test concurrent_pairing_uses_one_code_for_exactly_one_new_device ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.02s
+
+Concurrency iteration 2/10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running tests/api.rs (target/debug/deps/api-b60d012e75a45f3e)
+
+running 2 tests
+test concurrent_identical_batches_create_one_receipt_event_and_projection_job ... ok
+test concurrent_pairing_uses_one_code_for_exactly_one_new_device ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.02s
+
+Concurrency iteration 3/10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s
+     Running tests/api.rs (target/debug/deps/api-b60d012e75a45f3e)
+
+running 2 tests
+test concurrent_identical_batches_create_one_receipt_event_and_projection_job ... ok
+test concurrent_pairing_uses_one_code_for_exactly_one_new_device ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.02s
+
+Concurrency iteration 4/10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.05s
+     Running tests/api.rs (target/debug/deps/api-b60d012e75a45f3e)
+
+running 2 tests
+test concurrent_pairing_uses_one_code_for_exactly_one_new_device ... ok
+test concurrent_identical_batches_create_one_receipt_event_and_projection_job ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.02s
+
+Concurrency iteration 5/10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running tests/api.rs (target/debug/deps/api-b60d012e75a45f3e)
+
+running 2 tests
+test concurrent_identical_batches_create_one_receipt_event_and_projection_job ... ok
+test concurrent_pairing_uses_one_code_for_exactly_one_new_device ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.02s
+
+Concurrency iteration 6/10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running tests/api.rs (target/debug/deps/api-b60d012e75a45f3e)
+
+running 2 tests
+test concurrent_pairing_uses_one_code_for_exactly_one_new_device ... ok
+test concurrent_identical_batches_create_one_receipt_event_and_projection_job ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.02s
+
+Concurrency iteration 7/10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running tests/api.rs (target/debug/deps/api-b60d012e75a45f3e)
+
+running 2 tests
+test concurrent_identical_batches_create_one_receipt_event_and_projection_job ... ok
+test concurrent_pairing_uses_one_code_for_exactly_one_new_device ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.01s
+
+Concurrency iteration 8/10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running tests/api.rs (target/debug/deps/api-b60d012e75a45f3e)
+
+running 2 tests
+test concurrent_identical_batches_create_one_receipt_event_and_projection_job ... ok
+test concurrent_pairing_uses_one_code_for_exactly_one_new_device ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.01s
+
+Concurrency iteration 9/10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running tests/api.rs (target/debug/deps/api-b60d012e75a45f3e)
+
+running 2 tests
+test concurrent_identical_batches_create_one_receipt_event_and_projection_job ... ok
+test concurrent_pairing_uses_one_code_for_exactly_one_new_device ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.01s
+
+Concurrency iteration 10/10
+    Finished `test` profile [unoptimized + debuginfo] target(s) in 0.06s
+     Running tests/api.rs (target/debug/deps/api-b60d012e75a45f3e)
+
+running 2 tests
+test concurrent_identical_batches_create_one_receipt_event_and_projection_job ... ok
+test concurrent_pairing_uses_one_code_for_exactly_one_new_device ... ok
+
+test result: ok. 2 passed; 0 failed; 0 ignored; 0 measured; 24 filtered out; finished in 0.02s
+

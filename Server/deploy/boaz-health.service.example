@@ -1,0 +1,25 @@
+[Unit]
+Description=Boaz private HealthKit receiver
+After=network-online.target tailscaled.service
+Wants=network-online.target
+
+[Service]
+Type=simple
+User=boaz-health
+Group=boaz-health
+EnvironmentFile=/etc/boaz-health/boaz-health.env
+# Do not run verify-storage as a pre-start gate: after a crash, the governed
+# startup path must first reconcile the exact pending off-host reservation.
+# This template is not deployable until P0-R2.2 activates and verifies VM.
+ExecStart=/opt/boaz-health/bin/boaz-health-receiver serve
+Restart=on-failure
+RestartSec=5
+UMask=0077
+NoNewPrivileges=yes
+PrivateTmp=yes
+ProtectHome=yes
+ProtectSystem=strict
+ReadWritePaths=/opt/boaz-health/data /opt/boaz-health/control /opt/boaz-health/backups /opt/boaz-health/victoria-metrics-data
+
+[Install]
+WantedBy=multi-user.target

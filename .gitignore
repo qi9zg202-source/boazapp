@@ -1,0 +1,15 @@
+.DS_Store
+__pycache__/
+Server/target/
+DerivedData/
+*.xcuserstate
+*.xcuserdata/
+*.sqlite
+*.sqlite-wal
+*.sqlite-shm
+*.db
+*.db-wal
+*.db-shm
+.env
+*.p12
+*.mobileprovision

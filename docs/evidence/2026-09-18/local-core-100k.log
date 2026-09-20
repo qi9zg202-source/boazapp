@@ -1,0 +1,13 @@
+PASS CORE-01: page rollback, atomic anchor, duplicate page
+PASS CORE-02: durable retry and deletion while a batch is outstanding
+PASS CORE-03: receipt evidence fails closed for saved and projected states
+PASS CORE-04: daily revision and absolute wrist unit retained in ledger
+PASS CORE-05: workout checkpoint and cascading child tombstone
+PASS CORE-06: local erasure recovery is idempotent
+PASS CORE-07: sleep overlaps, two nights, nap, and missing in-bed denominator
+PASS CORE-08: 100000 synthetic records; 200 import pages; 500 bounded upload batches
+MEASURE macOS_import_seconds=20.614 macOS_batch_prepare_seconds=74.906 sqlite_with_wal_bytes=112010008
+PASS CORE-09: compatible unversioned SQLite is stamped without losing records, anchor, or queued bytes
+PASS CORE-10: future, partial, and corrupt SQLite fail visibly without a reset
+PASS CORE-11: committed page remains durable while protection failure blocks upload until verified
+RESULT 11/11 scenarios passed; all records synthetic; no remote calls
