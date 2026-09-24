@@ -2,6 +2,12 @@
 
 This file is the repository-level engineering contract. `CLAUDE.md` is the Claude Code entry point; both agents follow this file, then [design.md](design.md), [memory.md](memory.md), and the relevant source/test files. The current worktree and running system evidence outrank every document. Do not treat a plan, a passing local test, or an HTTP response as release approval.
 
+## Related desktop hub and complete repository boundary
+
+The full `/Users/beckliu/Documents/0agentproject2026/boazapp/` repository owns the Boaz life system's dedicated Swift 6/SwiftUI HealthKit collector, Rust Tokyo receiver in `Server/`, `boazapp.xcodeproj`, `scripts/` and `Tests/`. Its child `boazapp/` is Swift source, never a standalone repository.
+
+The desktop hub and Desktop SSOT is `/Users/beckliu/Documents/0agentproject2026/TomeofSouls/`. Entity-governance principles derive from its [Boaz project boundaries](https://github.com/qi9zg202-source/TomeofSouls/blob/main/docs/BOAZ_PROJECT_BOUNDARIES.md); health-specific source/schema contracts and this repository's `AGENTS.md` remain authoritative locally. Retain Swift GRDB transactions, upload coordination and platform security; Rust owns receiver authority checks. Separate desktop, phone, health/control SQLite authorities and derived VictoriaMetrics imply neither a shared database nor implemented desktop health synchronization.
+
 ## Product and release boundary
 
 - Product: a private, local-first iPhone app for selected Apple Health and Fitness records, plus a separately operated Tokyo receiver. It is not a medical device and does not diagnose or prescribe.

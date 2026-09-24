@@ -13,3 +13,11 @@ DerivedData/
 .env
 *.p12
 *.mobileprovision
+
+# Local derived output and private runtime variants (main-only publication).
+target/
+node_modules/
+.env.*
+*.sqlite3
+*.sqlite3-wal
+*.sqlite3-shm

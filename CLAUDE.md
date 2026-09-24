@@ -2,6 +2,8 @@
 
 This file is intentionally thin. The canonical repository engineering contract is [AGENTS.md](AGENTS.md). Claude Code must read and follow it before acting.
 
+This complete `/Users/beckliu/Documents/0agentproject2026/boazapp/` project owns the dedicated mobile health collector and Tokyo relay: `boazapp.xcodeproj`, Swift `boazapp/`, Rust `Server/`, `scripts/` and `Tests/`. Never treat the Swift child as its root. The Desktop SSOT is `/Users/beckliu/Documents/0agentproject2026/TomeofSouls/`; entity-governance principles derive from its [Boaz project boundaries](https://github.com/qi9zg202-source/TomeofSouls/blob/main/docs/BOAZ_PROJECT_BOUNDARIES.md), while health schemas and native Swift responsibilities remain owned here. SQLite authorities remain separate and VictoriaMetrics is derived. This adds no desktop health synchronization; follow the detailed relationship in `AGENTS.md`.
+
 Read in this order:
 
 1. [AGENTS.md](AGENTS.md) — authority, safety, scope, verification and release rules.
