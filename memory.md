@@ -2,6 +2,10 @@
 
 This is a small, repo-local decision and handoff ledger for Claude Code and Codex. It contains **no personal profile, HealthKit record, credential, or private host secret**. It does not replace current source, Git diffs, runtime checks, or an acceptance report. Update only when a decision or verified status changes, with date, evidence pointer, and owner/next action.
 
+## 2026-09-24 — canonical projects and native ownership
+
+The full boazapp repository retains Xcode/Swift/Server/scripts/tests. Its sibling desktop hub is defined by [Boaz project boundaries](https://github.com/qi9zg202-source/TomeofSouls/blob/main/docs/BOAZ_PROJECT_BOUNDARIES.md). Swift keeps HealthKit, GRDB, upload coordination and platform security; no Rust FFI migration is introduced. Desktop SSOT anchors common entity governance, not unimported health facts. Current phone/health/control storage versions are v2/v2/v3; batch wire version remains v1. The [scoped acceptance](https://github.com/qi9zg202-source/TomeofSouls/blob/main/docs/BOAZ_PROJECT_BOUNDARIES_ACCEPTANCE.md) covers this architecture task only. Existing device/Tokyo/recovery gates and historical evidence remain unchanged.
+
 ## 2026-09-18 — current handoff
 
 | Kind | Entry | Evidence / next action |

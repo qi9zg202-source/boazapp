@@ -2,6 +2,10 @@
 
 This document defines acceptance requirements and reproducible procedures. It does **not** record a pass merely because a case exists, its test target compiles, or a related unit test passes. Record execution against the exact source revision in the dated acceptance report. The initial design requires all cloud release gates to remain closed until device and Tokyo evidence exists.
 
+## Two-project architecture maintenance — 2026-09-24
+
+The [Boaz project boundaries](https://github.com/qi9zg202-source/TomeofSouls/blob/main/docs/BOAZ_PROJECT_BOUNDARIES.md) preserves the full repository, native Swift responsibilities and current wire/storage contracts. Its [scoped acceptance](https://github.com/qi9zg202-source/TomeofSouls/blob/main/docs/BOAZ_PROJECT_BOUNDARIES_ACCEPTANCE.md) is a separate engineering check; it does not change the historical 77-case register or device/Tokyo dispositions. Required checks are locked offline Server compilation/tests, documentation governance, non-writing Xcode-project verification, and source/artifact/path/link preservation. No HealthKit read, upload, signing or deployment occurs.
+
 ## Scope, priorities, and finishing criteria
 
 The subject is the local iPhone application, its private Tokyo receiver, and their recovery path. SQLite is the authoritative record at both ends; VictoriaMetrics is a derived projection. Tests use synthetic health data and isolated storage. Tests that change Tokyo, tailnet policy, device Health data, signing, or production processes require the corresponding authorized environment; do not run destructive steps against existing Boaz records.

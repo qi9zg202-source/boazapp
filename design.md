@@ -4,6 +4,10 @@ Status on 2026-09-19: **P0-R2.1 trusted-adoption and custody source work is in p
 
 Authority order: current source and schemas → executed current-worktree evidence → this design → dated historical evidence → plans. [AGENTS.md](AGENTS.md) is the repository contract, [CLAUDE.md](CLAUDE.md) is a thin Claude Code entry, [docs/prd.html](docs/prd.html) is the sole PRD, and [memory.md](memory.md) records dated decisions and open gates.
 
+## 2026-09-24 — canonical projects and native ownership
+
+The full boazapp repository retains Xcode/Swift/Server/scripts/tests. Its sibling desktop hub is defined by [Boaz project boundaries](https://github.com/qi9zg202-source/TomeofSouls/blob/main/docs/BOAZ_PROJECT_BOUNDARIES.md). Swift keeps HealthKit, GRDB, upload coordination and platform security; no Rust FFI migration is introduced. Desktop SSOT anchors common entity governance, not unimported health facts. Current phone/health/control storage versions are v2/v2/v3; batch wire version remains v1. The [scoped acceptance](https://github.com/qi9zg202-source/TomeofSouls/blob/main/docs/BOAZ_PROJECT_BOUNDARIES_ACCEPTANCE.md) covers this architecture task only. Existing device/Tokyo/recovery gates and historical evidence remain unchanged.
+
 ## 1. Product boundary
 
 | Question | Decision |
@@ -30,7 +34,7 @@ Private .ts.net HTTPS
   ▼
 Rust receiver on Tokyo loopback
   ├── health SQLite BZHR v2: events, receipts, projection outbox/state
-  └── control SQLite BZHC v2: tombstones, erasure/recovery facts, hash chain
+  └── control SQLite BZHC v3: tombstones, erasure/recovery facts, hash chain
         │ separate encrypted recovery domain required for production
         ▼
   Native VictoriaMetrics on 127.0.0.1:8428
